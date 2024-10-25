@@ -8,3 +8,9 @@ git push -u origin main
 
 ______________
 Testando merge
+
+=====================
+git checkout main
+git pull origin main
+git merge sua-branch
+git push origin main
