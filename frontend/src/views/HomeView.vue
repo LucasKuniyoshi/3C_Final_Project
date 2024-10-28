@@ -19,7 +19,7 @@ import Footer from '@/components/Footer.vue';
               <!-- <img class="img-size" src="../assets/google-logo.png" alt="google-logo"> -->
             </div>
             <h4>Entrar com email</h4>
-            <p>Ainda não conhece o Recruta Fácil? <router-link to="/about">Cadastre-se agora</router-link></p>
+            <p>Ainda não conhece o Recruta Fácil? <router-link to="/signin">Cadastre-se agora</router-link></p>
           </div>
           <img class="templateImg" src="../assets/template-logo.webp" alt="templateImg">
         </div>
@@ -46,6 +46,40 @@ import Footer from '@/components/Footer.vue';
     display: flex;
     flex-direction: column;
     text-align: center;
+  }
+
+  .login-elements h3{
+    background-color: lightblue;
+    color: #FFF;
+    padding: 1.2%;
+    margin: 5% 15% 1% 15%;
+    border: 1px solid #FFF;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  .login-elements h3:hover{
+    background-color: rgb(152, 187, 199);
+    /* color: lightblue;
+    border: 2px solid lightblue; */
+    transition: .5s;
+  }
+
+  .login-elements h4{
+    background-color:#FFF;
+    color:lightblue;
+    padding: 1.2%;
+    margin: 0% 15% 7% 15%;
+    border: 1px solid #FFF;
+    border-radius: 10px;
+    border: 2px solid lightblue;
+    cursor: pointer;
+  }
+
+  .login-elements h4:hover{
+    background-color: lightblue;
+    color: #FFF;
+    transition: .5s;
   }
 
   .login-elements a:hover{

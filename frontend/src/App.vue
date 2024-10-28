@@ -10,8 +10,8 @@ import { RouterLink, RouterView } from 'vue-router'
       </RouterLink>
     </figure>
     <div class="items">
-      <RouterLink to="/about">Entrar</RouterLink>
-      <RouterLink to="/login">Cadastrar</RouterLink>
+      <RouterLink to="/login">Entrar</RouterLink>
+      <RouterLink to="/signin">Cadastrar</RouterLink>
     </div>
   </header>
 
@@ -30,6 +30,7 @@ header {
   display: flex;
   background-color: lightcyan;
   justify-content: space-between;
+  align-items: center;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
 }
@@ -41,7 +42,7 @@ header {
 }
 
 .items{
-  margin: 2% 7% 2% 2%;
+  margin: 0% 7% 0% 2%;
   
   /* background-color: aquamarine; */
 }
@@ -51,14 +52,14 @@ header {
   padding: 9%;
   color: #FFF;
   text-decoration: none;
-  background-color: blue;
+  background-color: skyblue;
   /* border: 2px solid #FFF; */
   border-radius: 25px;
   font-size: large;
   /* font-weight: bold; */
 }
 
-main {
+/*main {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -66,7 +67,7 @@ main {
   flex: 1;
   width: 100%;
   margin-top: 5%;
-}
+}*/
 
 @media (min-width: 1024px) {
   .greetings h1,
