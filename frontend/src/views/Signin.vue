@@ -1,7 +1,7 @@
 <template>
     <div>
         <header>
-            <h2>Login</h2>
+            <h2>Cadastro</h2>
         </header>
         <section>
             
