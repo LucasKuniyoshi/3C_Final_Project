@@ -2,12 +2,18 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from "./store";
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faUser, faCoffee } from '@fortawesome/free-solid-svg-icons'; // Adicione os ícones que você quer usar
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap";
 
+library.add(faUser, faCoffee); // Adicione os ícones à biblioteca
+
 const app = createApp(App)
 
+app.component('font-awesome-icon', FontAwesomeIcon);
 app.use(router)
 app.use(store)
 
