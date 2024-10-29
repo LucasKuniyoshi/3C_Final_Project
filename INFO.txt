@@ -19,3 +19,6 @@ git push origin main
 FRONT:
 npm install @fortawesome/fontawesome-svg-core @fortawesome/free-solid-svg-icons @fortawesome/vue-fontawesome
 npm install @fortawesome/free-brands-svg-icons
+
+href => ATUALIZA A PÁGINA AO REDIRECIONAR
+RouterLink => NÃO ATUALIZA A PAGINA AO REDIRECIONAR 
