@@ -85,6 +85,7 @@ import Footer from '@/components/Footer.vue';
     margin-top: 10%;
     display: flex;
     flex-direction: row;
+    /* flex-wrap: wrap; */
   }
 
   .login-elements{
