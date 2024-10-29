@@ -3,18 +3,6 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
-  <header>
-    <figure>
-      <RouterLink to="/">
-        <img class="img-size" src="../img/Recruta_Facil.png">
-      </RouterLink>
-    </figure>
-    <div class="items">
-      <RouterLink to="/login">Entrar</RouterLink>
-      <RouterLink to="/signin">Cadastrar</RouterLink>
-    </div>
-  </header>
-
   <main>
     <RouterView />
   </main>
@@ -57,6 +45,11 @@ header {
   border-radius: 25px;
   font-size: large;
   /* font-weight: bold; */
+}
+
+.items a:hover{
+  background-color: rgb(119, 184, 209);
+  transition: .5s;
 }
 
 /*main {
