@@ -1,5 +1,5 @@
 <template>
     <div>
-        <header>Recruta Fácil</header>
+        <header>Footer da Recruta Fácil</header>
     </div>
 </template>
