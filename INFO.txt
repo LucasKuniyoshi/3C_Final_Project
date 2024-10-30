@@ -22,3 +22,12 @@ npm install @fortawesome/free-brands-svg-icons
 
 href => ATUALIZA A PÁGINA AO REDIRECIONAR
 RouterLink => NÃO ATUALIZA A PAGINA AO REDIRECIONAR 
+
+CARD - SHADOW BOX IDEAL:
+.cardd{
+    margin-top: 5%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 8px; /* opcional, para bordas arredondadas */
+    padding: 20px;      /* opcional, para espaçamento interno */
+    background-color: #fff; /* fundo branco */
+}
