@@ -4,27 +4,22 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateApplicationsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
-        Schema::create('aplications', function (Blueprint $table) {
-            $table->aplication_id();
-            $table->user_id();
-            $table->job_id();
-            $table->recruiter_name();
+        Schema::create('applications', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Relacionamento com User
+            $table->foreignId('job_id')->constrained()->onDelete('cascade');  // Relacionamento com Job
+            $table->string('name'); // Nome do candidato
+            $table->string('recruiter_name'); // Nome do recrutador
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('aplications');
+        Schema::dropIfExists('applications');
     }
-};
+}
