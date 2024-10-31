@@ -28,9 +28,9 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|string|min:8|confirmed', // Confirmação de senha
-            'user_type' => 'required|in:recrutador,candidato', // Tipo de usuário
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8', // Confirmação de senha
+            'user_type' => 'required|in:recruiter,candidate', // Tipo de usuário
         ]);
 
         $user = User::create([

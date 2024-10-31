@@ -9,7 +9,7 @@ class Job extends Model
 {
     use HasFactory;
 
-    protected $filable = [
+    protected $fillable = [
         'title',
         'description',
         'location',

@@ -1,8 +1,10 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Company;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class CompanyController extends Controller
 {
@@ -23,14 +25,28 @@ class CompanyController extends Controller
     // Criar uma nova empresa
     public function store(Request $request)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:companies',
-            'website' => 'nullable|url',
-            'description' => 'nullable|string',
+            'email' => 'required|email|max:255',
+            'password' => 'required|string|min:6',
+            'cnpj' => 'required|string|max:14',
         ]);
 
-        $company = Company::create($request->all());
+        // Criptografar a senha antes de salvar
+        $validatedData['password'] = bcrypt($validatedData['password']);
+
+        $company = Company::create($validatedData);
+
+        return response()->json($company, 201);
+
+        $company = Company::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'cnpj' => $request->cnpj,
+            'description' => $request->description,
+        ]);
+
         return response()->json($company, 201);
     }
 
@@ -40,12 +56,20 @@ class CompanyController extends Controller
         $request->validate([
             'name' => 'string|max:255',
             'email' => 'email|unique:companies,email,' . $id,
-            'website' => 'nullable|url',
+            'password' => 'nullable|string|min:8',
+            'cnpj' => 'digits:14|unique:companies,cnpj,' . $id,
             'description' => 'nullable|string',
         ]);
 
         $company = Company::findOrFail($id);
-        $company->update($request->all());
+
+        $data = $request->only(['name', 'email', 'cnpj', 'description']);
+
+        if ($request->has('password')) {
+            $data['password'] = Hash::make($request->password);
+        }
+
+        $company->update($data);
         return response()->json($company);
     }
 

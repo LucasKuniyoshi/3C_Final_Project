@@ -8,11 +8,11 @@ class CreateCompaniesTable extends Migration
     public function up()
     {
         Schema::create('companies', function (Blueprint $table) {
-            $table->company_id();
+            $table->id();
             $table->string('name'); // Nome da empresa
             $table->string('email')->unique(); // E-mail único
             $table->string('password');// Senha
-            $table->bigInteger('cnpj')->unique(); //CNPJ da empresa
+            $table->string('cnpj')->unique(); //CNPJ da empresa
             $table->text('description')->nullable(); // Descrição da empresa (opcional)
             $table->timestamps();
         });
