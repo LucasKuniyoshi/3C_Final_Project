@@ -43,15 +43,19 @@ import Footer from '@/components/Footer.vue';
                     <div class="line-container">
                         <span class="OuPosition">ou</span>
                     </div>
-                    <router-link>
-                        <h4>Entrar com conta Google</h4>
-                    </router-link>
+                    <div class="googlebtn">
+                        <router-link>
+                            <h4>Entrar com conta Google <font-awesome-icon :icon="['fab', 'google']" /></h4>
+                        </router-link>
+                    </div>
                     <div class="cookies">
                         <p>Ao clicar em Continuar, você aceita o </p>
                         <p><a href="#">Contrato do Usuário</a>, a <a href="">Política de Privacidade</a> e </p>
                         <p>a <a href="">Política de Cookies</a> do Recruta Fácil.</p>
                     </div>
-                    <h6><a href="">Esqueceu a senha ?</a></h6>
+                    <div class="forgotPassword">
+                        <h6><a href="">Esqueceu a senha ?</a></h6>
+                    </div>
                 </div>
             </div>
             <div class="footerCard">
@@ -144,17 +148,39 @@ import Footer from '@/components/Footer.vue';
     .entrarBtn a h3{
         margin-top: 4%;
         padding: 1.5%;
-        background-color: #FFF;
+        background-color: #114FEE;
         border: 2px solid #114FEE;
-        color: #114FEE;
-        border-radius: 10px;
+        color: #FFF;
+        border-radius: 25px;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        font-size: medium;
+        padding: 2%;
         /* color: #FFF; */
     }
 
     .entrarBtn a h3:hover{
-        color: #FFF;
-        background-color: #114FEE;
-        transition: .5s;
+        /* color: #FFF; */
+        background-color: #0f3cad;
+        transition: .35s;
+    }
+
+    .googlebtn{
+        border: 2px solid #333;
+        border-radius: 25px;
+        padding: 2%;
+        cursor: pointer;
+        
+    }
+
+    .googlebtn:hover{
+        background-color: #ebe7e7;
+        transition: .4s;
+    }
+
+    .googlebtn a h4{
+        color: #333;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        font-size: medium;
     }
 
     a h3, h4{
@@ -179,7 +205,7 @@ import Footer from '@/components/Footer.vue';
         display: flex;
         align-items: center;
         width: 80%;
-        margin: 0 auto;
+        margin: 4% auto 4% auto;
     }
 
     .line-container::before,
@@ -214,6 +240,10 @@ import Footer from '@/components/Footer.vue';
     }
 
     .footerCard{
+        margin-top: 5%;
+    }
+
+    .forgotPassword{
         margin-top: 5%;
     }
 </style>
