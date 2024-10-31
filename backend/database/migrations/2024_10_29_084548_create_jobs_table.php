@@ -8,7 +8,7 @@ class CreateJobsTable extends Migration
     public function up()
     {
         Schema::create('jobs', function (Blueprint $table) {
-            $table->job_id();
+            $table->id();
             $table->string('title'); // Título da vaga
             $table->text('description'); // Descrição da vaga
             $table->string('location'); // Localização da vaga
