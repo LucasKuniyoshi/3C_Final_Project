@@ -105,10 +105,10 @@ import Footer from '@/components/Footer.vue';
   }
 
   .login-elements h3:hover{
-    background-color: rgb(152, 187, 199);
+    background-color: rgb(163, 201, 213);
     /* color: lightblue;
     border: 2px solid lightblue; */
-    transition: .5s;
+    transition: .4s;
   }
 
   .login-elements h4{

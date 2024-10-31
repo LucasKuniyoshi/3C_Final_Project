@@ -27,6 +27,14 @@ const router = createRouter({
       meta: {
         title: 'Signin'
       }
+    },
+    {
+      path: '/signinRecruiter',
+      name: 'signinRecruiter',
+      component: () => import('../views/SigninRecruiter.vue'),
+      meta: {
+        title: 'SigninRecruiter'
+      }
     }
   ]
 })

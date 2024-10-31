@@ -12,22 +12,38 @@ import Footer from '@/components/Footer.vue';
         </header>
         <section>
             <div class="cardd">
-                <h2>Entrar</h2>
-                <h6>Fique em dia com suas notícias profissionais</h6>
-                <form action="">
-                    <div class="campos">
-                        <div class="input-container">
-                            <input type="text" id="input" required>
-                            <label for="input">Email</label>
-                            <!-- <span class="error-message">Este campo é obrigatório</span> -->
-                        </div>
-                        <div class="input-container">
-                            <input type="password" id="password" required minlength="8">
-                            <label for="input">Senha</label>
-                            <!-- <span class="error-message">A senha deve ter no mínimo 8 caracteres</span> -->
-                        </div>
+                <h2>Entrar como Recrutador</h2>
+                <h6>Aproveite sua vida profissional ao máximo</h6>
+                <div class="campos">
+                    <div class="input-container">
+                        <input type="text" id="input" required>
+                        <label for="input">Nome da empresa</label>
+                        <!-- <span>CAMPO OBRIGATÓRIO</span> -->
                     </div>
-                </form>
+                    <div class="input-container">
+                        <input type="text" id="input" required>
+                        <label for="input">Email</label>
+                    </div>
+                    <div class="input-container">
+                        <input type="text" id="input" required>
+                        <label for="input">CNPJ</label>
+                    </div>
+                    <div class="input-container">
+                        <input type="text" id="input" required>
+                        <label for="input">Descrição</label>
+                    </div>
+                    <!-- <span>CAMPO OBRIGATÓRIO E EMAIL JA EXISTENTE</span> -->
+                    <div class="input-container">
+                        <input type="password" id="input" required>
+                        <label for="input">Senha</label>
+                    </div>
+                    <!-- <span>MIN-WITDH DA SENHA</span> -->
+                    <div class="input-container">
+                        <input type="password" id="input" required>
+                        <label for="input">Confirmar senha</label>
+                    </div>
+                    <!-- <span>CONFIRMACAO DE SENHAS</span> -->
+                </div>
                 <div>
                     <label class="checkbox-container">
                         <input type="checkbox">
@@ -35,9 +51,9 @@ import Footer from '@/components/Footer.vue';
                     </label>
                 </div>
                 <div>
-                    <div class="entrarBtn" type="submit">
+                    <div class="entrarBtn">
                         <router-link>
-                            <h3>Entrar</h3>
+                            <h3>Registrar-se</h3>
                         </router-link>
                     </div>
                     <div class="line-container">
@@ -53,14 +69,16 @@ import Footer from '@/components/Footer.vue';
                         <p><a href="#">Contrato do Usuário</a>, a <a href="">Política de Privacidade</a> e </p>
                         <p>a <a href="">Política de Cookies</a> do Recruta Fácil.</p>
                     </div>
-                    <div class="forgotPassword">
-                        <h6><a href="">Esqueceu a senha ?</a></h6>
+                    <div class="recruiter">
+                        <h6>Já faz parte do Recruta Fácil? 
+                            <router-link to="/login">Entrar</router-link>
+                        </h6>
                     </div>
                 </div>
             </div>
             <div class="footerCard">
-                <h6>Ainda não faz parte do Recruta Fácil? 
-                    <router-link to="/signin">Cadastre-se agora</router-link>
+                <h6>Não é um recrutador? 
+                    <router-link to="/signin">Realizar cadastro como canditato</router-link>
                 </h6>
             </div>
         </section>
@@ -93,7 +111,7 @@ import Footer from '@/components/Footer.vue';
         margin-top: 5%;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
         border-radius: 8px; /* opcional, para bordas arredondadas */
-        padding: 20px;      /* opcional, para espaçamento interno */
+        padding: 5.5%;      /* opcional, para espaçamento interno */
         background-color: #fff; /* fundo branco */
     }
 
@@ -115,7 +133,7 @@ import Footer from '@/components/Footer.vue';
     /* Estilo do contêiner campos */
     .input-container {
         position: relative;
-        margin-top: 7%;
+        margin: 20px 0;
     }
 
     /* Estilo do input */
@@ -147,21 +165,6 @@ import Footer from '@/components/Footer.vue';
         top: -22%;
         font-size: small;
         color: #333;
-    }
-
-    .error-message {
-        color: red;
-        font-size: 12px;
-        visibility: hidden;
-        margin-top: 5px;
-        position: absolute;
-        left: 0;
-        top: 100%;
-    }
-
-    /* Mostra a mensagem de erro se o input for inválido */
-    .input-container input:invalid + label + .error-message {
-        visibility: visible;
     }
 
     .entrarBtn a h3{
@@ -216,7 +219,6 @@ import Footer from '@/components/Footer.vue';
 
     /* CHECKBOX */
     .checkbox-container{
-        margin-top: 8%;
         cursor: pointer;
     }
     /* SEPARADOR */
@@ -263,7 +265,11 @@ import Footer from '@/components/Footer.vue';
         margin-top: 5%;
     }
 
-    .forgotPassword{
+    .footerCard h6{
+        font-weight: 500;
+    }
+
+    .recruiter{
         margin-top: 5%;
     }
 </style>
