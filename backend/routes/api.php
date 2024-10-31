@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ApplicationController;
@@ -12,8 +13,9 @@ Route::apiResource('users', UserController::class);
 Route::apiResource('companies', CompanyController::class);
 Route::apiResource('jobs', JobController::class);
 Route::apiResource('applications', ApplicationController::class);
+Route::apiResource('auths', AuthController::class);
 
-//Routes of user
+//Routes of User
 Route::prefix('users')->group(function () {
     Route::get('/', [UserController::class, 'index']);
     Route::post('/', [UserController::class, "store"]);
@@ -22,7 +24,7 @@ Route::prefix('users')->group(function () {
     Route::delete('/{id}', [UserController::class, 'delete']);
 });
 
-//Routes of job
+//Routes of Job
 Route::prefix('jobs')->group(function () {
     Route::get('/', [JobController::class, 'index']);
     Route::post('/', [JobController::class, 'store']);
@@ -31,7 +33,7 @@ Route::prefix('jobs')->group(function () {
     Route::delete('/s{id}', [JobController::class, 'delete']);
 });
 
-//Routes of company
+//Routes of Company
 Route::prefix('companies')->group(function () {
     Route::get('/', [CompanyController::class, 'index']);           // Listar todas as empresas
     Route::post('/', [CompanyController::class, 'store']);          // Criar uma nova empresa
@@ -40,13 +42,31 @@ Route::prefix('companies')->group(function () {
     Route::delete('/{id}', [CompanyController::class, 'destroy']);  // Excluir uma empresa
 });
 
-//Routes of application
+//Routes of Application
 Route::prefix('applications')->group(function () {
     Route::get('/', [ApplicationController::class, 'index']);
     Route::post('/', [ApplicationController::class, 'store']);
     Route::get('/{id}', [ApplicationController::class, 'show']);
     Route::put('/{id}', [ApplicationController::class, 'update']);
     Route::delete('/{id}', [ApplicationController::class, 'delete']);
+});
+
+//Routes of Login
+Route::get('/login', function () {
+    return view('auth.login'); // Exibe o formulário de login
+})->name('login');
+
+Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
+
+// Rotas protegidas específicas para cada tipo de usuário
+Route::middleware(['auth'])->group(function () {
+    Route::get('/recruiter/dashboard', function () {
+        return view('recruiter.dashboard');
+    })->name('recruiter.dashboard');
+
+    Route::get('/candidate/jobs', function () {
+        return view('candidate.jobs');
+    })->name('candidate.jobs');
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
