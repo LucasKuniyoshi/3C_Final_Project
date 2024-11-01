@@ -1,39 +1,27 @@
 <?php
-
 namespace App\Http\Controllers;
-
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
     public function login(Request $request)
     {
-        // Validação dos campos
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required|min:6',
+            'password' => 'required',
         ]);
 
-        $credentials = $request->only('email', 'password');
+        $user = User::where('email', $request->email)->first();
 
-        // Verifica as credenciais e autentica o usuário
-        if (Auth::attempt($credentials)) {
-            $user = Auth::user();
-
-            // Checa o tipo do usuário e redireciona para a página correspondente
-            if ($user->user_type === 'recruiter') {
-                return redirect()->route('recruiter.dashboard'); // Dashboard de Recrutador
-            } elseif ($user->user_type === 'candidate') {
-                return redirect()->route('candidate.jobs'); // Página de visualização de vagas para Candidato
-            }
-
-            return redirect()->route('home'); // Rota padrão
-        } else {
-            // Retorna um erro de autenticação caso as credenciais estejam incorretas
-            return back()->withErrors([
-                'email' => 'Credenciais inválidas. Tente novamente.',
-            ]);
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return response()->json(['message' => 'Invalid credentials'], 401);
         }
+
+        // Aqui você deve usar o método createToken
+        $token = $user->createToken('YourAppName')->plainTextToken;
+
+        return response()->json(['token' => $token]);
     }
 }

@@ -52,21 +52,12 @@ Route::prefix('applications')->group(function () {
 });
 
 //Routes of Login
-Route::get('/login', function () {
-    return view('auth.login'); // Exibe o formulário de login
-})->name('login');
-
 Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 
 // Rotas protegidas específicas para cada tipo de usuário
-Route::middleware(['auth'])->group(function () {
-    Route::get('/recruiter/dashboard', function () {
-        return view('recruiter.dashboard');
-    })->name('recruiter.dashboard');
-
-    Route::get('/candidate/jobs', function () {
-        return view('candidate.jobs');
-    })->name('candidate.jobs');
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/recruiter/dashboard', [AuthController::class, 'recruiterDashboard'])->name('recruiter.dashboard');
+    Route::get('/candidate/jobs', [AuthController::class, 'candidateJobs'])->name('candidate.jobs');
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
