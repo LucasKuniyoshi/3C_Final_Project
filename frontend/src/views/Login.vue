@@ -17,12 +17,12 @@ import Footer from '@/components/Footer.vue';
                 <form action="">
                     <div class="campos">
                         <div class="input-container">
-                            <input type="text" id="input" required>
+                            <input type="text" required>
                             <label for="input">Email</label>
                             <!-- <span class="error-message">Este campo é obrigatório</span> -->
                         </div>
                         <div class="input-container">
-                            <input type="password" id="password" required minlength="8">
+                            <input type="password" required minlength="8">
                             <label for="input">Senha</label>
                             <!-- <span class="error-message">A senha deve ter no mínimo 8 caracteres</span> -->
                         </div>
