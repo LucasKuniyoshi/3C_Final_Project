@@ -1,8 +1,3 @@
-<script setup>
-import Footer from '@/components/Footer.vue';
-
-</script>
-
 <template>
     <div class="container">
         <header>
@@ -16,25 +11,67 @@ import Footer from '@/components/Footer.vue';
                 <h6>Aproveite sua vida profissional ao máximo</h6>
                 <div class="campos">
                     <div class="input-container">
-                        <input type="text" id="input" required>
-                        <label for="input">Nome completo</label>
-                        <!-- <span>CAMPO OBRIGATÓRIO</span> -->
+                        <input
+                        type="text"
+                        v-model="username"
+                        @focus="isFocusedName = true"
+                        @blur="handleBlur"
+                        placeholder=" "
+                        required
+                        />
+                        <label>Nome de usuário</label>
+
+                        <!-- Exibe o span de validação somente se o campo estiver focado e vazio ao desfocar -->
+                        <span v-if="isFocusedName && !username" class="validacao">Campo obrigatório</span>
                     </div>
                     <div class="input-container">
-                        <input type="text" id="input" required>
-                        <label for="input">Email</label>
+                        <input
+                        type="email"
+                        v-model="email"
+                        @focus="isFocusedEmail = true"
+                        @blur="handleBlur"
+                        placeholder=" "
+                        required
+                        />
+                        <label>Email</label>
+
+                        <!-- Exibe o span de validação somente se o campo estiver focado e vazio ao desfocar -->
+                        <span v-if="isFocusedEmail && !email" class="validacao">Email inválido</span>
+                        <!-- <span>EMAIL JÁ EXISTENTE</span> -->
                     </div>
-                    <!-- <span>CAMPO OBRIGATÓRIO E EMAIL JA EXISTENTE</span> -->
                     <div class="input-container">
-                        <input type="password" id="input" required>
-                        <label for="input">Senha</label>
+                        <input
+                        type="password"
+                        v-model="password"
+                        @focus="isFocusedPassword = true"
+                        @blur="handleBlur"
+                        placeholder=" "
+                        minlength="8"
+                        required
+                        />
+                        <label>Senha</label>
+
+                        <!-- Exibe o span de validação somente se o campo estiver focado e vazio ao desfocar -->
+                        <span v-if="isFocusedPassword && password.length < 8" class="validacao">Senha deve ter pelo menos 8 caracteres</span>
+                        <!-- <span>EMAIL JÁ EXISTENTE</span> -->
                     </div>
-                    <!-- <span>MIN-WITDH DA SENHA</span> -->
                     <div class="input-container">
-                        <input type="password" id="input" required>
-                        <label for="input">Confirmar senha</label>
+                        <input
+                        type="password"
+                        v-model="passwordConfirm"
+                        @focus="isFocusedPasswordConfirm = true"
+                        @blur="handleBlur"
+                        placeholder=" "
+                        minlength="8"
+                        required
+                        />
+                        <label>Confirmar Senha</label>
+
+                        <!-- Exibe o span de validação somente se o campo estiver focado e vazio ao desfocar -->
+                        <!-- <span v-if="isFocusedPasswordConfirm && !passwordConfirm" class="validacao">Senha deve ter pelo menos 8 caracteres</span> -->
+                        <span v-if="isFocusedPasswordConfirm && passwordConfirm != password" class="validacao">Confirmar Senha diferente de Senha</span>
+                        <!-- <span>CONFIRMACAO DE SENHAS</span> -->
                     </div>
-                    <!-- <span>CONFIRMACAO DE SENHAS</span> -->
                 </div>
                 <div>
                     <label class="checkbox-container">
@@ -77,6 +114,42 @@ import Footer from '@/components/Footer.vue';
         <Footer />
     </div>
 </template>
+
+<script>
+    import Footer from '@/components/Footer.vue';
+
+    export default {
+        data() {
+            return {
+            username: "",  // Valor do input
+            email: "",
+            password: "",
+            passwordConfirm: "",
+            isFocusedName: false, // Controla o estado de foco
+            isFocusedEmail: false, 
+            isFocusedPassword: false,
+            isFocusedPasswordConfirm: false,
+            };
+        },
+        methods: {
+            handleBlur() {
+            // Ao desfocar, esconde a validação se o campo estiver preenchido
+            if (this.username) {
+                this.isFocusedName = !this.isFocusedName;
+            }
+            if (this.email) {
+                this.isFocusedEmail = !this.isFocusedEmail;
+            }
+            if (this.password) {
+                this.isFocusedPassword = !this.isFocusedPassword;
+            }
+            if (this.passwordConfirm) {
+                this.isFocusedPasswordConfirm = !this.isFocusedPasswordConfirm;
+            }
+            },
+        },
+    };
+</script>
 
 <style scoped>
     *{
@@ -125,7 +198,7 @@ import Footer from '@/components/Footer.vue';
     /* Estilo do contêiner campos */
     .input-container {
         position: relative;
-        margin: 20px 0;
+        margin-top: 7.4%;
     }
 
     /* Estilo do input */
@@ -158,6 +231,19 @@ import Footer from '@/components/Footer.vue';
         font-size: small;
         color: #333;
     }
+
+    /* Estilo do span */
+    .validacao {
+        color: #666;
+        font-size: 12px;
+        /* visibility: hidden; */
+        margin-bottom: 5px;
+    }
+
+    /* Exibir o span quando o input está focado */
+    /* .input-container:focus-within .validacao {
+    visibility: visible;
+    } */
 
     .entrarBtn a h3{
         margin-top: 4%;
@@ -211,6 +297,7 @@ import Footer from '@/components/Footer.vue';
 
     /* CHECKBOX */
     .checkbox-container{
+        margin-top: 4%;
         cursor: pointer;
     }
     /* SEPARADOR */

@@ -16,30 +16,30 @@ import Footer from '@/components/Footer.vue';
                 <h6>Aproveite sua vida profissional ao máximo</h6>
                 <div class="campos">
                     <div class="input-container">
-                        <input type="text" id="input" required>
+                        <input type="text" required>
                         <label for="input">Nome da empresa</label>
                         <!-- <span>CAMPO OBRIGATÓRIO</span> -->
                     </div>
                     <div class="input-container">
-                        <input type="text" id="input" required>
+                        <input type="email" required>
                         <label for="input">Email</label>
                     </div>
                     <div class="input-container">
-                        <input type="text" id="input" required>
+                        <input type="text" required>
                         <label for="input">CNPJ</label>
                     </div>
                     <div class="input-container">
-                        <input type="text" id="input" required>
+                        <input type="text" required>
                         <label for="input">Descrição</label>
                     </div>
                     <!-- <span>CAMPO OBRIGATÓRIO E EMAIL JA EXISTENTE</span> -->
                     <div class="input-container">
-                        <input type="password" id="input" required>
+                        <input type="password" required>
                         <label for="input">Senha</label>
                     </div>
                     <!-- <span>MIN-WITDH DA SENHA</span> -->
                     <div class="input-container">
-                        <input type="password" id="input" required>
+                        <input type="password" required>
                         <label for="input">Confirmar senha</label>
                     </div>
                     <!-- <span>CONFIRMACAO DE SENHAS</span> -->
