@@ -35,8 +35,20 @@ const router = createRouter({
       meta: {
         title: 'SigninRecruiter'
       }
+    },
+    {
+      path: '/dashboard',
+      name: 'dashboard',
+      component: () => import('../views/Dashboard.vue'),
+      meta: {
+        title: 'Dashboard'
+      }
     }
-  ]
+  ],
+  scrollBehavior(to, from, savedPosition) {
+    // Sempre rola para o topo
+    return { top: 0 };
+  },
 })
 
 router.beforeEach((to, from, next) => {

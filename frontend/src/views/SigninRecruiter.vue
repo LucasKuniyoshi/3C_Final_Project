@@ -4,85 +4,87 @@ import Footer from '@/components/Footer.vue';
 </script>
 
 <template>
-    <div class="container">
-        <header>
-            <router-link to="/">
-                <img class="img-size-login" src="../assets/Recruta_facil.png" alt="Recruta_Facil_Logo">
-            </router-link>
-        </header>
-        <section>
-            <div class="cardd">
-                <h2>Entrar como Recrutador</h2>
-                <h6>Aproveite sua vida profissional ao máximo</h6>
-                <div class="campos">
-                    <div class="input-container">
-                        <input type="text" required>
-                        <label for="input">Nome da empresa</label>
-                        <!-- <span>CAMPO OBRIGATÓRIO</span> -->
+    <div class="backgroundGeral">
+        <div class="container">
+            <header>
+                <router-link to="/">
+                    <img class="img-size-login" src="../assets/Recruta_facil.png" alt="Recruta_Facil_Logo">
+                </router-link>
+            </header>
+            <section>
+                <div class="cardd">
+                    <h2>Entrar como Recrutador</h2>
+                    <h6>Aproveite sua vida profissional ao máximo</h6>
+                    <div class="campos">
+                        <div class="input-container">
+                            <input type="text" required>
+                            <label for="input">Nome da empresa</label>
+                            <!-- <span>CAMPO OBRIGATÓRIO</span> -->
+                        </div>
+                        <div class="input-container">
+                            <input type="email" required>
+                            <label for="input">Email</label>
+                        </div>
+                        <div class="input-container">
+                            <input type="text" required>
+                            <label for="input">CNPJ</label>
+                        </div>
+                        <div class="input-container">
+                            <input type="text" required>
+                            <label for="input">Descrição</label>
+                        </div>
+                        <!-- <span>CAMPO OBRIGATÓRIO E EMAIL JA EXISTENTE</span> -->
+                        <div class="input-container">
+                            <input type="password" required>
+                            <label for="input">Senha</label>
+                        </div>
+                        <!-- <span>MIN-WITDH DA SENHA</span> -->
+                        <div class="input-container">
+                            <input type="password" required>
+                            <label for="input">Confirmar senha</label>
+                        </div>
+                        <!-- <span>CONFIRMACAO DE SENHAS</span> -->
                     </div>
-                    <div class="input-container">
-                        <input type="email" required>
-                        <label for="input">Email</label>
+                    <div>
+                        <label class="checkbox-container">
+                            <input type="checkbox">
+                            Manter conectado
+                        </label>
                     </div>
-                    <div class="input-container">
-                        <input type="text" required>
-                        <label for="input">CNPJ</label>
+                    <div>
+                        <div class="entrarBtn">
+                            <router-link>
+                                <h3>Registrar-se</h3>
+                            </router-link>
+                        </div>
+                        <div class="line-container">
+                            <span class="OuPosition">ou</span>
+                        </div>
+                        <div class="googlebtn">
+                            <router-link>
+                                <h4>Entrar com conta Google <font-awesome-icon :icon="['fab', 'google']" /></h4>
+                            </router-link>
+                        </div>
+                        <div class="cookies">
+                            <p>Ao clicar em Continuar, você aceita o </p>
+                            <p><a href="#">Contrato do Usuário</a>, a <a href="">Política de Privacidade</a> e </p>
+                            <p>a <a href="">Política de Cookies</a> do Recruta Fácil.</p>
+                        </div>
+                        <div class="recruiter">
+                            <h6>Já faz parte do Recruta Fácil? 
+                                <router-link to="/login">Entrar</router-link>
+                            </h6>
+                        </div>
                     </div>
-                    <div class="input-container">
-                        <input type="text" required>
-                        <label for="input">Descrição</label>
-                    </div>
-                    <!-- <span>CAMPO OBRIGATÓRIO E EMAIL JA EXISTENTE</span> -->
-                    <div class="input-container">
-                        <input type="password" required>
-                        <label for="input">Senha</label>
-                    </div>
-                    <!-- <span>MIN-WITDH DA SENHA</span> -->
-                    <div class="input-container">
-                        <input type="password" required>
-                        <label for="input">Confirmar senha</label>
-                    </div>
-                    <!-- <span>CONFIRMACAO DE SENHAS</span> -->
                 </div>
-                <div>
-                    <label class="checkbox-container">
-                        <input type="checkbox">
-                        Manter conectado
-                    </label>
+                <div class="footerCard">
+                    <h6>Não é um recrutador? 
+                        <router-link to="/signin">Realizar cadastro como canditato</router-link>
+                    </h6>
                 </div>
-                <div>
-                    <div class="entrarBtn">
-                        <router-link>
-                            <h3>Registrar-se</h3>
-                        </router-link>
-                    </div>
-                    <div class="line-container">
-                        <span class="OuPosition">ou</span>
-                    </div>
-                    <div class="googlebtn">
-                        <router-link>
-                            <h4>Entrar com conta Google <font-awesome-icon :icon="['fab', 'google']" /></h4>
-                        </router-link>
-                    </div>
-                    <div class="cookies">
-                        <p>Ao clicar em Continuar, você aceita o </p>
-                        <p><a href="#">Contrato do Usuário</a>, a <a href="">Política de Privacidade</a> e </p>
-                        <p>a <a href="">Política de Cookies</a> do Recruta Fácil.</p>
-                    </div>
-                    <div class="recruiter">
-                        <h6>Já faz parte do Recruta Fácil? 
-                            <router-link to="/login">Entrar</router-link>
-                        </h6>
-                    </div>
-                </div>
-            </div>
-            <div class="footerCard">
-                <h6>Não é um recrutador? 
-                    <router-link to="/signin">Realizar cadastro como canditato</router-link>
-                </h6>
-            </div>
-        </section>
-        <Footer />
+            </section>
+            <Footer />
+        </div>
     </div>
 </template>
 
@@ -93,11 +95,15 @@ import Footer from '@/components/Footer.vue';
         text-decoration: none;
     }
 
+    .backgroundGeral{
+        background-color: lightcyan;
+    }
+
     .container{
         display: flex;
         flex-direction: column;
         align-items: center;
-        /* background-color: aqua; */
+        /* background-color: lightcyan; */
         margin: 0 auto;
         /* text-align: center; */
     }
