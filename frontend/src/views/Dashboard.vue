@@ -21,9 +21,9 @@
         </header>
   
         <section class="content">
-          <div class="card" @click="openModal('Título 1', 'Descrição completa do card 1', 'salario', 'localização', 'requisitos')">
-            <h3>Título 1</h3>
-            <p>Descrição do card 1.</p>
+          <div class="card" @click="openModal('Dev Front-End', 'Vaga para desenvolvedor FRONT-END Junior com foco em mobile', 'salario', 'localização', 'requisitos')">
+            <h3>Dev Front-End</h3>
+            <p>Vaga para desenvolvedor FRONT-END Junior com foco em mobile</p>
           </div>
           <div class="card" @click="openModal('Título 2', 'Descrição completa do card 2', 'salario', 'localização', 'requisitos')">
             <h3>Título 2</h3>
@@ -41,15 +41,15 @@
         <div class="modal-content">
           <h2>{{ modalTitle }}</h2>
           <p>{{ modalDescription }}</p>
-          <h5>Localização: <p>Curitiba, PR</p></h5>
-          <h5>Salário: <p>R$:2000.00</p></h5>
+          <h5>Localização:</h5><p>Curitiba, PR</p>
+          <h5>Salário:</h5><p>R$ 2000.00</p>
           <h5>Requisitos:</h5>
           <ul>
             <li>Conhecimento SQL</li>
             <li>Vue.js</li>
             <li>Laravel</li>
           </ul>
-          <button class="confirm-button" @click="closeModal">Inscrever-se</button>
+          <button class="confirm-button" @click="closeModal">Canditatar-se</button>
           <button class="cancel-button" @click="closeModal">Cancelar</button>
         </div>
       </div>
@@ -217,7 +217,7 @@
     padding: 20px;
     border-radius: 8px;
     width: 90%;
-    max-width: 400px;
+    max-width: 26.5%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
   
@@ -226,8 +226,8 @@
   }
   
   .modal-content button{
-    margin-top: 20px;
-    padding: 10px;
+    margin-top: 5%;
+    padding: 2.8%;
     color: #fff;
     border: none;
     cursor: pointer;
@@ -243,11 +243,14 @@
   }
   
   .modal-content .cancel-button{
-      background-color: #ff6b6b;
+      background-color: #FFF;
+      color: #a3a3a3;
     }
 
   .modal-content .cancel-button:hover {
-    background-color: #ff4b4b;
+    background-color: #b8b8b8;
+    color: #FFF;
+    transition: .4s;
   }
   </style>
   
