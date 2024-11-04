@@ -7,7 +7,7 @@
         </header>
         <section>
             <div class="cardd">
-                <h2>Cadastrar</h2>
+                <h2>Seja bem-vindo</h2>
                 <h6>Aproveite sua vida profissional ao máximo</h6>
                 <div class="campos">
                     <div class="input-container">
@@ -342,6 +342,7 @@
 
     .footerCard{
         margin-top: 5%;
+        margin-bottom: 10%;
     }
 
     .footerCard h6{
