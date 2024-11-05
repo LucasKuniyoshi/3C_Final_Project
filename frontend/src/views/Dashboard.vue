@@ -2,38 +2,45 @@
     <div class="dashboard-container">
       <!-- BARRA LATERAL -->
       <aside class="sidebar">
-        <h2>Menu</h2>
+        <div class="user">
+          <font-awesome-icon class="icon" icon="user" />
+        </div>
+        <h2>Enrique</h2>
+        <p>enriqueTeste@gmail.com</p>
         <ul>
-          <li><router-link to="/overview">Visão Geral</router-link></li>
-          <li><router-link to="/reports">Relatórios</router-link></li>
-          <li><router-link to="/settings">Configurações</router-link></li>
-          <li><router-link to="/profile">Perfil</router-link></li>
+          <li><router-link to="#">Visão Geral</router-link></li>
+          <li><router-link to="#">Minhas Vagas</router-link></li>
+          <li><router-link to="#">Configurações</router-link></li>
+          <li><router-link to="#">Perfil</router-link></li>
+          <li><router-link to="/">Sair</router-link></li>
         </ul>
       </aside>
   
-      <div class="main-content">
-        <header class="header">
-          <h1>Olá "Username"</h1>
-          <div class="search-bar">
-            <font-awesome-icon icon="magnifying-glass" class="searchIcon" />
-            <input type="text" placeholder="Pesquisar..." class="search-input" />
-          </div>
-        </header>
-  
-        <section class="content">
-          <div class="card" @click="openModal('Dev Front-End', 'Vaga para desenvolvedor FRONT-END Junior com foco em mobile', 'salario', 'localização', 'requisitos')">
-            <h3>Dev Front-End</h3>
-            <p>Vaga para desenvolvedor FRONT-END Junior com foco em mobile</p>
-          </div>
-          <div class="card" @click="openModal('Título 2', 'Descrição completa do card 2', 'salario', 'localização', 'requisitos')">
-            <h3>Título 2</h3>
-            <p>Descrição do card 2.</p>
-          </div>
-          <div class="card" @click="openModal('Título 3', 'Descrição completa do card 3', 'salario', 'localização', 'requisitos')">
-            <h3>Título 3</h3>
-            <p>Descrição do card 3.</p>
-          </div>
-        </section>
+      <div class="border-main-content">
+        <div class="main-content">
+          <header class="header">
+            <h1>Visão Geral</h1>
+            <div class="search-bar">
+              <font-awesome-icon icon="magnifying-glass" class="searchIcon" />
+              <input type="text" placeholder="Pesquisar..." class="search-input" />
+            </div>
+          </header>
+    
+          <section class="content">
+            <div class="card" @click="openModal('Dev Front-End', 'Vaga para desenvolvedor FRONT-END Junior com foco em mobile', 'salario', 'localização', 'requisitos')">
+              <h3>Dev Front-End</h3>
+              <p>Vaga para desenvolvedor FRONT-END Junior com foco em mobile</p>
+            </div>
+            <div class="card" @click="openModal('Título 2', 'Descrição completa do card 2', 'salario', 'localização', 'requisitos')">
+              <h3>Título 2</h3>
+              <p>Descrição do card 2.</p>
+            </div>
+            <div class="card" @click="openModal('Título 3', 'Descrição completa do card 3', 'salario', 'localização', 'requisitos')">
+              <h3>Título 3</h3>
+              <p>Descrição do card 3.</p>
+            </div>
+          </section>
+        </div>
       </div>
   
       <!-- Modal -->
@@ -86,20 +93,37 @@
     display: flex;
     height: 100vh;
     overflow: hidden;
+    margin: 0.7%;
+    border-radius: 10px;
   }
   
   /* Estilo da Barra Lateral */
   .sidebar {
-    width: 250px;
+    width: 16.7%;
     background-color: #333;
     color: #fff;
     padding: 20px;
     box-sizing: border-box;
   }
+
+  .sidebar .user {
+    /* background-color: #a3a3a3; */
+    margin-left: 0.7%;
+  }
+
+  .sidebar .user .icon {
+    /* background-color: #a3a3a3; */
+    height: 3.18vh;
+  }
+
+  .sidebar p{
+    color: #757575;
+    margin-bottom: 10%;
+  }
   
   .sidebar h2 {
     font-size: 1.5em;
-    margin-bottom: 20px;
+    margin-bottom: 0.5%;
   }
   
   .sidebar ul {
@@ -149,11 +173,20 @@
   }
   
   /* Estilo do Conteúdo Principal */
-  .main-content {
+  .border-main-content {
     flex: 1;
     display: flex;
     flex-direction: column;
+    background-color: #333;
+    /* background-color: #f4f4f9; */
+    /* padding: 0.7%; */
+    border: 10px solid #333;
+  }
+
+  .main-content{
+    border-radius: 10px;
     background-color: #f4f4f9;
+    height: 100vh;
   }
   
   /* Estilo do Cabeçalho */
@@ -164,6 +197,8 @@
     padding: 20px;
     background-color: skyblue;
     color: #fff;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
   }
   
   .header h1 {
