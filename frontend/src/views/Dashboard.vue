@@ -25,21 +25,99 @@
               <input type="text" placeholder="Pesquisar..." class="search-input" />
             </div>
           </header>
-    
-          <section class="content">
-            <div class="card" @click="openModal('Dev Front-End', 'Vaga para desenvolvedor FRONT-END Junior com foco em mobile', 'salario', 'localização', 'requisitos')">
-              <h3>Dev Front-End</h3>
-              <p>Vaga para desenvolvedor FRONT-END Junior com foco em mobile</p>
-            </div>
-            <div class="card" @click="openModal('Título 2', 'Descrição completa do card 2', 'salario', 'localização', 'requisitos')">
-              <h3>Título 2</h3>
-              <p>Descrição do card 2.</p>
-            </div>
-            <div class="card" @click="openModal('Título 3', 'Descrição completa do card 3', 'salario', 'localização', 'requisitos')">
-              <h3>Título 3</h3>
-              <p>Descrição do card 3.</p>
-            </div>
-          </section>
+          
+          <h5 class="topicos">Vagas para você</h5>
+          <div class="vagas-content">
+            <section class="content">
+              <div class="card" @click="openModal('Dev Front-End', 'Vaga para desenvolvedor FRONT-END Junior com foco em mobile', 'salario', 'localização', 'requisitos')">
+                <h3>Dev Front-End</h3>
+                <p>Vaga para desenvolvedor FRONT-END Junior com foco em mobile</p>
+              </div>
+              <div class="card" @click="openModal('Título 2', 'Descrição completa do card 2', 'salario', 'localização', 'requisitos')">
+                <h3>Título 2</h3>
+                <p>Descrição do card 2.</p>
+              </div>
+              <div class="card" @click="openModal('Título 3', 'Descrição completa do card 3', 'salario', 'localização', 'requisitos')">
+                <h3>Título 3</h3>
+                <p>Descrição do card 3.</p>
+              </div>  
+            </section>
+            <section class="activities">
+              <div class="calendar">
+                <div class="calendar-header">
+                  <button>&#10094;</button>
+                  <h2>Novembro 2024</h2>
+                  <button>&#10095;</button>
+                </div>
+
+                <div class="calendar-days">
+                  <div>Dom</div>
+                  <div>Seg</div>
+                  <div>Ter</div>
+                  <div>Qua</div>
+                  <div>Qui</div>
+                  <div>Sex</div>
+                  <div>Sáb</div>
+                </div>
+
+                <div class="calendar-dates">
+                  <div>
+                    <div class="day">1</div>
+                    <div class="day">8</div>
+                    <div class="day">15</div>
+                    <div class="day">22</div>
+                    <div class="current-day">29</div>
+                  </div>
+                  <div>
+                    <div class="day">2</div>
+                    <div class="day">9</div>
+                    <div class="day">16</div>
+                    <div class="day">23</div>
+                    <div class="day">30</div>
+                  </div>
+                  <div>
+                    <div class="day">3</div>
+                    <div class="day">10</div>
+                    <div class="day">17</div>
+                    <div class="day">24</div>
+                  </div>
+                  <div>
+                    <div class="day">4</div>
+                    <div class="day">11</div>
+                    <div class="day">18</div>
+                    <div class="day">25</div>
+                  </div>
+                  <div>
+                    <div class="day">5</div>
+                    <div class="day">12</div>
+                    <div class="day">19</div>
+                    <div class="day">26</div>
+                  </div>
+                  <div>
+                    <div class="day">6</div>
+                    <div class="day">13</div>
+                    <div class="day">20</div>
+                    <div class="day">27</div>
+                  </div>
+                  <div>
+                    <div class="day">7</div>
+                    <div class="day">14</div>
+                    <div class="day">21</div>
+                    <div class="day">28</div>
+                  </div>
+                </div>
+              </div>
+              <div class="insights">
+                <h5>Total de vagas inscritas</h5>
+              </div>
+              <div class="insights">
+                <h5>Networking</h5>
+              </div>
+              <div class="insights">
+                <h5>Retornos recebidos</h5>
+              </div>
+            </section>
+          </div>
         </div>
       </div>
   
@@ -149,8 +227,8 @@
   .search-bar {
     display: flex;
     align-items: center;
-    background-color: #f0f0f0;
-    border: 1px solid #ddd;
+    background-color: #f4f4f9;
+    border: 1px solid #d1d0d0;
     border-radius: 25px;
     padding: 0.2%;
     width: 100%;
@@ -195,8 +273,8 @@
     justify-content: space-between;
     align-items: center;
     padding: 20px;
-    background-color: skyblue;
-    color: #fff;
+    /* background-color: skyblue; */
+    color: #333;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
   }
@@ -204,14 +282,25 @@
   .header h1 {
     margin: 0;
   }
+
+  .vagas-content{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
   
   /* Estilo da Área de Conteúdo */
   .content {
-    padding: 20px;
+    padding: 1%;
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
     overflow-y: auto;
+  }
+
+  .topicos{
+    margin-left: 1.5%;
+    color: #555;
   }
   
   /* Estilo dos Cards */
@@ -219,7 +308,7 @@
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;
-    padding: 20px;
+    padding: 1.8%;
     width: calc(50% - 10px);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     cursor: pointer;
@@ -286,6 +375,84 @@
     background-color: #b8b8b8;
     color: #FFF;
     transition: .4s;
+  }
+
+  .activities{
+    margin-left: 7.4%;
+  }
+
+  /* Estilo do container do calendário */
+  .calendar {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 1.5%;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+  }
+
+  /* Cabeçalho do calendário */
+  .calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4%;
+  }
+
+  .calendar-header h2 {
+    font-size: 1.5em;
+    margin: 0;
+  }
+
+  .calendar-header button {
+    /* background-color: #007bff; */
+    /* color: #fff; */
+    border: none;
+    padding: 1%;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  /* Dias da semana */
+  .calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 3.2%;
+    color: #555;
+  }
+
+  /* Dias do mês */
+  .calendar-dates {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+  }
+
+  .current-day {
+    padding: 4% 0;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    color: #f0f0f0;
+    background-color: darkviolet;
+  }
+
+  .day {
+    padding: 4% 0;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+ 
+  .insights{
+    margin-top: 5%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 3%;
   }
   </style>
   
