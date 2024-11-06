@@ -25,12 +25,14 @@ Route::prefix('users')->group(function () {
 });
 
 //Routes of Job
-Route::prefix('jobs')->group(function () {
-    Route::get('/', [JobController::class, 'index']);
-    Route::post('/', [JobController::class, 'store']);
-    Route::get('/{id}', [JobController::class, 'show']);
-    Route::put('/{id}', [JobController::class, 'update']);
-    Route::delete('/s{id}', [JobController::class, 'delete']);
+Route::middleware(['role:recruiter', 'auth:sanctum'])->group(function () {
+    Route::post('/jobs', [JobController::class, 'store']);
+    Route::put('/jobs/{id}', [JobController::class, 'update']);
+    Route::delete('/jobs/{id}', [JobController::class, 'destroy']);
+});
+
+Route::middleware(['role:candidate'])->group(function () {
+    Route::post('/jobs/{id}/apply', [JobController::class, 'apply']);
 });
 
 //Routes of Company

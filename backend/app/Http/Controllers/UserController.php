@@ -28,19 +28,14 @@ class UserController extends Controller
     // Criar um novo usuário
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8', // Confirmação de senha
             'user_type' => 'required|in:recruiter,candidate', // Tipo de usuário
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password), // Hash da senha
-            'user_type' => $request->user_type,
-        ]);
+        $user = User::create($validated);
 
         return response()->json($user, 201);
     }
