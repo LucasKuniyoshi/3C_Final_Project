@@ -15,11 +15,16 @@ class User extends Authenticatable implements AuthenticatableContract
         'name',
         'email',
         'password',
+        'user_type'
     ];
 
     protected $hidden = [
         'password',
         'remember_token',
+    ];
+
+    protected $casts = [
+        'password' => 'hashed',
     ];
 
     // Outras definições do modelo, se necessário
