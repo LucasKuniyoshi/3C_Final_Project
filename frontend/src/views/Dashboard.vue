@@ -26,23 +26,40 @@
             </div>
           </header>
           
-          <h5 class="topicos">Vagas para você</h5>
-          <div class="vagas-content">
-            <section class="content">
-              <div class="card" @click="openModal('Dev Front-End', 'Vaga para desenvolvedor FRONT-END Junior com foco em mobile', 'salario', 'localização', 'requisitos')">
-                <h3>Dev Front-End</h3>
-                <p>Vaga para desenvolvedor FRONT-END Junior com foco em mobile</p>
-              </div>
-              <div class="card" @click="openModal('Título 2', 'Descrição completa do card 2', 'salario', 'localização', 'requisitos')">
-                <h3>Título 2</h3>
-                <p>Descrição do card 2.</p>
-              </div>
-              <div class="card" @click="openModal('Título 3', 'Descrição completa do card 3', 'salario', 'localização', 'requisitos')">
-                <h3>Título 3</h3>
-                <p>Descrição do card 3.</p>
+          <section class="body">
+            <div class="vagas-content">
+              <h5 class="topicos">Vagas para você</h5>
+              <div class="card-content">
+                <div class="card" @click="openModal('Dev Front-End', 'Vaga para desenvolvedor FRONT-END Junior com foco em mobile', 'salario', 'localização', 'requisitos')">
+                  <h3>Dev Front-End</h3>
+                  <p>Vaga para desenvolvedor FRONT-END Junior com foco em mobile</p>
+                </div>
+                <div class="card" @click="openModal('Título 2', 'Descrição completa do card 2', 'salario', 'localização', 'requisitos')">
+                  <h3>Dev Back-end</h3>
+                  <p>Vaga para desenvolvedor BACK-END Pleno com experiência em Laravel</p>
+                </div>
+                <div class="card" @click="openModal('Título 2', 'Descrição completa do card 2', 'salario', 'localização', 'requisitos')">
+                  <h3>Dev Back-end</h3>
+                  <p>Vaga para desenvolvedor BACK-END Pleno com experiência em Laravel</p>
+                </div>
               </div>  
-            </section>
-            <section class="activities">
+              <h5 class="topicos2">Mais vagas</h5>
+              <div class="card-content">
+                <div class="card" @click="openModal('Título 2', 'Descrição completa do card 2', 'salario', 'localização', 'requisitos')">
+                  <h3>Estagio</h3>
+                  <p>Vaga para estágiario que busca se aventurar no mundo TECH</p>
+                </div>
+                <div class="card" @click="openModal('Título 3', 'Descrição completa do card 3', 'salario', 'localização', 'requisitos')">
+                  <h3>DevOps</h3>
+                  <p>Vaga para Infra com experiência em servidores e domínios</p>
+                </div>
+                <div class="card" @click="openModal('Título 3', 'Descrição completa do card 3', 'salario', 'localização', 'requisitos')">
+                  <h3>DevOps</h3>
+                  <p>Vaga para Infra com experiência em servidores e domínios</p>
+                </div>
+              </div>
+            </div>
+            <div class="activities">
               <div class="calendar">
                 <div class="calendar-header">
                   <button>&#10094;</button>
@@ -109,15 +126,36 @@
               </div>
               <div class="insights">
                 <h5>Total de vagas inscritas</h5>
+                <div class="insights-position">
+                  <p>11</p>
+                  <div class="arrowUp">
+                    12.85%
+                    <font-awesome-icon icon="arrow-trend-up" />                
+                  </div>
+                </div>
               </div>
               <div class="insights">
                 <h5>Networking</h5>
+                <div class="insights-position">
+                  <img src="../assets/CircleGrafic.png" alt="CircleGrafic">
+                  <div class="arrowUp">
+                    +2
+                    <font-awesome-icon icon="comments" />                
+                  </div>
+                </div>
               </div>
               <div class="insights">
                 <h5>Retornos recebidos</h5>
+                <div class="insights-position">
+                  <p>7</p>
+                  <div class="doubleArrow">
+                    -0.35%
+                    <font-awesome-icon icon="arrow-right-arrow-left" />                
+                  </div>
+                </div>
               </div>
-            </section>
-          </div>
+            </div>
+          </section>
         </div>
       </div>
   
@@ -283,10 +321,16 @@
     margin: 0;
   }
 
-  .vagas-content{
+  .body{
     display: flex;
-    flex-direction: row;
     flex-wrap: wrap;
+    justify-content: space-around;
+  }
+
+  .vagas-content{
+    /* background-color: lightcoral; */
+    max-width: 65%;
+    margin-left: -3%;
   }
   
   /* Estilo da Área de Conteúdo */
@@ -302,6 +346,18 @@
     margin-left: 1.5%;
     color: #555;
   }
+
+  .topicos2{
+    margin-left: 1.5%;
+    margin-top: 1.5%;
+    color: #555;
+  }
+
+  .card-content{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
   
   /* Estilo dos Cards */
   .card {
@@ -309,9 +365,11 @@
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 1.8%;
-    width: calc(50% - 10px);
+    max-width: 45%;
+    /* width: 100%; */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     cursor: pointer;
+    margin: 0.3%;
   }
   
   .card h3 {
@@ -375,10 +433,6 @@
     background-color: #b8b8b8;
     color: #FFF;
     transition: .4s;
-  }
-
-  .activities{
-    margin-left: 7.4%;
   }
 
   /* Estilo do container do calendário */
@@ -453,6 +507,29 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     padding: 3%;
+  }
+
+  .insights p{
+    padding-left: 2%;
+    font-weight: 600;
+    font-size: large;
+  }
+
+  .insights-position{
+    display: flex;
+    justify-content: space-around;
+  }
+  .insights .arrowUp{
+    color: green;
+  }
+
+  .insights .doubleArrow{
+    color: red;
+  }
+
+  .insights .insights-position img{
+    height: 18vh;
+    width: 9.2vw;
   }
   </style>
   
