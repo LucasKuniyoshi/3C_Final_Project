@@ -5,8 +5,8 @@
         <div class="user">
           <font-awesome-icon class="icon" icon="user" />
         </div>
-        <h2>Enrique</h2>
-        <p>enriqueTeste@gmail.com</p>
+        <h2>Lucas</h2>
+        <p>lucasTeste@gmail.com</p>
         <ul>
           <li><router-link to="#">Visão Geral</router-link></li>
           <li><router-link to="#">Minhas Vagas</router-link></li>
@@ -28,180 +28,268 @@
           
           <section class="body">
             <div class="vagas-content">
-              <h5 class="topicos">Vagas para você</h5>
-              <div class="card-content">
-                <div class="card" @click="openModal('Dev Front-End', 'Vaga para desenvolvedor FRONT-END Junior com foco em mobile', 'salario', 'localização', 'requisitos')">
-                  <h3>Dev Front-End</h3>
-                  <p>Vaga para desenvolvedor FRONT-END Junior com foco em mobile</p>
+                <h5 class="topicos">Nova vaga</h5>
+                <div class="card-content">
+                    <div class="card" @click="openModalNewVaga('Dev Front-End', 'Vaga para desenvolvedor FRONT-END Junior com foco em mobile', 'salario', 'localização', 'requisitos')">
+                    <div class="newCard">
+                        <h3><font-awesome-icon class="plusIcon" icon="plus" /></h3>
+                        <h5>Adicionar nova vaga</h5>
+                    </div>
+                    </div>
+                </div>  
+                <h5 class="topicos2">Última vaga criada</h5>
+                <div class="card-content">
+                    <div class="card" @click="openModal(this.title, this.description, 'salario', 'localização', 'requisitos')">
+                    <h3>{{ title }}</h3>
+                    <p>{{ description }}</p>
+                    </div>
+                </div>  
+                <h5 class="topicos2">Minhas vagas</h5>
+                <div class="card-content">
+                    <div class="card" @click="openModal('Título 2', 'Descrição completa do card 2', 'salario', 'localização', 'requisitos')">
+                    <h3>Estagio</h3>
+                    <p>Vaga para estágiario que busca se aventurar no mundo TECH</p>
+                    </div>
+                    <div class="card" @click="openModal('Título 3', 'Descrição completa do card 3', 'salario', 'localização', 'requisitos')">
+                    <h3>DevOps</h3>
+                    <p>Vaga para Infra com experiência em servidores e domínios</p>
+                    </div>
+                    <div class="card" @click="openModal('Título 3', 'Descrição completa do card 3', 'salario', 'localização', 'requisitos')">
+                    <h3>DevOps</h3>
+                    <p>Vaga para Infra com experiência em servidores e domínios</p>
+                    </div>
                 </div>
-                <div class="card" @click="openModal('Título 2', 'Descrição completa do card 2', 'salario', 'localização', 'requisitos')">
-                  <h3>Dev Back-end</h3>
-                  <p>Vaga para desenvolvedor BACK-END Pleno com experiência em Laravel</p>
-                </div>
-                <div class="card" @click="openModal('Título 2', 'Descrição completa do card 2', 'salario', 'localização', 'requisitos')">
-                  <h3>Dev Back-end</h3>
-                  <p>Vaga para desenvolvedor BACK-END Pleno com experiência em Laravel</p>
-                </div>
-              </div>  
-              <h5 class="topicos2">Mais vagas</h5>
-              <div class="card-content">
-                <div class="card" @click="openModal('Título 2', 'Descrição completa do card 2', 'salario', 'localização', 'requisitos')">
-                  <h3>Estagio</h3>
-                  <p>Vaga para estágiario que busca se aventurar no mundo TECH</p>
-                </div>
-                <div class="card" @click="openModal('Título 3', 'Descrição completa do card 3', 'salario', 'localização', 'requisitos')">
-                  <h3>DevOps</h3>
-                  <p>Vaga para Infra com experiência em servidores e domínios</p>
-                </div>
-                <div class="card" @click="openModal('Título 3', 'Descrição completa do card 3', 'salario', 'localização', 'requisitos')">
-                  <h3>DevOps</h3>
-                  <p>Vaga para Infra com experiência em servidores e domínios</p>
-                </div>
-              </div>
             </div>
             <div class="activities">
-              <div class="calendar">
-                <div class="calendar-header">
-                  <button>&#10094;</button>
-                  <h2>Novembro 2024</h2>
-                  <button>&#10095;</button>
-                </div>
+                <div class="calendar">
+                    <div class="calendar-header">
+                    <button>&#10094;</button>
+                    <h2>Novembro 2024</h2>
+                    <button>&#10095;</button>
+                    </div>
 
-                <div class="calendar-days">
-                  <div>Dom</div>
-                  <div>Seg</div>
-                  <div>Ter</div>
-                  <div>Qua</div>
-                  <div>Qui</div>
-                  <div>Sex</div>
-                  <div>Sáb</div>
-                </div>
+                    <div class="calendar-days">
+                    <div>Dom</div>
+                    <div>Seg</div>
+                    <div>Ter</div>
+                    <div>Qua</div>
+                    <div>Qui</div>
+                    <div>Sex</div>
+                    <div>Sáb</div>
+                    </div>
 
-                <div class="calendar-dates">
-                  <div>
-                    <div class="day">1</div>
-                    <div class="day">8</div>
-                    <div class="day">15</div>
-                    <div class="day">22</div>
-                    <div class="current-day">29</div>
-                  </div>
-                  <div>
-                    <div class="day">2</div>
-                    <div class="day">9</div>
-                    <div class="day">16</div>
-                    <div class="day">23</div>
-                    <div class="day">30</div>
-                  </div>
-                  <div>
-                    <div class="day">3</div>
-                    <div class="day">10</div>
-                    <div class="day">17</div>
-                    <div class="day">24</div>
-                  </div>
-                  <div>
-                    <div class="day">4</div>
-                    <div class="day">11</div>
-                    <div class="day">18</div>
-                    <div class="day">25</div>
-                  </div>
-                  <div>
-                    <div class="day">5</div>
-                    <div class="day">12</div>
-                    <div class="day">19</div>
-                    <div class="day">26</div>
-                  </div>
-                  <div>
-                    <div class="day">6</div>
-                    <div class="day">13</div>
-                    <div class="day">20</div>
-                    <div class="day">27</div>
-                  </div>
-                  <div>
-                    <div class="day">7</div>
-                    <div class="day">14</div>
-                    <div class="day">21</div>
-                    <div class="day">28</div>
-                  </div>
+                    <div class="calendar-dates">
+                    <div>
+                        <div class="day">1</div>
+                        <div class="day">8</div>
+                        <div class="day">15</div>
+                        <div class="day">22</div>
+                        <div class="current-day">29</div>
+                    </div>
+                    <div>
+                        <div class="day">2</div>
+                        <div class="day">9</div>
+                        <div class="day">16</div>
+                        <div class="day">23</div>
+                        <div class="day">30</div>
+                    </div>
+                    <div>
+                        <div class="day">3</div>
+                        <div class="day">10</div>
+                        <div class="day">17</div>
+                        <div class="day">24</div>
+                    </div>
+                    <div>
+                        <div class="day">4</div>
+                        <div class="day">11</div>
+                        <div class="day">18</div>
+                        <div class="day">25</div>
+                    </div>
+                    <div>
+                        <div class="day">5</div>
+                        <div class="day">12</div>
+                        <div class="day">19</div>
+                        <div class="day">26</div>
+                    </div>
+                    <div>
+                        <div class="day">6</div>
+                        <div class="day">13</div>
+                        <div class="day">20</div>
+                        <div class="day">27</div>
+                    </div>
+                    <div>
+                        <div class="day">7</div>
+                        <div class="day">14</div>
+                        <div class="day">21</div>
+                        <div class="day">28</div>
+                    </div>
+                    </div>
                 </div>
-              </div>
-              <div class="insights">
-                <h5>Total de vagas inscritas</h5>
-                <div class="insights-position">
-                  <p>11</p>
-                  <div class="arrowUp">
-                    12.85%
-                    <font-awesome-icon icon="arrow-trend-up" />                
-                  </div>
+                <div class="insights">
+                    <h5>Total de vagas inscritas</h5>
+                    <div class="insights-position">
+                    <p>11</p>
+                    <div class="arrowUp">
+                        12.85%
+                        <font-awesome-icon icon="arrow-trend-up" />                
+                    </div>
+                    </div>
                 </div>
-              </div>
-              <div class="insights">
-                <h5>Networking</h5>
-                <div class="insights-position">
-                  <img src="../assets/CircleGrafic.png" alt="CircleGrafic">
-                  <div class="arrowUp">
-                    +2
-                    <font-awesome-icon icon="comments" />                
-                  </div>
+                <div class="insights">
+                    <h5>Networking</h5>
+                    <div class="insights-position">
+                    <img src="../assets/CircleGrafic.png" alt="CircleGrafic">
+                    <div class="arrowUp">
+                        +2
+                        <font-awesome-icon icon="comments" />                
+                    </div>
+                    </div>
                 </div>
-              </div>
-              <div class="insights">
-                <h5>Retornos recebidos</h5>
-                <div class="insights-position">
-                  <p>7</p>
-                  <div class="doubleArrow">
-                    -0.35%
-                    <font-awesome-icon icon="arrow-right-arrow-left" />                
-                  </div>
+                <div class="insights">
+                    <h5>Retornos recebidos</h5>
+                    <div class="insights-position">
+                    <p>7</p>
+                    <div class="doubleArrow">
+                        -0.35%
+                        <font-awesome-icon icon="arrow-right-arrow-left" />                
+                    </div>
+                    </div>
                 </div>
-              </div>
             </div>
           </section>
         </div>
       </div>
   
-      <!-- Modal -->
-      <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
+      <!-- MODAL DE ADICIONAR NOVA VAGA-->
+      <div v-if="showModal" class="modal-overlay" @click.self="closeModalNewVaga">
         <div class="modal-content">
-          <h2>{{ modalTitle }}</h2>
-          <p>{{ modalDescription }}</p>
-          <h5>Localização:</h5><p>Curitiba, PR</p>
-          <h5>Salário:</h5><p>R$ 2000.00</p>
-          <h5>Requisitos:</h5>
-          <ul>
-            <li>Conhecimento SQL</li>
-            <li>Vue.js</li>
-            <li>Laravel</li>
-          </ul>
-          <button class="confirm-button" @click="closeModal">Canditatar-se</button>
-          <button class="cancel-button" @click="closeModal">Cancelar</button>
+        <h2>Adicionar nova Vaga</h2>
+        <div class="campos">
+            <div class="input-container">
+            <input
+                type="text"
+                v-model="title"
+                @focus="isFocusedTitle = true"
+                @blur="handleBlur('title')"
+                placeholder=" "
+                required
+            />
+            <label>Nome da vaga</label>
+            <span v-if="isFocusedTitle && !title" class="validacao">Campo obrigatório</span>
+            </div>
+            <div class="input-container">
+            <input
+                type="text"
+                v-model="description"
+                @focus="isFocusedDescription = true"
+                @blur="handleBlur('description')"
+                placeholder=" "
+                required
+            />
+            <label>Descrição</label>
+            <span v-if="isFocusedDescription && !description" class="validacao">Campo obrigatório</span>
+            </div>
+            <div class="input-container">
+            <input
+                type="text"
+                v-model="salary"
+                @focus="isFocusedSalary = true"
+                @blur="handleBlur('salary')"
+                placeholder=" "
+                required
+            />
+            <label>Salário</label>
+            <span v-if="isFocusedSalary && !salary" class="validacao">Campo obrigatório</span>
+            </div>
+            <div class="input-container">
+            <input
+                type="text"
+                v-model="location"
+                @focus="isFocusedLocation = true"
+                @blur="handleBlur('location')"
+                placeholder=" "
+                required
+            />
+            <label>Localização</label>
+            <span v-if="isFocusedLocation && !location" class="validacao">Campo obrigatório</span>
+            </div>
+            <div class="input-container">
+            <input
+                type="text"
+                v-model="request"
+                @focus="isFocusedRequest = true"
+                @blur="handleBlur('request')"
+                placeholder=" "
+                required
+            />
+            <label>Requisitos</label>
+            <span v-if="isFocusedRequest && !request" class="validacao">Campo obrigatório</span>
+            </div>
         </div>
-      </div>
+        <button class="confirm-button" @click="confirmModal">Confirmar</button>
+        <button class="cancel-button" @click="closeModalNewVaga">Cancelar</button>
+        </div>
     </div>
-  </template>
-  
-  <script setup>
-  import { ref } from 'vue';
-  
-  const showModal = ref(false);
-  const modalTitle = ref('');
-  const modalDescription = ref('');
-  const modalSalary = ref('');
-  const modalLocation = ref('');
-  const modalRequest = ref('');
-  
-  function openModal(title, description, salary, location, request) {
-    modalTitle.value = title;
-    modalDescription.value = description;
-    modalSalary.value = salary;
-    modalLocation.value = location;
-    modalRequest.value = request;
-    showModal.value = true;
-  }
-  
-  function closeModal() {
-    showModal.value = false;
-  }
-  </script>
+    </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      showModal: false,
+      title: "",  
+      description: "",
+      salary: "",
+      location: "",
+      request: "",
+      isFocusedTitle: false,
+      isFocusedDescription: false,
+      isFocusedSalary: false,
+      isFocusedLocation: false,
+      isFocusedRequest: false,
+    };
+  },
+  methods: {
+    openModalNewVaga() {
+      this.showModal = true;
+    },
+    closeModalNewVaga() {
+      this.showModal = false;
+    },
+    confirmModal() {
+      // Adicione a lógica para enviar os dados do formulário ou processá-los
+      console.log("Dados da nova vaga:", {
+        title: this.title,
+        description: this.description,
+        salary: this.salary,
+        location: this.location,
+        request: this.request,
+      });
+      this.closeModalNewVaga();
+    },
+    handleBlur(field) {
+      // Desfoca o campo se ele estiver preenchido
+      if (field === 'title' && this.title) this.isFocusedTitle = false;
+      if (field === 'description' && this.description) this.isFocusedDescription = false;
+      if (field === 'salary' && this.salary) this.isFocusedSalary = false;
+      if (field === 'location' && this.location) this.isFocusedLocation = false;
+      if (field === 'request' && this.request) this.isFocusedRequest = false;
+    },
+    openModal(title, description, salary, location, request) {
+        modalTitle.value = title;
+        modalDescription.value = description;
+        modalSalary.value = salary;
+        modalLocation.value = location;
+        modalRequest.value = request;
+        showModal.value = true;
+    },
+    closeModal() {
+        showModal.value = false;
+    },
+  },
+};
+</script>
   
   <style scoped>
   /* Estilo do Container do Dashboard */
@@ -379,6 +467,22 @@
   .card p {
     margin: 0;
   }
+
+  .card .newCard .plusIcon{
+    background-color: #d3d1d1;
+    padding: 30%;
+    border-radius: 10px;
+  }
+
+  .card .newCard{
+    display: flex;
+    align-items: center;
+  }
+
+  .card .newCard h5{
+    margin-left: 18%;
+    /* font-weight: 500; */
+  }
   
   /* Estilo do Modal */
   .modal-overlay {
@@ -434,6 +538,58 @@
     color: #FFF;
     transition: .4s;
   }
+
+  .campos{
+        margin-top: 10%;
+        /* display: flex;
+        flex-direction: column;
+        align-items: center; */
+    }
+
+    /* Estilo do contêiner campos */
+    .input-container {
+        position: relative;
+        margin-top: 7.4%;
+    }
+
+    /* Estilo do input */
+    .input-container input {
+        width: 100%;
+        padding: 10px 5px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        outline: none;
+    }
+
+    /* Estilo do label */
+    .input-container label {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: white;
+        color: #aaa;
+        transition: 0.3s;
+        padding: 0 5px;
+        pointer-events: none;
+    }
+
+    /* Quando o input é focado ou preenchido, o label sobe */
+    .input-container input:focus + label,
+    .input-container input:not(:placeholder-shown) + label {
+        top: -22%;
+        font-size: small;
+        color: #333;
+    }
+
+    /* Estilo do span */
+    .validacao {
+        color: #666;
+        font-size: 12px;
+        /* visibility: hidden; */
+        margin-bottom: 5px;
+    }
 
   /* Estilo do container do calendário */
   .calendar {
@@ -529,7 +685,7 @@
 
   .insights .insights-position img{
     height: 18vh;
-    width: 9.2vw;
+    width: 8.7vw;
   }
   </style>
   

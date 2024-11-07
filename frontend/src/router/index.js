@@ -9,7 +9,7 @@ const router = createRouter({
       name: 'home',
       component: HomeView,
       meta: {
-        title: 'Home'
+        title: 'Recruta Fácil'
       }
     },
     {
@@ -17,7 +17,7 @@ const router = createRouter({
       name: 'login',
       component: () => import('../views/Login.vue'),
       meta: {
-        title: 'Login'
+        title: 'Recruta Fácil'
       }
     },
     {
@@ -25,7 +25,7 @@ const router = createRouter({
       name: 'signin',
       component: () => import('../views/Signin.vue'),
       meta: {
-        title: 'Signin'
+        title: 'Recruta Fácil'
       }
     },
     {
@@ -33,7 +33,15 @@ const router = createRouter({
       name: 'signinRecruiter',
       component: () => import('../views/SigninRecruiter.vue'),
       meta: {
-        title: 'SigninRecruiter'
+        title: 'Recruta Fácil'
+      }
+    },
+    {
+      path: '/jobs',
+      name: 'jobs',
+      component: () => import('../views/Jobs.vue'),
+      meta: {
+        title: 'Recruta Fácil'
       }
     },
     {
@@ -41,7 +49,7 @@ const router = createRouter({
       name: 'dashboard',
       component: () => import('../views/Dashboard.vue'),
       meta: {
-        title: 'Dashboard'
+        title: 'Recruta Fácil'
       }
     }
   ],

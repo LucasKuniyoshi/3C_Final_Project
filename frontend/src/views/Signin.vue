@@ -70,7 +70,6 @@
                         <!-- Exibe o span de validação somente se o campo estiver focado e vazio ao desfocar -->
                         <!-- <span v-if="isFocusedPasswordConfirm && !passwordConfirm" class="validacao">Senha deve ter pelo menos 8 caracteres</span> -->
                         <span v-if="isFocusedPasswordConfirm && passwordConfirm != password" class="validacao">Confirmar Senha diferente de Senha</span>
-                        <!-- <span>CONFIRMACAO DE SENHAS</span> -->
                     </div>
                 </div>
                 <div>
@@ -239,11 +238,6 @@
         /* visibility: hidden; */
         margin-bottom: 5px;
     }
-
-    /* Exibir o span quando o input está focado */
-    /* .input-container:focus-within .validacao {
-    visibility: visible;
-    } */
 
     .entrarBtn a h3{
         margin-top: 4%;
