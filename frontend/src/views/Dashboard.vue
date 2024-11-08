@@ -38,23 +38,41 @@
                     </div>
                     </div>
                 </div> 
-                <div>
-                  <h3>Última vaga criada</h3>
-                  <div v-if="ultimaVaga">
-                    <p><strong>Nome:</strong> {{ ultimaVaga.nome }}</p>
-                    <p><strong>Descrição:</strong> {{ ultimaVaga.descricao }}</p>
-                    <p><strong>Salário:</strong> {{ ultimaVaga.salario }}</p>
-                    <p><strong>Localização:</strong> {{ ultimaVaga.localizacao }}</p>
-                    <p><strong>Requisitos:</strong> {{ ultimaVaga.requisitos }}</p>
+                <!-- Card da Última Vaga Criada -->
+                <div v-if="ultimaVaga" class="card-content">
+                  <div class="card" @click="abrirModalDetalhes">
+                    <h3>{{ ultimaVaga.nome }}</h3>
+                    <p>{{ ultimaVaga.descricao }}</p>
                   </div>
-                </div> 
-                <!-- <h5 class="topicos2">Última vaga criada</h5>
-                <div class="card-content">
-                    <div class="card" @click="openModal(this.title, this.description, 'salario', 'localização', 'requisitos')">
-                    <h3>{{ title }}</h3>
-                    <p>{{ description }}</p>
-                    </div>
-                </div>   -->
+                </div>
+
+                <!-- Modal de Detalhes da Vaga -->
+                <div v-if="modalDetalhesAberto" class="modal-overlay" @click.self="fecharModalDetalhes">
+                  <div class="modal-content">
+                    <h2>Detalhes da Vaga</h2>
+                    <form @submit.prevent="salvarAlteracoes">
+                      <h4>Nome da Vaga</h4>
+                      <input type="text" v-model="vagaTemp.nome" />
+
+                      <h4>Descrição</h4>
+                      <textarea v-model="vagaTemp.descricao"></textarea>
+
+                      <h4>Salário</h4>
+                      <input type="text" v-model="vagaTemp.salario" />
+
+                      <h4>Localização</h4>
+                      <input type="text" v-model="vagaTemp.localizacao" />
+
+                      <h4>Requisitos</h4>
+                      <textarea v-model="vagaTemp.requisitos"></textarea>
+
+                      <button type="submit">Salvar Alterações</button>
+                      <button type="button" @click="fecharModalDetalhes">Cancelar</button>
+                    </form>
+                  </div>
+                </div>
+
+                <!-- MINHAS VAGAS -->
                 <h5 class="topicos2">Minhas vagas</h5>
                 <div class="card-content">
                     <div class="card" @click="openModal('Título 2', 'Descrição completa do card 2', 'salario', 'localização', 'requisitos')">
@@ -69,6 +87,30 @@
                     <h3>DevOps</h3>
                     <p>Vaga para Infra com experiência em servidores e domínios</p>
                     </div>
+                </div>
+                <!-- MODAL DE ADICIONAR NOVA VAGA-->
+                <!-- <div v-if="showModal" class="modal-overlay" @click.self="closeModalNewVaga"> -->
+                <div v-if="modalAberto" class="modal-overlay" @click.self="fecharModal">
+                  <div class="modal-content">
+                    <h2>Adicionar nova Vaga</h2>
+                    <form @submit.prevent="adicionarVaga">
+                      <div class="campos">
+                        <div class="input-container">
+                          <input type="text" v-model="novaVaga.nome" @focus="isFocusedTitle = true" @blur="handleBlur('Nome da vaga')" placeholder=" " required />
+                          <label>Nome da vaga</label>
+                          <!-- <span v-if="isFocusedTitle && !novaVaga.nome" class="validacao">Campo obrigatório</span> -->
+                        </div>
+                        <input type="text" v-model="novaVaga.descricao" placeholder="Descrição" required />
+                        <input type="text" v-model="novaVaga.salario" placeholder="Salário" />
+                        <input type="text" v-model="novaVaga.localizacao" placeholder="Localização" />
+                        <input type="text" v-model="novaVaga.requisitos" placeholder="Requisitos" />
+                      </div>
+                        <button type="submit" class="confirm-button" >Confirmar</button>
+                        <button type="button" class="cancel-button" @click="fecharModal">Cancelar</button>
+                    </form>
+                    <!-- <button class="confirm-button" @click="confirmModal">Confirmar</button>
+                    <button class="cancel-button" @click="closeModalNewVaga">Cancelar</button> -->
+                  </div>
                 </div>
             </div>
             <div class="activities">
@@ -170,93 +212,6 @@
           </section>
         </div>
       </div>
-  
-      <!-- MODAL DE ADICIONAR NOVA VAGA-->
-      <!-- <div v-if="showModal" class="modal-overlay" @click.self="closeModalNewVaga"> -->
-      <div v-if="modalAberto" class="modal-overlay" @click.self="fecharModal">
-        <div class="modal-content">
-          <h2>Adicionar nova Vaga</h2>
-          <form @submit.prevent="adicionarVaga">
-            <div class="campos">
-              <div class="input-container">
-                <input type="text" v-model="novaVaga.nome" @focus="isFocusedTitle = true" @blur="handleBlur('Nome da vaga')" placeholder=" " required />
-                <label>Nome da vaga</label>
-                <span v-if="isFocusedTitle && !novaVaga.nome" class="validacao">Campo obrigatório</span>
-              </div>
-              <input type="text" v-model="novaVaga.descricao" placeholder="Descrição" required />
-              <input type="text" v-model="novaVaga.salario" placeholder="Salário" />
-              <input type="text" v-model="novaVaga.localizacao" placeholder="Localização" />
-              <input type="text" v-model="novaVaga.requisitos" placeholder="Requisitos" />
-            </div>
-              <button type="submit" class="confirm-button" >Confirmar</button>
-              <button type="button" class="cancel-button" @click="fecharModal">Cancelar</button>
-          </form>
-          <!-- <div class="campos">
-              <div class="input-container">
-              <input
-                  type="text"
-                  v-model="title"
-                  @focus="isFocusedTitle = true"
-                  @blur="handleBlur('title')"
-                  placeholder=" "
-                  required
-              />
-              <label>Nome da vaga</label>
-              <span v-if="isFocusedTitle && !title" class="validacao">Campo obrigatório</span>
-              </div>
-              <div class="input-container">
-              <input
-                  type="text"
-                  v-model="description"
-                  @focus="isFocusedDescription = true"
-                  @blur="handleBlur('description')"
-                  placeholder=" "
-                  required
-              />
-              <label>Descrição</label>
-              <span v-if="isFocusedDescription && !description" class="validacao">Campo obrigatório</span>
-              </div>
-              <div class="input-container">
-              <input
-                  type="text"
-                  v-model="salary"
-                  @focus="isFocusedSalary = true"
-                  @blur="handleBlur('salary')"
-                  placeholder=" "
-                  required
-              />
-              <label>Salário</label>
-              <span v-if="isFocusedSalary && !salary" class="validacao">Campo obrigatório</span>
-              </div>
-              <div class="input-container">
-              <input
-                  type="text"
-                  v-model="location"
-                  @focus="isFocusedLocation = true"
-                  @blur="handleBlur('location')"
-                  placeholder=" "
-                  required
-              />
-              <label>Localização</label>
-              <span v-if="isFocusedLocation && !location" class="validacao">Campo obrigatório</span>
-              </div>
-              <div class="input-container">
-              <input
-                  type="text"
-                  v-model="request"
-                  @focus="isFocusedRequest = true"
-                  @blur="handleBlur('request')"
-                  placeholder=" "
-                  required
-              />
-              <label>Requisitos</label>
-              <span v-if="isFocusedRequest && !request" class="validacao">Campo obrigatório</span>
-              </div>
-            </div> -->
-          <!-- <button class="confirm-button" @click="confirmModal">Confirmar</button>
-          <button class="cancel-button" @click="closeModalNewVaga">Cancelar</button> -->
-        </div>
-      </div>
     </div>
 </template>
 
@@ -284,11 +239,17 @@ export default {
         requisitos: ''
       },
       ultimaVaga: null,
-      modalAberto: false
+      modalAberto: false,
+      modalDetalhesAberto: false,
+      vagaTemp: null, // Dados temporários para edição
     };
   },
   mounted() {
-    this.carregarUltimaVaga();
+    // Carrega a última vaga do localStorage ao iniciar o componente
+    const vagaSalva = localStorage.getItem('ultimaVaga');
+    if (vagaSalva) {
+      this.ultimaVaga = JSON.parse(vagaSalva);
+    }
   },
   methods: {
     abrirModal() {
@@ -359,6 +320,38 @@ export default {
       if (vaga) {
         this.ultimaVaga = JSON.parse(vaga);
       }
+    },
+
+    criarVaga() {
+      // Salva a vaga e define como a última vaga criada
+      localStorage.setItem('ultimaVaga', JSON.stringify(this.vaga));
+      this.ultimaVaga = { ...this.vaga };
+      this.limparFormulario();
+    },
+    limparFormulario() {
+      // Limpa o formulário após criar a vaga
+      this.vaga = {
+        nome: '',
+        descricao: '',
+        salario: '',
+        localizacao: '',
+        requisitos: ''
+      };
+    },
+    abrirModalDetalhes() {
+      // Abre o modal e copia os dados para edição temporária
+      this.vagaTemp = { ...this.ultimaVaga };
+      this.modalDetalhesAberto = true;
+    },
+    fecharModalDetalhes() {
+      // Fecha o modal sem salvar alterações
+      this.modalDetalhesAberto = false;
+    },
+    salvarAlteracoes() {
+      // Salva as alterações da vaga temporária e atualiza a última vaga e o localStorage
+      this.ultimaVaga = { ...this.vagaTemp };
+      localStorage.setItem('ultimaVaga', JSON.stringify(this.ultimaVaga));
+      this.fecharModalDetalhes();
     }
   },
 };
