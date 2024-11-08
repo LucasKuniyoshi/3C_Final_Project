@@ -8,10 +8,15 @@ use Illuminate\Http\Request;
 
 class JobController extends Controller
 {
-    // Listar todas as vagas
+    // Listar vagas do recrutador logado
     public function index()
     {
-        $jobs = Job::with('company')->get();
+        if (auth()->user()->user_type !== 'recruiter') {
+            return response()->json(['message' => 'Unauthorized.'], 403);
+        }
+
+        // Filtrar as vagas apenas do recrutador logado
+        $jobs = Job::where('recruiter_id', auth()->id())->with('company')->get();
         return response()->json($jobs);
     }
 
@@ -38,7 +43,12 @@ class JobController extends Controller
             'company_id' => 'required|exists:companies,id',
         ]);
 
-        $job = Job::create($request->all());
+        // Criar a vaga e definir o recrutador
+        $job = Job::create(array_merge(
+            $request->all(),
+            ['recruiter_id' => auth()->id()]
+        ));
+
         return response()->json($job, 201);
     }
 
@@ -49,6 +59,8 @@ class JobController extends Controller
             return response()->json(['message' => 'Unauthorized.'], 403);
         }
 
+        $job = Job::where('id', $id)->where('recruiter_id', auth()->id())->firstOrFail();
+
         $request->validate([
             'title' => 'string|max:255',
             'description' => 'string',
@@ -58,7 +70,6 @@ class JobController extends Controller
             'company_id' => 'exists:companies,id',
         ]);
 
-        $job = Job::findOrFail($id);
         $job->update($request->all());
         return response()->json($job);
     }
@@ -70,8 +81,9 @@ class JobController extends Controller
             return response()->json(['message' => 'Unauthorized.'], 403);
         }
 
-        $job = Job::findOrFail($id);
+        $job = Job::where('id', $id)->where('recruiter_id', auth()->id())->firstOrFail();
         $job->delete();
+
         return response()->json(['message' => 'Job deleted successfully']);
     }
 
@@ -98,7 +110,7 @@ class JobController extends Controller
             'user_id' => auth()->id(),
             'job_id' => $job->id,
             'name' => auth()->user()->name,
-            'recruiter_name' => $job->company->recruiter->name, // assumindo que a vaga tenha um recrutador associado
+            'recruiter_name' => $job->company->name, // assumindo que a vaga tenha um recrutador associado
         ]);
 
         return response()->json(['message' => 'Application submitted successfully', 'application' => $application], 201);

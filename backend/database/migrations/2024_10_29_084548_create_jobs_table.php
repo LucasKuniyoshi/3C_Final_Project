@@ -15,6 +15,7 @@ class CreateJobsTable extends Migration
             $table->decimal('salary', 10, 2)->nullable(); // Salário (opcional)
             $table->enum('employment_type', ['full-time', 'part-time', 'contract', 'internship']); // Tipo de emprego
             $table->foreignId('company_id')->constrained('companies')->onDelete('cascade'); // Relacionamento com empresa
+            $table->foreignId('recruiter_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
