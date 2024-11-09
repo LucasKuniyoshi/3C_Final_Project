@@ -51,6 +51,14 @@ const router = createRouter({
       meta: {
         title: 'Recruta Fácil'
       }
+    },
+    {
+      path: '/recruiterVagas',
+      name: 'recruiterVagas',
+      component: () => import('../views/RecruiterVagas.vue'),
+      meta: {
+        title: 'Recruta Fácil'
+      }
     }
   ],
   scrollBehavior(to, from, savedPosition) {

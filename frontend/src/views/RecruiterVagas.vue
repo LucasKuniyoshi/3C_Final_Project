@@ -8,8 +8,8 @@
         <h2>Lucas</h2>
         <p>lucasTeste@gmail.com</p>
         <ul>
-          <li><router-link to="">Visão Geral</router-link></li>
-          <li><router-link to="/RecruiterVagas">Minhas Vagas</router-link></li>
+          <li><router-link to="/Dashboard">Visão Geral</router-link></li>
+          <li><router-link to="">Minhas Vagas</router-link></li>
           <li><router-link to="">Configurações</router-link></li>
           <li><router-link to="">Perfil</router-link></li>
           <li><router-link to="/">Sair</router-link></li>
@@ -19,8 +19,8 @@
       <div class="border-main-content">
         <div class="main-content">
           <header class="header">
-            <h1>Visão Geral</h1>
-            <!-- <button @click="limparVagas">Limpar Todas as Vagas</button> -->
+            <h1>Minhas Vagas</h1>
+            <button @click="limparVagas">Limpar Todas as Vagas</button>
             <div class="search-bar">
               <font-awesome-icon icon="magnifying-glass" class="searchIcon" />
               <input type="text" placeholder="Pesquisar..." class="search-input" />
@@ -29,70 +29,6 @@
           
           <section class="body">
             <div class="vagas-content">
-                <h5 class="topicos">Nova vaga</h5>
-                <div class="card-content">
-                    <div class="card" @click="abrirModal">
-                    <div class="newCard">
-                        <h3><font-awesome-icon class="plusIcon" icon="plus" /></h3>
-                        <h5>Adicionar nova vaga</h5>
-                    </div>
-                    </div>
-                </div> 
-                <!-- MODAL DE ADICIONAR NOVA VAGA-->
-                <div v-if="modalAberto" class="modal-overlay" @click.self="fecharModal">
-                  <div class="modal-content">
-                    <h2>Adicionar nova Vaga</h2>
-                    <form @submit.prevent="adicionarVaga">
-                      <div class="campos">
-                        <div class="input-container">
-                          <input type="text" v-model="novaVaga.nome" @focus="isFocusedTitle = true" @blur="handleBlur('Nome da vaga')" placeholder=" " required />
-                          <label>Nome da vaga</label>
-                          <!-- <span v-if="isFocusedTitle && !novaVaga.nome" class="validacao">Campo obrigatório</span> -->
-                        </div>
-                        <input type="text" v-model="novaVaga.descricao" placeholder="Descrição" required />
-                        <input type="text" v-model="novaVaga.salario" placeholder="Salário" />
-                        <input type="text" v-model="novaVaga.localizacao" placeholder="Localização" />
-                        <input type="text" v-model="novaVaga.requisitos" placeholder="Requisitos" />
-                      </div>
-                      <button type="submit" class="confirm-button" >Confirmar</button>
-                      <button type="button" class="cancel-button" @click="fecharModal">Cancelar</button>
-                    </form>
-                  </div>
-                </div>
-                <h5 class="topicos2">Última Vaga Criada</h5>
-                <div v-if="vagas.length > 0" class="card-content">
-                  <div class="card" @click="abrirModalDetalhes(vagas[vagas.length - 1])">
-                    <h4>{{ vagas[vagas.length - 1].nome }}</h4>
-                    <p>{{ vagas[vagas.length - 1].descricao }}</p>
-                  </div>
-                </div>
-
-                <!-- Modal de Última Vaga -->
-                <div v-if="modalUltimaVagaAberto" class="modal-overlay" @click.self="fecharModalUltimaVaga">
-                  <div class="modal-content">
-                    <h2>Última Vaga Criada</h2>
-                    <form @submit.prevent="salvarAlteracoesUltimaVaga">
-                      <h4>Nome da Vaga</h4>
-                      <input type="text" v-model="ultimaVaga.nome" disabled />
-
-                      <h4>Descrição</h4>
-                      <textarea v-model="ultimaVaga.descricao" disabled></textarea>
-
-                      <h4>Salário</h4>
-                      <input type="text" v-model="ultimaVaga.salario" disabled />
-
-                      <h4>Localização</h4>
-                      <input type="text" v-model="ultimaVaga.localizacao" disabled />
-
-                      <h4>Requisitos</h4>
-                      <textarea v-model="ultimaVaga.requisitos" disabled></textarea>
-
-                      <button type="submit">Salvar Alterações</button>
-                      <button type="button" @click="fecharModalUltimaVaga">Cancelar</button>
-                    </form>
-                  </div>
-                </div>
-
                 <!-- Seção Minhas Vagas -->
                 <h5 class="topicos2">Minhas Vagas</h5>
                 <div v-for="(vaga, index) in vagas" :key="index" class="card-content">
@@ -104,30 +40,65 @@
 
                 <!-- Modal de Detalhes da Vaga em Minhas Vagas -->
                 <div v-if="modalDetalhesAberto" class="modal-overlay" @click.self="fecharModalDetalhes">
-                  <div class="modal-content">
-                    <h2>Detalhes da Vaga</h2>
-                    <form @submit.prevent="salvarAlteracoes">
-                      <h4>Nome da Vaga</h4>
-                      <!-- Usa a diretiva :placeholder para definir o nome como placeholder -->
-                      <input type="text" v-model="vagaAtual.nome" :placeholder="vagaAtual ? vagaAtual.nome : ''" />
+                    <div class="modal-content">
+                        <h2>Detalhes da Vaga</h2>
+                        <form @submit.prevent="salvarAlteracoes">
+                            <h4>Nome da Vaga</h4>
+                            <input type="text" v-model="vagaAtual.nome" :placeholder="vagaAtual ? vagaAtual.nome : ''" />
 
-                      <h4>Descrição</h4>
-                      <textarea v-model="vagaAtual.descricao"></textarea>
+                            <h4>Descrição</h4>
+                            <textarea v-model="vagaAtual.descricao"></textarea>
 
-                      <h4>Salário</h4>
-                      <input type="text" v-model="vagaAtual.salario" />
+                            <h4>Salário</h4>
+                            <input type="text" v-model="vagaAtual.salario" />
 
-                      <h4>Localização</h4>
-                      <input type="text" v-model="vagaAtual.localizacao" />
+                            <h4>Localização</h4>
+                            <input type="text" v-model="vagaAtual.localizacao" />
 
-                      <h4>Requisitos</h4>
-                      <textarea v-model="vagaAtual.requisitos"></textarea>
+                            <h4>Requisitos</h4>
+                            <textarea v-model="vagaAtual.requisitos"></textarea>
 
-                      <button type="submit">Salvar Alterações</button>
-                      <button type="button" @click="fecharModalDetalhes">Cancelar</button>
-                    </form>
-                  </div>
+                            <button type="submit">Salvar Alterações</button>
+                            <button type="button" @click="fecharModalDetalhes">Cancelar</button>
+                            <button type="button" @click="encerrarVaga">Encerrar Vaga</button> <!-- Botão para encerrar a vaga -->
+                        </form>
+                    </div>
                 </div>
+
+                <h5 class="topicos2">Vagas Encerradas</h5>
+                <div v-for="(vaga, index) in endVagas" :key="index" class="card-content">
+                    <div class="EndCard" @click="abrirModalEncerradas(vaga)">
+                        <h4>{{ vaga.nome }}</h4>
+                        <p>{{ vaga.descricao }}</p>
+                    </div>
+                </div>
+
+                <!-- Modal de Detalhes da Vaga em Vagas Encerradas -->
+                <div v-if="modalDetalhesEncerradasAberto" class="modal-overlay" @click.self="fecharModalEncerradas">
+                <div class="modal-content">
+                    <h2>Detalhes da Vaga Encerrada</h2>
+                    <form @submit.prevent="fecharModalEncerradas">
+                    <h4>Nome da Vaga</h4>
+                    <input type="text" v-model="vagaAtual.nome" />
+
+                    <h4>Descrição</h4>
+                    <textarea v-model="vagaAtual.descricao"></textarea>
+
+                    <h4>Salário</h4>
+                    <input type="text" v-model="vagaAtual.salario" />
+
+                    <h4>Localização</h4>
+                    <input type="text" v-model="vagaAtual.localizacao" />
+
+                    <h4>Requisitos</h4>
+                    <textarea v-model="vagaAtual.requisitos"></textarea>
+
+                    <button type="button" @click="recriarVaga">Recriar Vaga</button>
+                    <button type="button" @click="fecharModalEncerradas">Fechar</button>
+                    </form>
+                </div>
+                </div>
+
             </div>
             <div class="activities">
                 <div class="calendar">
@@ -257,13 +228,16 @@ export default {
       modalUltimaVagaAberto: false, // Controle do modal de última vaga
       modalAberto: false,
       modalDetalhesAberto: false,
+      modalDetalhesEncerradasAberto: false, // Controle do modal de detalhes de Vagas Encerradas
       vagaTemp: null, // Dados temporários para edição
       vagas: JSON.parse(localStorage.getItem('vagas')) || [], // Carrega todas as vagas do localStorage
+      endVagas: JSON.parse(localStorage.getItem('endVagas')) || [], // Carrega vagas encerradas do localStorage
       vagaAtual: null, // Vaga sendo editada atualmente
     };
   },
   mounted() {
     this.carregarVagas();
+    this.carregarEndVagas();
   },
   methods: {
     abrirModal() {
@@ -331,11 +305,54 @@ export default {
       localStorage.setItem("vagas", JSON.stringify(this.vagas));
       this.modalDetalhesAberto = false;
     },
+    encerrarVaga() {
+      // Encontra o índice da vaga atual na lista de vagas
+      const index = this.vagas.findIndex(v => v.nome === this.vagaAtual.nome && v.descricao === this.vagaAtual.descricao);
+      
+      if (index !== -1) {
+        // Remove a vaga da lista de vagas e a adiciona à lista de vagas encerradas
+        const vagaEncerrada = this.vagas.splice(index, 1)[0];
+        this.endVagas.push(vagaEncerrada);
+
+        // Atualiza o localStorage
+        localStorage.setItem('vagas', JSON.stringify(this.vagas));
+        localStorage.setItem('endVagas', JSON.stringify(this.endVagas));
+        
+        // Fecha o modal
+        this.fecharModalDetalhes();
+      }
+    },
     carregarVagas() {
       // Carrega as vagas do localStorage ao montar o componente
       const vagasSalvas = localStorage.getItem("vagas");
       if (vagasSalvas) {
         this.vagas = JSON.parse(vagasSalvas);
+      }
+    },
+    abrirModalEncerradas(vaga) {
+      this.vagaAtual = { ...vaga };
+      this.modalDetalhesEncerradasAberto = true;
+    },
+    fecharModalEncerradas() {
+      this.modalDetalhesEncerradasAberto = false;
+      this.vagaAtual = null;
+    },
+    recriarVaga() {
+      const index = this.endVagas.findIndex(v => v.nome === this.vagaAtual.nome && v.descricao === this.vagaAtual.descricao);
+      if (index !== -1) {
+        const vagaRecriada = this.endVagas.splice(index, 1)[0];
+        this.vagas.push(vagaRecriada);
+
+        localStorage.setItem('vagas', JSON.stringify(this.vagas));
+        localStorage.setItem('endVagas', JSON.stringify(this.endVagas));
+
+        this.fecharModalEncerradas();
+      }
+    },
+    carregarEndVagas() {
+      const endVagasSalvas = localStorage.getItem("endVagas");
+      if (endVagasSalvas) {
+        this.endVagas = JSON.parse(endVagasSalvas);
       }
     },
     limparVagas() {
@@ -513,6 +530,17 @@ export default {
   }
   
   /* Estilo dos Cards */
+  .EndCard {
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1.8%;
+    max-width: 45%;
+    /* width: 100%; */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    margin: 0.3%;
+  }
   .card {
     background-color: #fff;
     border: 1px solid #ddd;

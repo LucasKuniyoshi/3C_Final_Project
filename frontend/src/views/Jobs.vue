@@ -9,7 +9,8 @@
         <p>enriqueTeste@gmail.com</p>
         <ul>
           <li><router-link to="#">Visão Geral</router-link></li>
-          <li><router-link to="#">Minhas Vagas</router-link></li>
+          <li><router-link to="#">Vagas Inscritas</router-link></li>
+          <li><router-link to="#">Vagas Salvas</router-link></li>
           <li><router-link to="#">Configurações</router-link></li>
           <li><router-link to="#">Perfil</router-link></li>
           <li><router-link to="/">Sair</router-link></li>
