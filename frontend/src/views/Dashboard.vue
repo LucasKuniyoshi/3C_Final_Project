@@ -20,6 +20,7 @@
         <div class="main-content">
           <header class="header">
             <h1>Visão Geral</h1>
+            <button @click="limparVagas">Limpar Todas as Vagas</button>
             <div class="search-bar">
               <font-awesome-icon icon="magnifying-glass" class="searchIcon" />
               <input type="text" placeholder="Pesquisar..." class="search-input" />
@@ -38,33 +39,70 @@
                     </div>
                     </div>
                 </div> 
+                <h5 class="topicos2">Última vaga criada</h5>
                 <!-- Card da Última Vaga Criada -->
                 <div v-if="ultimaVaga" class="card-content">
-                  <div class="card" @click="abrirModalDetalhes">
+                  <div class="card" @click="abrirModalUltimaVaga">
                     <h3>{{ ultimaVaga.nome }}</h3>
                     <p>{{ ultimaVaga.descricao }}</p>
                   </div>
                 </div>
 
-                <!-- Modal de Detalhes da Vaga -->
+                <!-- Modal de Última Vaga -->
+                <div v-if="modalUltimaVagaAberto" class="modal-overlay" @click.self="fecharModalUltimaVaga">
+                  <div class="modal-content">
+                    <h2>Última Vaga Criada</h2>
+                    <form @submit.prevent="salvarAlteracoesUltimaVaga">
+                      <h4>Nome da Vaga</h4>
+                      <input type="text" v-model="ultimaVaga.nome" disabled />
+
+                      <h4>Descrição</h4>
+                      <textarea v-model="ultimaVaga.descricao" disabled></textarea>
+
+                      <h4>Salário</h4>
+                      <input type="text" v-model="ultimaVaga.salario" disabled />
+
+                      <h4>Localização</h4>
+                      <input type="text" v-model="ultimaVaga.localizacao" disabled />
+
+                      <h4>Requisitos</h4>
+                      <textarea v-model="ultimaVaga.requisitos" disabled></textarea>
+
+                      <button type="submit">Salvar Alterações</button>
+                      <button type="button" @click="fecharModalUltimaVaga">Cancelar</button>
+                    </form>
+                  </div>
+                </div>
+
+                <!-- Seção Minhas Vagas -->
+                <h5 class="topicos2">Minhas Vagas</h5>
+                <div v-for="(vaga, index) in vagas" :key="index" class="card-content">
+                  <div class="card" @click="abrirModalDetalhes(vaga)">
+                    <h4>{{ vaga.nome }}</h4>
+                    <p>{{ vaga.descricao }}</p>
+                  </div>
+                </div>
+
+                <!-- Modal de Detalhes da Vaga em Minhas Vagas -->
                 <div v-if="modalDetalhesAberto" class="modal-overlay" @click.self="fecharModalDetalhes">
                   <div class="modal-content">
                     <h2>Detalhes da Vaga</h2>
                     <form @submit.prevent="salvarAlteracoes">
                       <h4>Nome da Vaga</h4>
-                      <input type="text" v-model="vagaTemp.nome" />
+                      <!-- Usa a diretiva :placeholder para definir o nome como placeholder -->
+                      <input type="text" v-model="vagaAtual.nome" :placeholder="vagaAtual ? vagaAtual.nome : ''" />
 
                       <h4>Descrição</h4>
-                      <textarea v-model="vagaTemp.descricao"></textarea>
+                      <textarea v-model="vagaAtual.descricao"></textarea>
 
                       <h4>Salário</h4>
-                      <input type="text" v-model="vagaTemp.salario" />
+                      <input type="text" v-model="vagaAtual.salario" />
 
                       <h4>Localização</h4>
-                      <input type="text" v-model="vagaTemp.localizacao" />
+                      <input type="text" v-model="vagaAtual.localizacao" />
 
                       <h4>Requisitos</h4>
-                      <textarea v-model="vagaTemp.requisitos"></textarea>
+                      <textarea v-model="vagaAtual.requisitos"></textarea>
 
                       <button type="submit">Salvar Alterações</button>
                       <button type="button" @click="fecharModalDetalhes">Cancelar</button>
@@ -73,7 +111,7 @@
                 </div>
 
                 <!-- MINHAS VAGAS -->
-                <h5 class="topicos2">Minhas vagas</h5>
+                <!-- <h5 class="topicos2">Minhas vagas</h5>
                 <div class="card-content">
                     <div class="card" @click="openModal('Título 2', 'Descrição completa do card 2', 'salario', 'localização', 'requisitos')">
                     <h3>Estagio</h3>
@@ -87,9 +125,8 @@
                     <h3>DevOps</h3>
                     <p>Vaga para Infra com experiência em servidores e domínios</p>
                     </div>
-                </div>
+                </div> -->
                 <!-- MODAL DE ADICIONAR NOVA VAGA-->
-                <!-- <div v-if="showModal" class="modal-overlay" @click.self="closeModalNewVaga"> -->
                 <div v-if="modalAberto" class="modal-overlay" @click.self="fecharModal">
                   <div class="modal-content">
                     <h2>Adicionar nova Vaga</h2>
@@ -105,8 +142,8 @@
                         <input type="text" v-model="novaVaga.localizacao" placeholder="Localização" />
                         <input type="text" v-model="novaVaga.requisitos" placeholder="Requisitos" />
                       </div>
-                        <button type="submit" class="confirm-button" >Confirmar</button>
-                        <button type="button" class="cancel-button" @click="fecharModal">Cancelar</button>
+                      <button type="submit" class="confirm-button" >Confirmar</button>
+                      <button type="button" class="cancel-button" @click="fecharModal">Cancelar</button>
                     </form>
                     <!-- <button class="confirm-button" @click="confirmModal">Confirmar</button>
                     <button class="cancel-button" @click="closeModalNewVaga">Cancelar</button> -->
@@ -239,17 +276,17 @@ export default {
         requisitos: ''
       },
       ultimaVaga: null,
+      modalUltimaVagaAberto: false, // Controle do modal de última vaga
       modalAberto: false,
       modalDetalhesAberto: false,
       vagaTemp: null, // Dados temporários para edição
+      vagas: JSON.parse(localStorage.getItem('vagas')) || [], // Carrega todas as vagas do localStorage
+      vagaAtual: null, // Vaga sendo editada atualmente
     };
   },
   mounted() {
-    // Carrega a última vaga do localStorage ao iniciar o componente
-    const vagaSalva = localStorage.getItem('ultimaVaga');
-    if (vagaSalva) {
-      this.ultimaVaga = JSON.parse(vagaSalva);
-    }
+    this.carregarVagas();
+    this.carregarUltimaVaga();
   },
   methods: {
     abrirModal() {
@@ -258,23 +295,6 @@ export default {
     fecharModal() {
       this.modalAberto = false;
     },
-    // openModalNewVaga() {
-    //   this.showModal = true;
-    // },
-    // closeModalNewVaga() {
-    //   this.showModal = false;
-    // },
-    // confirmModal() {
-    //   // Adicione a lógica para enviar os dados do formulário ou processá-los
-    //   console.log("Dados da nova vaga:", {
-    //     title: this.title,
-    //     description: this.description,
-    //     salary: this.salary,
-    //     location: this.location,
-    //     request: this.request,
-    //   });
-    //   this.closeModalNewVaga();
-    // },
     handleBlur(field) {
       // Desfoca o campo se ele estiver preenchido
       if (field === 'title' && this.title) this.isFocusedTitle = false;
@@ -283,25 +303,17 @@ export default {
       if (field === 'location' && this.location) this.isFocusedLocation = false;
       if (field === 'request' && this.request) this.isFocusedRequest = false;
     },
-    // openModal(title, description, salary, location, request) {
-    //     modalTitle.value = title;
-    //     modalDescription.value = description;
-    //     modalSalary.value = salary;
-    //     modalLocation.value = location;
-    //     modalRequest.value = request;
-    //     showModal.value = true;
-    // },
-    // closeModal() {
-    //     showModal.value = false;
-    // },
-
     adicionarVaga() {
-      // Armazena a nova vaga no localStorage
-      localStorage.setItem('ultimaVaga', JSON.stringify(this.novaVaga));
-      
+      // Armazena a nova vaga na lista de vagas
+      const novaVagaCopia = { ...this.novaVaga };
+      this.vagas.push(novaVagaCopia);
+
+      // Atualiza o localStorage com todas as vagas
+      localStorage.setItem('vagas', JSON.stringify(this.vagas));
+
       // Atualiza o campo da última vaga criada
-      this.ultimaVaga = { ...this.novaVaga };
-      
+      this.ultimaVaga = novaVagaCopia;
+
       // Limpa o formulário
       this.novaVaga = {
         nome: '',
@@ -310,18 +322,16 @@ export default {
         localizacao: '',
         requisitos: ''
       };
-      
+
       // Fecha o modal
       this.modalAberto = false;
     },  
     carregarUltimaVaga() {
-      // Carrega a última vaga do localStorage, se disponível
-      const vaga = localStorage.getItem('ultimaVaga');
-      if (vaga) {
-        this.ultimaVaga = JSON.parse(vaga);
+      const ultimaVagaSalva = localStorage.getItem('ultimaVaga');
+      if (ultimaVagaSalva) {
+        this.ultimaVaga = JSON.parse(ultimaVagaSalva);
       }
     },
-
     criarVaga() {
       // Salva a vaga e define como a última vaga criada
       localStorage.setItem('ultimaVaga', JSON.stringify(this.vaga));
@@ -338,21 +348,62 @@ export default {
         requisitos: ''
       };
     },
-    abrirModalDetalhes() {
-      // Abre o modal e copia os dados para edição temporária
-      this.vagaTemp = { ...this.ultimaVaga };
+    abrirModalUltimaVaga() {
+      // Define a última vaga criada para visualização e edição
+      if (this.ultimaVaga) {
+        this.vagaAtual = { ...this.ultimaVaga }; // Faz uma cópia para edição
+        this.modalUltimaVagaAberto = true; // Abre o modal da última vaga
+      }
+    },
+    fecharModalUltimaVaga() {
+      // Fecha o modal da última vaga
+      this.modalUltimaVagaAberto = false;
+      this.vagaAtual = null;
+    },
+    salvarAlteracoesUltimaVaga() {
+      // Salva as alterações na última vaga e atualiza o localStorage
+      this.ultimaVaga = { ...this.vagaAtual }; // Atualiza `ultimaVaga` com as alterações
+      localStorage.setItem('ultimaVaga', JSON.stringify(this.ultimaVaga));
+      this.fecharModalUltimaVaga(); // Fecha o modal após salvar
+    },
+    abrirModalDetalhes(vaga) {
+      // Define a vaga selecionada para edição
+      this.indexAtual = this.vagas.indexOf(vaga);
+      this.vagaAtual = { ...vaga }; // Faz uma cópia para edição
       this.modalDetalhesAberto = true;
     },
     fecharModalDetalhes() {
-      // Fecha o modal sem salvar alterações
+      // Fecha o modal de detalhes sem salvar alterações
       this.modalDetalhesAberto = false;
+      this.vagaAtual = null;
     },
     salvarAlteracoes() {
-      // Salva as alterações da vaga temporária e atualiza a última vaga e o localStorage
-      this.ultimaVaga = { ...this.vagaTemp };
-      localStorage.setItem('ultimaVaga', JSON.stringify(this.ultimaVaga));
-      this.fecharModalDetalhes();
-    }
+      // Salva as alterações feitas na vaga atual
+      this.vagas[this.indexAtual] = { ...this.vagaAtual };
+      localStorage.setItem("vagas", JSON.stringify(this.vagas));
+      this.modalDetalhesAberto = false;
+    },
+    carregarVagas() {
+      // Carrega as vagas do localStorage ao montar o componente
+      const vagasSalvas = localStorage.getItem("vagas");
+      if (vagasSalvas) {
+        this.vagas = JSON.parse(vagasSalvas);
+      }
+    },
+    limparVagas() {
+      // Remove as chaves 'vagas' e 'ultimaVaga' do localStorage
+      localStorage.removeItem('vagas');
+      localStorage.removeItem('ultimaVaga');
+
+      // Limpa os dados locais
+      this.vagas = [];
+      this.ultimaVaga = null;
+      this.vagaAtual = null;
+
+      // Opcional: Fechar modais se estiverem abertos
+      this.modalUltimaVagaAberto = false;
+      this.modalDetalhesAberto = false;
+    },
   },
 };
 </script>
@@ -543,6 +594,7 @@ export default {
   .card .newCard{
     display: flex;
     align-items: center;
+    /* min-width: 5vw; */
   }
 
   .card .newCard h5{
