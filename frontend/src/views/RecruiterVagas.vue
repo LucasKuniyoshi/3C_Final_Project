@@ -8,7 +8,7 @@
         <h2>Lucas</h2>
         <p>lucasTeste@gmail.com</p>
         <ul>
-          <li><router-link to="/Dashboard">Visão Geral</router-link></li>
+          <li><router-link to="/dashboard">Visão Geral</router-link></li>
           <li><router-link to="">Minhas Vagas</router-link></li>
           <li><router-link to="">Configurações</router-link></li>
           <li><router-link to="">Perfil</router-link></li>
@@ -94,6 +94,7 @@
                     <textarea v-model="vagaAtual.requisitos"></textarea>
 
                     <button type="button" @click="recriarVaga">Recriar Vaga</button>
+                    <button type="button" @click="deletarVagaEncerrada">Deletar Vaga</button>
                     <button type="button" @click="fecharModalEncerradas">Fechar</button>
                     </form>
                 </div>
@@ -320,6 +321,20 @@ export default {
         
         // Fecha o modal
         this.fecharModalDetalhes();
+      }
+    },
+    deletarVagaEncerrada() {
+      // Exibe uma confirmação antes de deletar a vaga
+      if (confirm("Tem certeza de que deseja deletar esta vaga? Esta ação não pode ser desfeita.")) {
+        const index = this.endVagas.findIndex(v => v.nome === this.vagaAtual.nome && v.descricao === this.vagaAtual.descricao);
+        if (index !== -1) {
+          this.endVagas.splice(index, 1);
+
+          // Atualiza o localStorage
+          localStorage.setItem('endVagas', JSON.stringify(this.endVagas));
+
+          this.fecharModalEncerradas();
+        }
       }
     },
     carregarVagas() {
