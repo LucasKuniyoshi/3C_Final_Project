@@ -56,6 +56,12 @@
 
                             <h4>Requisitos</h4>
                             <textarea v-model="vagaAtual.requisitos"></textarea>
+                            
+                            <h4>Setor</h4>
+                            <select v-model="vagaAtual.department">
+                              <option value="" disabled>Selecione o setor</option>
+                              <option v-for="department in departments" :key="department" :value="department">{{ department }}</option>
+                            </select>
 
                             <button type="submit">Salvar Alterações</button>
                             <button type="button" @click="fecharModalDetalhes">Cancelar</button>
@@ -89,8 +95,11 @@
                     <h4>Localização</h4>
                     <input type="text" v-model="vagaAtual.localizacao" />
 
-                    <h4>Requisitos</h4>
-                    <textarea v-model="vagaAtual.requisitos"></textarea>
+                    <h4>Setor</h4>
+                    <select v-model="vagaAtual.department">
+                      <option value="" disabled>Selecione o setor</option>
+                      <option v-for="department in departments" :key="department" :value="department">{{ department }}</option>
+                    </select>
 
                     <button type="button" @click="recriarVaga">Recriar Vaga</button>
                     <button type="button" @click="deletarVagaEncerrada">Deletar Vaga</button>
@@ -222,8 +231,10 @@ export default {
         descricao: '',
         salario: '',
         localizacao: '',
-        requisitos: ''
+        requisitos: '',
+        department: '',
       },
+      departments: ["Tecnologia", "Vendas", "Marketing", "Recursos Humanos", "Financeiro"],
       ultimaVaga: null,
       modalUltimaVagaAberto: false, // Controle do modal de última vaga
       modalAberto: false,
@@ -271,7 +282,8 @@ export default {
         descricao: '',
         salario: '',
         localizacao: '',
-        requisitos: ''
+        requisitos: '',
+        department: '',
       };
 
       // Fecha o modal
