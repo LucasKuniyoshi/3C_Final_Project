@@ -59,10 +59,7 @@
                     <textarea v-model="ultimaVaga.requisitos" disabled></textarea>
                     
                     <h4>Setor</h4>
-                    <select v-model="vagaAtual.department">
-                      <option value="" disabled>Selecione o setor</option>
-                      <option v-for="department in departments" :key="department" :value="department">{{ department }}</option>
-                    </select>
+                    <p>{{ vagaAtual.department }}</p>
 
                     <button type="submit">Salvar Alterações</button>
                     <button type="button" @click="fecharModalUltimaVaga">Cancelar</button>
@@ -101,10 +98,7 @@
                     <textarea v-model="vagaAtual.requisitos"></textarea>
                     
                     <h4>Setor</h4>
-                    <select v-model="vagaAtual.department">
-                      <option value="" disabled>Selecione o setor</option>
-                      <option v-for="department in departments" :key="department" :value="department">{{ department }}</option>
-                    </select>
+                    <p>{{ vagaAtual.department }}</p>
 
                     <button type="submit">Salvar Alterações</button>
                     <button type="button" @click="fecharModalDetalhes">Cancelar</button>
@@ -237,7 +231,7 @@ data() {
       requisitos: '',
       department: '',
     },
-    departments: ["Tecnologia", "Vendas", "Marketing", "Recursos Humanos", "Financeiro"],
+    // departments: ["Tecnologia", "Vendas", "Marketing", "Recursos Humanos", "Financeiro"],
     ultimaVaga: null,
     modalUltimaVagaAberto: false, // Controle do modal de última vaga
     modalAberto: false,
@@ -264,30 +258,6 @@ methods: {
     if (field === 'salary' && this.salary) this.isFocusedSalary = false;
     if (field === 'location' && this.location) this.isFocusedLocation = false;
     if (field === 'request' && this.request) this.isFocusedRequest = false;
-  },
-  adicionarVaga() {
-    // Armazena a nova vaga na lista de vagas
-    const novaVagaCopia = { ...this.novaVaga };
-    this.vagas.push(novaVagaCopia);
-
-    // Atualiza o localStorage com todas as vagas
-    localStorage.setItem('vagas', JSON.stringify(this.vagas));
-
-    // Atualiza o campo da última vaga criada
-    this.ultimaVaga = novaVagaCopia;
-
-    // Limpa o formulário
-    this.novaVaga = {
-      nome: '',
-      descricao: '',
-      salario: '',
-      localizacao: '',
-      requisitos: '',
-      department: '',
-    };
-
-    // Fecha o modal
-    this.modalAberto = false;
   },  
   fecharModalUltimaVaga() {
     // Fecha o modal da última vaga
