@@ -45,6 +45,14 @@ const router = createRouter({
       }
     },
     {
+      path: '/jobs/candidateVagas',
+      name: 'candidateVagas',
+      component: () => import('../views/CandidateVagas.vue'),
+      meta: {
+        title: 'Recruta Fácil'
+      }
+    },
+    {
       path: '/dashboard',
       name: 'dashboard',
       component: () => import('../views/Dashboard.vue'),

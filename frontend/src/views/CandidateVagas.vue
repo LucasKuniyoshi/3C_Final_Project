@@ -8,7 +8,7 @@
         <h2>Lucas</h2>
         <p>lucasTeste@gmail.com</p>
         <ul>
-          <li><router-link to="/dashboard">Visão Geral</router-link></li>
+          <li><router-link to="/jobs">Visão Geral</router-link></li>
           <li><router-link class="currentRouter" to="">Minhas Vagas</router-link></li>
           <li><router-link to="">Configurações</router-link></li>
           <li><router-link to="">Perfil</router-link></li>
@@ -20,7 +20,6 @@
         <div class="main-content">
           <header class="header">
             <h1>Minhas Vagas</h1>
-            <button @click="limparVagas">Limpar Todas as Vagas</button>
             <div class="search-bar">
               <font-awesome-icon icon="magnifying-glass" class="searchIcon" />
               <input type="text" placeholder="Pesquisar..." class="search-input" />
@@ -30,7 +29,7 @@
           <section class="body">
             <div class="vagas-content">
                 <!-- Seção Minhas Vagas -->
-                <h5 class="topicos">Minhas Vagas</h5>
+                <h5 class="topicos">Vagas Inscritas</h5>
                 <div class="card-content">
                   <div v-for="(vaga, index) in vagas" :key="index" class="card" @click="abrirModalDetalhes(vaga)">
                     <h3>{{ vaga.nome }}</h3>
@@ -65,9 +64,9 @@
                     </div>
                 </div>
 
-                <h5 class="topicos2">Vagas Encerradas</h5>
+                <h5 class="topicos2">Vagas Salvas</h5>
                 <div class="card-content">
-                    <div v-for="(vaga, index) in endVagas" :key="index" class="EndCard" @click="abrirModalEncerradas(vaga)">
+                    <div v-for="(vaga, index) in endVagas" :key="index" class="card" @click="abrirModalEncerradas(vaga)">
                         <h4>{{ vaga.nome }}</h4>
                         <p>{{ vaga.descricao }}</p>
                     </div>
@@ -369,20 +368,6 @@ export default {
       if (endVagasSalvas) {
         this.endVagas = JSON.parse(endVagasSalvas);
       }
-    },
-    limparVagas() {
-      // Remove as chaves 'vagas' e 'ultimaVaga' do localStorage
-      localStorage.removeItem('vagas');
-      localStorage.removeItem('ultimaVaga');
-
-      // Limpa os dados locais
-      this.vagas = [];
-      this.ultimaVaga = null;
-      this.vagaAtual = null;
-
-      // Opcional: Fechar modais se estiverem abertos
-      this.modalUltimaVagaAberto = false;
-      this.modalDetalhesAberto = false;
     },
   },
 };
