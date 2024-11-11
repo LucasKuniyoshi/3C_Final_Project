@@ -53,7 +53,7 @@ const router = createRouter({
       }
     },
     {
-      path: '/recruiterVagas',
+      path: '/dashboard/recruiterVagas',
       name: 'recruiterVagas',
       component: () => import('../views/RecruiterVagas.vue'),
       meta: {

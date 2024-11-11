@@ -9,7 +9,7 @@
         <p>lucasTeste@gmail.com</p>
         <ul>
           <li><router-link to="">Visão Geral</router-link></li>
-          <li><router-link to="/RecruiterVagas">Minhas Vagas</router-link></li>
+          <li><router-link to="/dashboard/recruiterVagas">Minhas Vagas</router-link></li>
           <li><router-link to="">Configurações</router-link></li>
           <li><router-link to="">Perfil</router-link></li>
           <li><router-link to="/">Sair</router-link></li>
