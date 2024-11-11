@@ -57,6 +57,12 @@
 
                     <h4>Requisitos</h4>
                     <textarea v-model="ultimaVaga.requisitos" disabled></textarea>
+                    
+                    <h4>Setor</h4>
+                    <select v-model="vagaAtual.department">
+                      <option value="" disabled>Selecione o setor</option>
+                      <option v-for="department in departments" :key="department" :value="department">{{ department }}</option>
+                    </select>
 
                     <button type="submit">Salvar Alterações</button>
                     <button type="button" @click="fecharModalUltimaVaga">Cancelar</button>
@@ -93,6 +99,12 @@
 
                     <h4>Requisitos</h4>
                     <textarea v-model="vagaAtual.requisitos"></textarea>
+                    
+                    <h4>Setor</h4>
+                    <select v-model="vagaAtual.department">
+                      <option value="" disabled>Selecione o setor</option>
+                      <option v-for="department in departments" :key="department" :value="department">{{ department }}</option>
+                    </select>
 
                     <button type="submit">Salvar Alterações</button>
                     <button type="button" @click="fecharModalDetalhes">Cancelar</button>
@@ -222,8 +234,10 @@ data() {
       descricao: '',
       salario: '',
       localizacao: '',
-      requisitos: ''
+      requisitos: '',
+      department: '',
     },
+    departments: ["Tecnologia", "Vendas", "Marketing", "Recursos Humanos", "Financeiro"],
     ultimaVaga: null,
     modalUltimaVagaAberto: false, // Controle do modal de última vaga
     modalAberto: false,
@@ -268,7 +282,8 @@ methods: {
       descricao: '',
       salario: '',
       localizacao: '',
-      requisitos: ''
+      requisitos: '',
+      department: '',
     };
 
     // Fecha o modal
