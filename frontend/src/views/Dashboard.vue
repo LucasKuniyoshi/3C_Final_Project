@@ -8,7 +8,7 @@
         <h2>Lucas</h2>
         <p>lucasTeste@gmail.com</p>
         <ul>
-          <li><router-link to="">Visão Geral</router-link></li>
+          <li><router-link class="currentRouter" to="">Visão Geral</router-link></li>
           <li><router-link to="/dashboard/recruiterVagas">Minhas Vagas</router-link></li>
           <li><router-link to="">Configurações</router-link></li>
           <li><router-link to="">Perfil</router-link></li>
@@ -34,7 +34,7 @@
                     <div class="card" @click="abrirModal">
                     <div class="newCard">
                         <h3><font-awesome-icon class="plusIcon" icon="plus" /></h3>
-                        <h5>Adicionar nova vaga</h5>
+                        <h4>Adicionar nova vaga</h4>
                     </div>
                     </div>
                 </div> 
@@ -60,8 +60,8 @@
                   </div>
                 </div>
                 <h5 class="topicos2">Última Vaga Criada</h5>
-                <div v-if="vagas.length > 0" class="card-content">
-                  <div class="card" @click="abrirModalDetalhes(vagas[vagas.length - 1])">
+                <div class="card-content">
+                  <div v-if="vagas.length > 0" class="card" @click="abrirModalDetalhes(vagas[vagas.length - 1])">
                     <h4>{{ vagas[vagas.length - 1].nome }}</h4>
                     <p>{{ vagas[vagas.length - 1].descricao }}</p>
                   </div>
@@ -95,8 +95,8 @@
 
                 <!-- Seção Minhas Vagas -->
                 <h5 class="topicos2">Minhas Vagas</h5>
-                <div v-for="(vaga, index) in vagas" :key="index" class="card-content">
-                  <div class="card" @click="abrirModalDetalhes(vaga)">
+                <div class="card-content">
+                  <div v-for="(vaga, index) in vagas" :key="index" class="card" @click="abrirModalDetalhes(vaga)">
                     <h4>{{ vaga.nome }}</h4>
                     <p>{{ vaga.descricao }}</p>
                   </div>
@@ -404,6 +404,10 @@ export default {
     margin-bottom: 15px;
   }
   
+  .sidebar .currentRouter{
+    color: #fff;
+  } 
+
   .sidebar li a {
     color: #ccc;
     text-decoration: none;
@@ -477,13 +481,13 @@ export default {
   .body{
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: space-between;
   }
 
   .vagas-content{
     /* background-color: lightcoral; */
     max-width: 65%;
-    margin-left: -3%;
+    margin-left: 2%;
   }
   
   /* Estilo da Área de Conteúdo */
@@ -510,6 +514,7 @@ export default {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    width: 52vw;
   }
   
   /* Estilo dos Cards */
@@ -518,7 +523,8 @@ export default {
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 1.8%;
-    max-width: 45%;
+    /* max-width: 45%; */
+    width: 23vw;
     /* width: 100%; */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     cursor: pointer;
@@ -545,8 +551,8 @@ export default {
     /* min-width: 5vw; */
   }
 
-  .card .newCard h5{
-    margin-left: 18%;
+  .card .newCard h4{
+    margin-left: 10%;
     /* font-weight: 500; */
   }
   
@@ -656,6 +662,10 @@ export default {
         /* visibility: hidden; */
         margin-bottom: 5px;
     }
+
+  .activities{
+    margin-right: 4.2%;
+  }
 
   /* Estilo do container do calendário */
   .calendar {
