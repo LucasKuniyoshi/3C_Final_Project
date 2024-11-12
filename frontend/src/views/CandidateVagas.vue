@@ -603,6 +603,7 @@ export default {
     border: none;
     cursor: pointer;
     border-radius: 7px;
+    background-color: #555;
   }
   .modal-content .confirm-button{
       background-color: skyblue;
