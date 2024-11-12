@@ -16,6 +16,7 @@ class Job extends Model
         'salary',
         'employment_type',
         'company_id',
+        'departament',
     ];
 
     public function company()

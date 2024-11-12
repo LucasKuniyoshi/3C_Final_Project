@@ -9,14 +9,20 @@ use Illuminate\Http\Request;
 class JobController extends Controller
 {
     // Listar vagas do recrutador logado
-    public function index()
+    public function index(Request $request)
     {
         if (auth()->user()->user_type !== 'recruiter') {
             return response()->json(['message' => 'Unauthorized.'], 403);
         }
 
-        // Filtrar as vagas apenas do recrutador logado
-        $jobs = Job::where('recruiter_id', auth()->id())->with('company')->get();
+        // Filtra as vagas pelo recrutador logado e permite filtragem por categoria
+        $query = Job::where('recruiter_id', auth()->id())->with('company');
+
+        if ($request->has('departament')) {
+            $query->where('departament', $request->departament);
+        }
+
+        $jobs = $query->get();
         return response()->json($jobs);
     }
 
@@ -41,9 +47,10 @@ class JobController extends Controller
             'salary' => 'nullable|numeric',
             'employment_type' => 'required|in:full-time,part-time,contract,internship',
             'company_id' => 'required|exists:companies,id',
+            'departament' => 'required|in:technology,sales,marketing,human resources,financial'
         ]);
 
-        // Criar a vaga e definir o recrutador
+        // Cria a vaga e define o recrutador
         $job = Job::create(array_merge(
             $request->all(),
             ['recruiter_id' => auth()->id()]
@@ -68,6 +75,7 @@ class JobController extends Controller
             'salary' => 'nullable|numeric',
             'employment_type' => 'in:full-time,part-time,contract,internship',
             'company_id' => 'exists:companies,id',
+            'departament' => 'in:technology,sales,marketing,human resources,financial'
         ]);
 
         $job->update($request->all());
@@ -110,7 +118,7 @@ class JobController extends Controller
             'user_id' => auth()->id(),
             'job_id' => $job->id,
             'name' => auth()->user()->name,
-            'recruiter_name' => $job->company->name, // assumindo que a vaga tenha um recrutador associado
+            'recruiter_name' => $job->company->name // Obtém o nome da empresa associada ao recrutador
         ]);
 
         return response()->json(['message' => 'Application submitted successfully', 'application' => $application], 201);
