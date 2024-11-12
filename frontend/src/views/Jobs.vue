@@ -21,7 +21,6 @@
       <div class="main-content">
         <header class="header">
           <h1>Visão Geral</h1>
-          <!-- <button @click="limparVagas">Limpar Todas as Vagas</button> -->
           <div class="search-bar">
             <font-awesome-icon icon="magnifying-glass" class="searchIcon" />
             <input type="text" placeholder="Pesquisar..." class="search-input" />
@@ -546,6 +545,7 @@ methods: {
   border: none;
   cursor: pointer;
   border-radius: 7px;
+  background-color: #555;
 }
 .modal-content .confirm-button{
     background-color: skyblue;
