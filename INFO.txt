@@ -31,3 +31,11 @@ CARD - SHADOW BOX IDEAL:
     padding: 20px;      /* opcional, para espaçamento interno */
     background-color: #fff; /* fundo branco */
 }
+
+====================
+AXIOS
+npm install axios
+
+=====================
+BACK-END
+docker compose --build up -d

@@ -7,103 +7,105 @@
         </header>
         <section>
             <div class="cardd">
-                <h2>Seja bem-vindo</h2>
-                <h6>Aproveite sua vida profissional ao máximo</h6>
-                <div class="campos">
-                    <div class="input-container">
-                        <input
-                        type="text"
-                        v-model="username"
-                        @focus="isFocusedName = true"
-                        @blur="handleBlur"
-                        placeholder=" "
-                        required
-                        />
-                        <label>Nome de usuário</label>
+                <form @submit.prevent="criarUsuario">
+                    <h2>Seja bem-vindo</h2>
+                    <h6>Aproveite sua vida profissional ao máximo</h6>
+                        <div class="campos">
+                            <div class="input-container">
+                                <input
+                                type="text"
+                                v-model="username"
+                                @focus="isFocusedName = true"
+                                @blur="handleBlur"
+                                placeholder=" "
+                                required
+                                />
+                                <label>Nome de usuário</label>
 
-                        <!-- Exibe o span de validação somente se o campo estiver focado e vazio ao desfocar -->
-                        <span v-if="isFocusedName && !username" class="validacao">Campo obrigatório</span>
-                    </div>
-                    <div class="input-container">
-                        <input
-                        type="email"
-                        v-model="email"
-                        @focus="isFocusedEmail = true"
-                        @blur="handleBlur"
-                        placeholder=" "
-                        required
-                        />
-                        <label>Email</label>
+                                <!-- Exibe o span de validação somente se o campo estiver focado e vazio ao desfocar -->
+                                <span v-if="isFocusedName && !username" class="validacao">Campo obrigatório</span>
+                            </div>
+                            <div class="input-container">
+                                <input
+                                type="email"
+                                v-model="email"
+                                @focus="isFocusedEmail = true"
+                                @blur="handleBlur"
+                                placeholder=" "
+                                required
+                                />
+                                <label>Email</label>
 
-                        <!-- Exibe o span de validação somente se o campo estiver focado e vazio ao desfocar -->
-                        <span v-if="isFocusedEmail && !email" class="validacao">Email inválido</span>
-                        <!-- <span>EMAIL JÁ EXISTENTE</span> -->
-                    </div>
-                    <div class="input-container">
-                        <input
-                        type="password"
-                        v-model="password"
-                        @focus="isFocusedPassword = true"
-                        @blur="handleBlur"
-                        placeholder=" "
-                        minlength="8"
-                        required
-                        />
-                        <label>Senha</label>
+                                <!-- Exibe o span de validação somente se o campo estiver focado e vazio ao desfocar -->
+                                <span v-if="isFocusedEmail && !email" class="validacao">Email inválido</span>
+                                <!-- <span>EMAIL JÁ EXISTENTE</span> -->
+                            </div>
+                            <div class="input-container">
+                                <input
+                                type="password"
+                                v-model="password"
+                                @focus="isFocusedPassword = true"
+                                @blur="handleBlur"
+                                placeholder=" "
+                                minlength="8"
+                                required
+                                />
+                                <label>Senha</label>
 
-                        <!-- Exibe o span de validação somente se o campo estiver focado e vazio ao desfocar -->
-                        <span v-if="isFocusedPassword && password.length < 8" class="validacao">Senha deve ter pelo menos 8 caracteres</span>
-                        <!-- <span>EMAIL JÁ EXISTENTE</span> -->
-                    </div>
-                    <div class="input-container">
-                        <input
-                        type="password"
-                        v-model="passwordConfirm"
-                        @focus="isFocusedPasswordConfirm = true"
-                        @blur="handleBlur"
-                        placeholder=" "
-                        minlength="8"
-                        required
-                        />
-                        <label>Confirmar Senha</label>
+                                <!-- Exibe o span de validação somente se o campo estiver focado e vazio ao desfocar -->
+                                <span v-if="isFocusedPassword && password.length < 8" class="validacao">Senha deve ter pelo menos 8 caracteres</span>
+                                <!-- <span>EMAIL JÁ EXISTENTE</span> -->
+                            </div>
+                            <div class="input-container">
+                                <input
+                                type="password"
+                                v-model="passwordConfirm"
+                                @focus="isFocusedPasswordConfirm = true"
+                                @blur="handleBlur"
+                                placeholder=" "
+                                minlength="8"
+                                required
+                                />
+                                <label>Confirmar Senha</label>
 
-                        <!-- Exibe o span de validação somente se o campo estiver focado e vazio ao desfocar -->
-                        <!-- <span v-if="isFocusedPasswordConfirm && !passwordConfirm" class="validacao">Senha deve ter pelo menos 8 caracteres</span> -->
-                        <span v-if="isFocusedPasswordConfirm && passwordConfirm != password" class="validacao">Confirmar Senha diferente de Senha</span>
+                                <!-- Exibe o span de validação somente se o campo estiver focado e vazio ao desfocar -->
+                                <!-- <span v-if="isFocusedPasswordConfirm && !passwordConfirm" class="validacao">Senha deve ter pelo menos 8 caracteres</span> -->
+                                <span v-if="isFocusedPasswordConfirm && passwordConfirm != password" class="validacao">Confirmar Senha diferente de Senha</span>
+                            </div>
+                        
+                            <label class="checkbox-container">
+                                <input type="checkbox">
+                                Manter conectado
+                            </label>
+                        </div>
+                    <div>
+                        <div tipe="submit" class="entrarBtn">
+                            <router-link>
+                                <h3>Registrar-se</h3>
+                            </router-link>
+                        </div>
+                        <div class="line-container">
+                            <span class="OuPosition">ou</span>
+                        </div>
+                        <div class="googlebtn">
+                            <router-link>
+                                <h4>Entrar com conta Google <font-awesome-icon :icon="['fab', 'google']" /></h4>
+                            </router-link>
+                        </div>
+                        <div class="cookies">
+                            <p>Ao clicar em Continuar, você aceita o </p>
+                            <p><a href="#">Contrato do Usuário</a>, a <a href="">Política de Privacidade</a> e </p>
+                            <p>a <a href="">Política de Cookies</a> do Recruta Fácil.</p>
+                        </div>
+                        <div class="recruiter">
+                            <h6>Já faz parte do Recruta Fácil? 
+                                <router-link to="/login">Entrar</router-link>
+                            </h6>
+                        </div>
                     </div>
-                </div>
-                <div>
-                    <label class="checkbox-container">
-                        <input type="checkbox">
-                        Manter conectado
-                    </label>
-                </div>
-                <div>
-                    <div class="entrarBtn">
-                        <router-link>
-                            <h3>Registrar-se</h3>
-                        </router-link>
-                    </div>
-                    <div class="line-container">
-                        <span class="OuPosition">ou</span>
-                    </div>
-                    <div class="googlebtn">
-                        <router-link>
-                            <h4>Entrar com conta Google <font-awesome-icon :icon="['fab', 'google']" /></h4>
-                        </router-link>
-                    </div>
-                    <div class="cookies">
-                        <p>Ao clicar em Continuar, você aceita o </p>
-                        <p><a href="#">Contrato do Usuário</a>, a <a href="">Política de Privacidade</a> e </p>
-                        <p>a <a href="">Política de Cookies</a> do Recruta Fácil.</p>
-                    </div>
-                    <div class="recruiter">
-                        <h6>Já faz parte do Recruta Fácil? 
-                            <router-link to="/login">Entrar</router-link>
-                        </h6>
-                    </div>
-                </div>
+                </form>
             </div>
+                
             <div class="footerCard">
                 <h6>É um recrutador? 
                     <router-link to="/SigninRecruiter">Realizar cadastro como recrutador</router-link>
@@ -116,13 +118,17 @@
 
 <script>
     import Footer from '@/components/Footer.vue';
+    import axios from "axios";
 
     export default {
         data() {
             return {
-            username: "",  // Valor do input
-            email: "",
-            password: "",
+                users: {
+                    username: "",  // Valor do input
+                    email: "",
+                    password: "",
+                    user_type: "candidate",
+                },
             passwordConfirm: "",
             isFocusedName: false, // Controla o estado de foco
             isFocusedEmail: false, 
@@ -132,19 +138,45 @@
         },
         methods: {
             handleBlur() {
-            // Ao desfocar, esconde a validação se o campo estiver preenchido
-            if (this.username) {
-                this.isFocusedName = !this.isFocusedName;
-            }
-            if (this.email) {
-                this.isFocusedEmail = !this.isFocusedEmail;
-            }
-            if (this.password) {
-                this.isFocusedPassword = !this.isFocusedPassword;
-            }
-            if (this.passwordConfirm) {
-                this.isFocusedPasswordConfirm = !this.isFocusedPasswordConfirm;
-            }
+                // Ao desfocar, esconde a validação se o campo estiver preenchido
+                if (this.username) {
+                    this.isFocusedName = !this.isFocusedName;
+                }
+                if (this.email) {
+                    this.isFocusedEmail = !this.isFocusedEmail;
+                }
+                if (this.password) {
+                    this.isFocusedPassword = !this.isFocusedPassword;
+                }
+                if (this.passwordConfirm) {
+                    this.isFocusedPasswordConfirm = !this.isFocusedPasswordConfirm;
+                }
+            },
+            criarUsuario(){
+                axios
+                    .post(`http://localhost:8001/api/users`, this.users)
+                    .then(response => {
+                        console.log(response.data);
+                    })
+                    .catch(error => {
+                        console.error('Erro ao criar usuário:', error);
+                    });
+                    // .then(({ data }) => {
+                    // try {
+                    //     this.modalStatus = data.status ? "success" : "error";
+                    //     this.Visivel = true;
+                    // } catch (err) {
+                    //     alert("Falha no sistema");
+                    // }
+                    // });
+            },
+            redirecionarLogin() {
+                this.$router.push({ name: "login" });
+                // this.Visivel = false;
+
+                // if (this.modalStatus === "success") {
+                //     this.$router.push({ name: "login" });
+                // }
             },
         },
     };
