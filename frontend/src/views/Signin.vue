@@ -14,38 +14,37 @@
                             <div class="input-container">
                                 <input
                                 type="text"
-                                v-model="username"
+                                v-model="users.username"
                                 @focus="isFocusedName = true"
-                                @blur="handleBlur"
+                                @blur="handleBlur('username')"
                                 placeholder=" "
                                 required
                                 />
                                 <label>Nome de usuário</label>
 
                                 <!-- Exibe o span de validação somente se o campo estiver focado e vazio ao desfocar -->
-                                <span v-if="isFocusedName && !username" class="validacao">Campo obrigatório</span>
-                            </div>
+                                <span v-if="isFocusedName && !users.username" class="validacao">Campo obrigatório</span>                            </div>
                             <div class="input-container">
                                 <input
                                 type="email"
-                                v-model="email"
+                                v-model="users.email"
                                 @focus="isFocusedEmail = true"
-                                @blur="handleBlur"
+                                @blur="handleBlur('email')"
                                 placeholder=" "
                                 required
                                 />
                                 <label>Email</label>
 
                                 <!-- Exibe o span de validação somente se o campo estiver focado e vazio ao desfocar -->
-                                <span v-if="isFocusedEmail && !email" class="validacao">Email inválido</span>
+                                <span v-if="isFocusedEmail && !users.email" class="validacao">Email inválido</span>
                                 <!-- <span>EMAIL JÁ EXISTENTE</span> -->
                             </div>
                             <div class="input-container">
                                 <input
                                 type="password"
-                                v-model="password"
+                                v-model="users.password"
                                 @focus="isFocusedPassword = true"
-                                @blur="handleBlur"
+                                @blur="handleBlur('password')"
                                 placeholder=" "
                                 minlength="8"
                                 required
@@ -53,7 +52,7 @@
                                 <label>Senha</label>
 
                                 <!-- Exibe o span de validação somente se o campo estiver focado e vazio ao desfocar -->
-                                <span v-if="isFocusedPassword && password.length < 8" class="validacao">Senha deve ter pelo menos 8 caracteres</span>
+                                <span v-if="isFocusedPassword && users.password.length < 8" class="validacao">Senha deve ter pelo menos 8 caracteres</span>
                                 <!-- <span>EMAIL JÁ EXISTENTE</span> -->
                             </div>
                             <div class="input-container">
@@ -70,7 +69,7 @@
 
                                 <!-- Exibe o span de validação somente se o campo estiver focado e vazio ao desfocar -->
                                 <!-- <span v-if="isFocusedPasswordConfirm && !passwordConfirm" class="validacao">Senha deve ter pelo menos 8 caracteres</span> -->
-                                <span v-if="isFocusedPasswordConfirm && passwordConfirm != password" class="validacao">Confirmar Senha diferente de Senha</span>
+                                <span v-if="isFocusedPasswordConfirm && passwordConfirm != users.password" class="validacao">Confirmar Senha diferente de Senha</span>
                             </div>
                         
                             <label class="checkbox-container">
@@ -79,22 +78,28 @@
                             </label>
                         </div>
                     <div>
-                        <div tipe="submit" class="entrarBtn">
+                        <button type="submit" class="entrarBtn">
+                            <h3>Registrar-se</h3>
+                        </button>
+                        <!-- <div tipe="submit" class="entrarBtn">
                             <router-link>
                                 <h3>Registrar-se</h3>
                             </router-link>
-                        </div>
+                        </div> -->
                         <div class="line-container">
                             <span class="OuPosition">ou</span>
                         </div>
                         <div class="googlebtn">
+                            <h4>Entrar com conta Google <font-awesome-icon :icon="['fab', 'google']" /></h4>
+                        </div>
+                        <!-- <div class="googlebtn">
                             <router-link>
                                 <h4>Entrar com conta Google <font-awesome-icon :icon="['fab', 'google']" /></h4>
                             </router-link>
-                        </div>
+                        </div> -->
                         <div class="cookies">
                             <p>Ao clicar em Continuar, você aceita o </p>
-                            <p><a href="#">Contrato do Usuário</a>, a <a href="">Política de Privacidade</a> e </p>
+                            <p><a href="">Contrato do Usuário</a>, a <a href="">Política de Privacidade</a> e </p>
                             <p>a <a href="">Política de Cookies</a> do Recruta Fácil.</p>
                         </div>
                         <div class="recruiter">
@@ -137,47 +142,69 @@
             };
         },
         methods: {
-            handleBlur() {
-                // Ao desfocar, esconde a validação se o campo estiver preenchido
-                if (this.username) {
-                    this.isFocusedName = !this.isFocusedName;
+            handleBlur(field) {
+            if (field === 'username' && this.users.username) {
+                this.isFocusedName = false;
+            }
+            if (field === 'email' && this.users.email) {
+                this.isFocusedEmail = false;
+            }
+            if (field === 'password' && this.users.password) {
+                this.isFocusedPassword = false;
+            }
+            if (field === 'passwordConfirm' && this.passwordConfirm) {
+                this.isFocusedPasswordConfirm = false;
+            }
+        },
+            criarUsuario() {
+                // Verifica se as senhas coincidem antes de enviar a requisição
+                if (this.users.password !== this.passwordConfirm) {
+                    alert("As senhas não coincidem.");
+                    return;
                 }
-                if (this.email) {
-                    this.isFocusedEmail = !this.isFocusedEmail;
-                }
-                if (this.password) {
-                    this.isFocusedPassword = !this.isFocusedPassword;
-                }
-                if (this.passwordConfirm) {
-                    this.isFocusedPasswordConfirm = !this.isFocusedPasswordConfirm;
-                }
-            },
-            criarUsuario(){
+
+                // Envia os dados do usuário para a API
                 axios
-                    .post(`http://localhost:8001/api/users`, this.users)
+                    .post('http://localhost:8001/api/users', this.users)
                     .then(response => {
-                        console.log(response.data);
+                        console.log('Usuário criado com sucesso:', response.data);
+                        // Redireciona para a tela de login após o registro bem-sucedido
+                        this.redirecionarLogin();
                     })
                     .catch(error => {
                         console.error('Erro ao criar usuário:', error);
+                        alert('Erro ao criar usuário. Verifique os dados e tente novamente.');
                     });
-                    // .then(({ data }) => {
-                    // try {
-                    //     this.modalStatus = data.status ? "success" : "error";
-                    //     this.Visivel = true;
-                    // } catch (err) {
-                    //     alert("Falha no sistema");
-                    // }
-                    // });
             },
             redirecionarLogin() {
-                this.$router.push({ name: "login" });
-                // this.Visivel = false;
-
-                // if (this.modalStatus === "success") {
-                //     this.$router.push({ name: "login" });
-                // }
+                this.$router.push({ name: 'login' });
             },
+            // criarUsuario(){
+            //     axios
+            //         .post(`http://localhost:8001/api/users`, this.users)
+            //         .then(response => {
+            //             console.log(response.data);
+            //         })
+            //         .catch(error => {
+            //             console.error('Erro ao criar usuário:', error);
+            //         });
+            //         // .then(({ data }) => {
+            //         // try {
+            //         //     this.modalStatus = data.status ? "success" : "error";
+            //         //     this.Visivel = true;
+            //         // } catch (err) {
+            //         //     alert("Falha no sistema");
+            //         // }
+            //         // });
+            // },
+            // redirecionarLogin() {
+            //     this.$router.push({ name: "login" });
+            //     // this.Visivel = false;
+
+            //     // if (this.modalStatus === "success") {
+            //     //     this.$router.push({ name: "login" });
+            //     // }
+            // },
         },
     };
 </script>
@@ -271,7 +298,7 @@
         margin-bottom: 5px;
     }
 
-    .entrarBtn a h3{
+    .entrarBtn h3{
         margin-top: 4%;
         padding: 1.5%;
         background-color: #114FEE;
@@ -284,7 +311,7 @@
         /* color: #FFF; */
     }
 
-    .entrarBtn a h3:hover{
+    .entrarBtn h3:hover{
         /* color: #FFF; */
         background-color: #0f3cad;
         transition: .35s;
@@ -303,7 +330,7 @@
         transition: .4s;
     }
 
-    .googlebtn a h4{
+    .googlebtn h4{
         color: #333;
         font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         font-size: medium;
