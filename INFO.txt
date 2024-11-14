@@ -39,3 +39,17 @@ npm install axios
 =====================
 BACK-END
 docker compose --build up -d (NA RAIZ DO PROJETO)
+
+Para rodar na pasta 3C_Final_Project:
+composer update
+php artisan key:generate
+php artisan migrate
+php artisan serve
+
+NO .ENV :
+DB_CONNECTION=sqlite
+# DB_HOST=mysql
+# DB_PORT=3306
+# DB_DATABASE=codeacademy_laravel_vue
+# DB_USERNAME=root
+# DB_PASSWORD=root
