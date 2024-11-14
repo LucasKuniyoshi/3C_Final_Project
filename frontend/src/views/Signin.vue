@@ -1,8 +1,8 @@
 <template>
     <div class="container">
         <header>
-            <router-link to="/">
-                <img class="img-size-login" src="../assets/Recruta_facil.png" alt="Recruta_Facil_Logo">
+            <router-link to="/">/
+                <img class="img-size-login" src="../assets/Recruta_Facil.png" alt="Recruta_Facil_Logo">
             </router-link>
         </header>
         <section>
@@ -14,16 +14,16 @@
                             <div class="input-container">
                                 <input
                                 type="text"
-                                v-model="users.username"
+                                v-model="users.name"
                                 @focus="isFocusedName = true"
-                                @blur="handleBlur('username')"
+                                @blur="handleBlur('name')"
                                 placeholder=" "
                                 required
                                 />
                                 <label>Nome de usuário</label>
 
                                 <!-- Exibe o span de validação somente se o campo estiver focado e vazio ao desfocar -->
-                                <span v-if="isFocusedName && !users.username" class="validacao">Campo obrigatório</span>                            </div>
+                                <span v-if="isFocusedName && !users.name" class="validacao">Campo obrigatório</span>                            </div>
                             <div class="input-container">
                                 <input
                                 type="email"
@@ -129,7 +129,7 @@
         data() {
             return {
                 users: {
-                    username: "",  // Valor do input
+                    name: "",  // Valor do input
                     email: "",
                     password: "",
                     user_type: "candidate",
@@ -143,7 +143,7 @@
         },
         methods: {
             handleBlur(field) {
-            if (field === 'username' && this.users.username) {
+            if (field === 'name' && this.users.name) {
                 this.isFocusedName = false;
             }
             if (field === 'email' && this.users.email) {
