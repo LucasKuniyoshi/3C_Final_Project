@@ -38,4 +38,4 @@ npm install axios
 
 =====================
 BACK-END
-docker compose --build up -d
+docker compose --build up -d (NA RAIZ DO PROJETO)
