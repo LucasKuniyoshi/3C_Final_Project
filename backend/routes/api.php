@@ -18,7 +18,7 @@ Route::apiResource('auths', AuthController::class);
 //Routes of User
 Route::prefix('users')->group(function () {
     Route::get('/', [UserController::class, 'index']);
-    Route::post('/', [UserController::class, "store"]);
+    Route::post('/', [UserController::class, 'store']);
     Route::get('/{id}', [UserController::class, 'show']);
     Route::put('/{id}', [UserController::class, 'update']);
     Route::delete('/{id}', [UserController::class, 'delete']);

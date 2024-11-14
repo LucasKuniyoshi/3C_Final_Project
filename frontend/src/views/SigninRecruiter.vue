@@ -8,7 +8,7 @@ import Footer from '@/components/Footer.vue';
         <div class="container">
             <header>
                 <router-link to="/">
-                    <img class="img-size-login" src="../assets/Recruta_facil.png" alt="Recruta_Facil_Logo">
+                    <img class="img-size-login" src="../assets/Recruta_Facil.png" alt="Recruta_Facil_Logo">
                 </router-link>
             </header>
             <section>
