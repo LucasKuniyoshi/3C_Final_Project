@@ -232,6 +232,7 @@
 
     .cardd{
         margin-top: 5%;
+        width: 33vw;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
         border-radius: 8px; /* opcional, para bordas arredondadas */
         padding: 5.5%;      /* opcional, para espaçamento interno */
