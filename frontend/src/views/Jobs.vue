@@ -7,14 +7,24 @@
       </div>
       <h2>Enrique</h2>
       <p>enriqueTeste@gmail.com</p>
-      <ul>
-        <li><router-link class="currentRouter" to="">Visão Geral</router-link></li>
-        <li><router-link to="/jobs/candidateVagas">Minhas Vagas</router-link></li>
-        <li><router-link to="">Vagas Salvas</router-link></li>
-        <li><router-link to="">Configurações</router-link></li>
-        <li><router-link to="">Perfil</router-link></li>
-        <li><router-link to="/">Sair</router-link></li>
-      </ul>
+      <div class="menu">
+        <div>
+          <ul>
+            <li><router-link class="currentRouter" to="">Visão Geral</router-link></li>
+            <li><router-link to="/jobs/candidateVagas">Minhas Vagas</router-link></li>
+            <li><router-link to="">Vagas Salvas</router-link></li>
+            <li><router-link to="">Configurações</router-link></li>
+            <li><router-link to="">Perfil</router-link></li>
+            <li><router-link to="/">Sair</router-link></li>
+          </ul>
+        </div>
+        <div class="menuBottom">
+          <h5>É um Recrutador?</h5>
+          <p>
+            <router-link to="/signinRecruiter">Fazer login como recrutador</router-link>
+          </p>
+        </div>
+      </div>
     </aside>
 
     <div class="border-main-content">
@@ -378,6 +388,22 @@ methods: {
 
 .sidebar li a:hover {
   color: #fff;
+}
+
+.sidebar .menu{
+  display: flex;
+  height: 80vh;
+  flex-direction: column;
+  justify-content: space-between
+}
+
+.menuBottom a{
+  text-decoration: none;
+  color: #ccc;
+}
+
+.menuBottom a:hover{
+  text-decoration: underline;
 }
 
 /* Estilo da barra de pesquisa */

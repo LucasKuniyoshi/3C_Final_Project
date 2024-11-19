@@ -111,11 +111,11 @@
                 </form>
             </div>
                 
-            <div class="footerCard">
+            <!--<div class="footerCard">
                 <h6>É um recrutador? 
                     <router-link to="/SigninRecruiter">Realizar cadastro como recrutador</router-link>
                 </h6>
-            </div>
+            </div>-->
         </section>
         <Footer />
     </div>
@@ -206,6 +206,7 @@
 
     .cardd{
         margin-top: 5%;
+        width: 28vw;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
         border-radius: 8px; /* opcional, para bordas arredondadas */
         padding: 5.5%;      /* opcional, para espaçamento interno */
