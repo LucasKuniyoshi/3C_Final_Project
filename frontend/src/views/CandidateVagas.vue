@@ -60,6 +60,9 @@
                             <h4>Setor</h4>
                             <p>{{ vagaAtual.department }}</p>
 
+                            <h4>Regime de Trabalho</h4>
+                            <p>{{ vagaAtual.employment_type }}</p>
+
                             <button type="submit">Salvar Alterações</button>
                             <button type="button" @click="fecharModalDetalhes">Cancelar</button>
                             <button type="button" @click="encerrarVaga">Encerrar Vaga</button> <!-- Botão para encerrar a vaga -->
@@ -94,6 +97,9 @@
 
                     <h4>Setor</h4>
                     <p>{{ vagaAtual.department }}</p>
+
+                    <h4>Regime de Trabalho</h4>
+                    <p>{{ vagaAtual.employment_type }}</p>
 
                     <button type="button" @click="recriarVaga">Recriar Vaga</button>
                     <button type="button" @click="deletarVagaEncerrada">Deletar Vaga</button>
@@ -227,6 +233,7 @@ export default {
         localizacao: '',
         requisitos: '',
         department: '',
+        employment_type: '',
       },
       ultimaVaga: null,
       modalUltimaVagaAberto: false, // Controle do modal de última vaga

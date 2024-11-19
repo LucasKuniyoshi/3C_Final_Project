@@ -60,6 +60,9 @@
                     <h4>Setor</h4>
                     <p>{{ vagaAtual.department }}</p>
 
+                    <h4>Regime de Trabalho</h4>
+                    <p>{{ vagaAtual.employment_type }}</p>
+
                     <button type="submit">Salvar Alterações</button>
                     <button type="button" @click="fecharModalUltimaVaga">Cancelar</button>
                   </form>
@@ -98,6 +101,9 @@
                     
                     <h4>Setor</h4>
                     <p>{{ vagaAtual.department }}</p>
+
+                    <h4>Regime de Trabalho</h4>
+                    <p>{{ vagaAtual.employment_type }}</p>
 
                     <button type="submit">Salvar Alterações</button>
                     <button type="button" @click="fecharModalDetalhes">Cancelar</button>
@@ -229,6 +235,7 @@ data() {
       localizacao: '',
       requisitos: '',
       department: '',
+      employment_type: '',
     },
     // departments: ["Tecnologia", "Vendas", "Marketing", "Recursos Humanos", "Financeiro"],
     ultimaVaga: null,

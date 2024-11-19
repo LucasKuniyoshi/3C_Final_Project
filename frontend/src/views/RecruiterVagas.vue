@@ -64,6 +64,12 @@
                               <option v-for="department in departments" :key="department" :value="department">{{ department }}</option>
                             </select>
 
+                            <h4>Regime de Trabalho</h4>
+                            <select v-model="novaVaga.employment_type">
+                              <option value="" disabled selected>Selecione o setor</option>
+                              <option v-for="employment_type in employment_types" :key="employment_type" :value="employment_type">{{ employment_type }}</option>
+                            </select>
+
                             <button type="submit">Salvar Alterações</button>
                             <button type="button" @click="fecharModalDetalhes">Cancelar</button>
                             <button type="button" @click="encerrarVaga">Encerrar Vaga</button> <!-- Botão para encerrar a vaga -->
@@ -103,6 +109,12 @@
                     <select v-model="vagaAtual.department">
                       <option value="" disabled>Selecione o setor</option>
                       <option v-for="department in departments" :key="department" :value="department">{{ department }}</option>
+                    </select>
+
+                    <h4>Regime de Trabalho</h4>
+                    <select v-model="novaVaga.employment_type">
+                      <option value="" disabled selected>Selecione o setor</option>
+                      <option v-for="employment_type in employment_types" :key="employment_type" :value="employment_type">{{ employment_type }}</option>
                     </select>
 
                     <button type="button" @click="recriarVaga">Recriar Vaga</button>
@@ -237,8 +249,10 @@ export default {
         localizacao: '',
         requisitos: '',
         department: '',
+        employment_type: '',
       },
       departments: ["Tecnologia", "Vendas", "Marketing", "Recursos Humanos", "Financeiro"],
+      employment_types: ["Presencial", "Remoto", "Híbrido"],
       ultimaVaga: null,
       modalUltimaVagaAberto: false, // Controle do modal de última vaga
       modalAberto: false,
