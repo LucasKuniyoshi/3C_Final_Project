@@ -1,5 +1,5 @@
 <?php
-namespace App\Models;
+namespace App\Domains\UserDomain\Models;
 
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,13 +9,13 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements AuthenticatableContract
 {
-    use HasFactory, Notifiable;
-    use HasApiTokens, Notifiable;
+    use HasFactory, Notifiable, HasApiTokens;
+
     protected $fillable = [
         'name',
         'email',
         'password',
-        'user_type'
+        'user_type',
     ];
 
     protected $hidden = [
@@ -27,5 +27,27 @@ class User extends Authenticatable implements AuthenticatableContract
         'password' => 'hashed',
     ];
 
-    // Outras definições do modelo, se necessário
+
+    public const USER_TYPES = [
+        'RECRUITER' => 'recruiter',
+        'CANDIDATE' => 'candidate',
+    ];
+
+
+    public function isRecruiter(): bool
+    {
+        return $this->user_type === self::USER_TYPES['RECRUITER'];
+    }
+
+
+    public function isCandidate(): bool
+    {
+        return $this->user_type === self::USER_TYPES['CANDIDATE'];
+    }
+
+
+    public function scopeByType($query, string $type)
+    {
+        return $query->where('user_type', $type);
+    }
 }
