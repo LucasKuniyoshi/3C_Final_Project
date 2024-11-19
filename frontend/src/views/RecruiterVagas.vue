@@ -65,7 +65,7 @@
                             </select>
 
                             <h4>Regime de Trabalho</h4>
-                            <select v-model="novaVaga.employment_type">
+                            <select v-model="vagaAtual.employment_type">
                               <option value="" disabled selected>Selecione o setor</option>
                               <option v-for="employment_type in employment_types" :key="employment_type" :value="employment_type">{{ employment_type }}</option>
                             </select>
@@ -112,7 +112,7 @@
                     </select>
 
                     <h4>Regime de Trabalho</h4>
-                    <select v-model="novaVaga.employment_type">
+                    <select v-model="vagaAtual.employment_type">
                       <option value="" disabled selected>Selecione o setor</option>
                       <option v-for="employment_type in employment_types" :key="employment_type" :value="employment_type">{{ employment_type }}</option>
                     </select>
@@ -302,6 +302,7 @@ export default {
         localizacao: '',
         requisitos: '',
         department: '',
+        employment_type: '',
       };
 
       // Fecha o modal
