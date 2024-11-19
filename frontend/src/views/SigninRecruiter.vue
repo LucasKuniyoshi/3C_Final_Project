@@ -8,69 +8,119 @@
             </header>
             <section>
                 <div class="cardd">
-                    <h2>Entrar como Recrutador</h2>
-                    <h6>Aproveite sua vida profissional ao máximo</h6>
-                    <div class="campos">
-                        <div class="input-container">
-                            <input type="text" required>
-                            <label for="input">Nome da empresa</label>
-                            <!-- <span>CAMPO OBRIGATÓRIO</span> -->
+                    <form @submit.prevent="criarCompany">
+                        <h2>Entrar como Recrutador</h2>
+                        <h6>Aproveite sua vida profissional ao máximo</h6>
+                        <div class="campos">
+                            <div class="input-container">
+                                <input
+                                type="text"
+                                v-model="companies.name"
+                                @focus="isFocusedName = true"
+                                @blur="handleBlur('name')"
+                                placeholder=" "
+                                required
+                                />
+                                <label for="input">Nome da empresa</label>
+                                <!-- <span>CAMPO OBRIGATÓRIO</span> -->
+                            </div>
+                            <div class="input-container">
+                                <input
+                                type="text"
+                                v-model="companies.email"
+                                @focus="isFocusedEmail = true"
+                                @blur="handleBlur('email')"
+                                placeholder=" "
+                                required
+                                />
+                                <label for="input">Email</label>
+                            </div>
+                            <div class="input-container">
+                                <input
+                                type="text"
+                                v-model="companies.cnpj"
+                                @focus="isFocusedCnpj = true"
+                                @blur="handleBlur('cnpj')"
+                                placeholder=" "
+                                required
+                                />
+                                <label for="input">CNPJ</label>
+                            </div>
+                            <div class="input-container">
+                                <input
+                                type="text"
+                                v-model="companies.description"
+                                @focus="isFocusedDescription = true"
+                                @blur="handleBlur('description')"
+                                placeholder=" "
+                                required
+                                />
+                                <label for="input">Descrição</label>
+                            </div>
+                            <!-- <span>CAMPO OBRIGATÓRIO E EMAIL JA EXISTENTE</span> -->
+                            <div class="input-container">
+                                <input
+                                type="password"
+                                v-model="companies.password"
+                                @focus="isFocusedPassword = true"
+                                @blur="handleBlur('password')"
+                                placeholder=" "
+                                minlength="8"
+                                required
+                                />
+                                <label for="input">Senha</label>
+                            </div>
+                            <!-- <span>MIN-WITDH DA SENHA</span> -->
+                            <div class="input-container">
+                                <input
+                                type="password"
+                                v-model="passwordConfirm"
+                                @focus="isFocusedPasswordConfirm = true"
+                                @blur="handleBlur"
+                                placeholder=" "
+                                minlength="8"
+                                required
+                                />
+                                <label for="input">Confirmar senha</label>
+                                <span v-if="isFocusedPasswordConfirm && passwordConfirm != companies.password" class="validacao">Confirmar Senha diferente de Senha</span>
+                            </div>
+                            <!-- <span>CONFIRMACAO DE SENHAS</span> -->
                         </div>
-                        <div class="input-container">
-                            <input type="email" required>
-                            <label for="input">Email</label>
+                        <div>
+                            <label class="checkbox-container">
+                                <input type="checkbox">
+                                Manter conectado
+                            </label>
                         </div>
-                        <div class="input-container">
-                            <input type="text" required>
-                            <label for="input">CNPJ</label>
-                        </div>
-                        <div class="input-container">
-                            <input type="text" required>
-                            <label for="input">Descrição</label>
-                        </div>
-                        <!-- <span>CAMPO OBRIGATÓRIO E EMAIL JA EXISTENTE</span> -->
-                        <div class="input-container">
-                            <input type="password" required>
-                            <label for="input">Senha</label>
-                        </div>
-                        <!-- <span>MIN-WITDH DA SENHA</span> -->
-                        <div class="input-container">
-                            <input type="password" required>
-                            <label for="input">Confirmar senha</label>
-                        </div>
-                        <!-- <span>CONFIRMACAO DE SENHAS</span> -->
-                    </div>
-                    <div>
-                        <label class="checkbox-container">
-                            <input type="checkbox">
-                            Manter conectado
-                        </label>
-                    </div>
-                    <div>
-                        <div class="entrarBtn">
-                            <router-link>
+                        <div>
+                            <button type="submit" class="entrarBtn">
                                 <h3>Registrar-se</h3>
-                            </router-link>
+                            </button>
+                            <!--<div class="entrarBtn">
+                                <router-link>
+                                    <h3>Registrar-se</h3>
+                                </router-link>
+                            </div> -->
+                            <div class="line-container">
+                                <span class="OuPosition">ou</span>
+                            </div>
+                            <div class="googlebtn">
+                                <router-link>
+                                    <h4>Entrar com conta Google <font-awesome-icon :icon="['fab', 'google']" /></h4>
+                                </router-link>
+                            </div>
+                            <div class="cookies">
+                                <p>Ao clicar em Continuar, você aceita o </p>
+                                <p><a href="#">Contrato do Usuário</a>, a <a href="">Política de Privacidade</a> e </p>
+                                <p>a <a href="">Política de Cookies</a> do Recruta Fácil.</p>
+                            </div>
+                            <div class="recruiter">
+                                <h6>Já faz parte do Recruta Fácil? 
+                                    <router-link to="/login">Entrar</router-link>
+                                </h6>
+                            </div>
                         </div>
-                        <div class="line-container">
-                            <span class="OuPosition">ou</span>
-                        </div>
-                        <div class="googlebtn">
-                            <router-link>
-                                <h4>Entrar com conta Google <font-awesome-icon :icon="['fab', 'google']" /></h4>
-                            </router-link>
-                        </div>
-                        <div class="cookies">
-                            <p>Ao clicar em Continuar, você aceita o </p>
-                            <p><a href="#">Contrato do Usuário</a>, a <a href="">Política de Privacidade</a> e </p>
-                            <p>a <a href="">Política de Cookies</a> do Recruta Fácil.</p>
-                        </div>
-                        <div class="recruiter">
-                            <h6>Já faz parte do Recruta Fácil? 
-                                <router-link to="/login">Entrar</router-link>
-                            </h6>
-                        </div>
-                    </div>
+                    </form>
                 </div>
                 <div class="footerCard">
                     <h6>Não é um recrutador? 
@@ -90,44 +140,54 @@
     export default {
         data() {
             return {
-                users: {
+                companies: {
                     name: "",  // Valor do input
                     email: "",
+                    cnpj: "",
+                    description: "",
                     password: "",
-                    user_type: "candidate",
+                    //user_type: "recruiter",
                 },
             passwordConfirm: "",
             isFocusedName: false, // Controla o estado de foco
             isFocusedEmail: false, 
+            isFocusedCnpj: false, 
+            isFocusedDescription: false, 
             isFocusedPassword: false,
             isFocusedPasswordConfirm: false,
             };
         },
         methods: {
             handleBlur(field) {
-            if (field === 'name' && this.users.name) {
+            if (field === 'name' && this.companies.name) {
                 this.isFocusedName = false;
             }
-            if (field === 'email' && this.users.email) {
+            if (field === 'email' && this.companies.email) {
                 this.isFocusedEmail = false;
             }
-            if (field === 'password' && this.users.password) {
+            if (field === 'cnpj' && this.companies.cnpj) {
+                this.isFocusedCnpj = false;
+            }
+            if (field === 'description' && this.companies.description) {
+                this.isFocusedDescription = false;
+            }
+            if (field === 'password' && this.companies.password) {
                 this.isFocusedPassword = false;
             }
             if (field === 'passwordConfirm' && this.passwordConfirm) {
                 this.isFocusedPasswordConfirm = false;
             }
         },
-            criarUsuario() {
+            criarCompany() {
                 // Verifica se as senhas coincidem antes de enviar a requisição
-                if (this.users.password !== this.passwordConfirm) {
+                if (this.companies.password !== this.passwordConfirm) {
                     alert("As senhas não coincidem.");
                     return;
                 }
 
                 // Envia os dados do usuário para a API
                 axios
-                    .post('http://localhost:8000/api/users', this.users)
+                    .post('http://localhost:8000/api/companies', this.companies)
                     .then(response => {
                         console.log('Usuário criado com sucesso:', response.data);
                         // Redireciona para a tela de login após o registro bem-sucedido
@@ -139,7 +199,7 @@
                     });
             },
             redirecionarLogin() {
-                this.$router.push({ name: 'login' });
+                this.$router.push({ name: 'dashboard' });
             },
         },
     };
