@@ -1,8 +1,3 @@
-<script setup>
-import Footer from '@/components/Footer.vue';
-
-</script>
-
 <template>
     <div class="backgroundGeral">
         <div class="container">
@@ -87,6 +82,68 @@ import Footer from '@/components/Footer.vue';
         </div>
     </div>
 </template>
+
+<script>
+    import Footer from '@/components/Footer.vue';
+    import axios from "axios";
+
+    export default {
+        data() {
+            return {
+                users: {
+                    name: "",  // Valor do input
+                    email: "",
+                    password: "",
+                    user_type: "candidate",
+                },
+            passwordConfirm: "",
+            isFocusedName: false, // Controla o estado de foco
+            isFocusedEmail: false, 
+            isFocusedPassword: false,
+            isFocusedPasswordConfirm: false,
+            };
+        },
+        methods: {
+            handleBlur(field) {
+            if (field === 'name' && this.users.name) {
+                this.isFocusedName = false;
+            }
+            if (field === 'email' && this.users.email) {
+                this.isFocusedEmail = false;
+            }
+            if (field === 'password' && this.users.password) {
+                this.isFocusedPassword = false;
+            }
+            if (field === 'passwordConfirm' && this.passwordConfirm) {
+                this.isFocusedPasswordConfirm = false;
+            }
+        },
+            criarUsuario() {
+                // Verifica se as senhas coincidem antes de enviar a requisição
+                if (this.users.password !== this.passwordConfirm) {
+                    alert("As senhas não coincidem.");
+                    return;
+                }
+
+                // Envia os dados do usuário para a API
+                axios
+                    .post('http://localhost:8000/api/users', this.users)
+                    .then(response => {
+                        console.log('Usuário criado com sucesso:', response.data);
+                        // Redireciona para a tela de login após o registro bem-sucedido
+                        this.redirecionarLogin();
+                    })
+                    .catch(error => {
+                        console.error('Erro ao criar usuário:', error);
+                        alert('Erro ao criar usuário. Verifique os dados e tente novamente.');
+                    });
+            },
+            redirecionarLogin() {
+                this.$router.push({ name: 'login' });
+            },
+        },
+    };
+</script>
 
 <style scoped>
     *{
