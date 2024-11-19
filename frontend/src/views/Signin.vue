@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <header>
-            <router-link to="/">/
+            <router-link to="/">
                 <img class="img-size-login" src="../assets/Recruta_Facil.png" alt="Recruta_Facil_Logo">
             </router-link>
         </header>

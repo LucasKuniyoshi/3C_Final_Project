@@ -263,6 +263,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
@@ -319,6 +321,16 @@ export default {
       // Armazena a nova vaga na lista de vagas
       const novaVagaCopia = { ...this.novaVaga };
       this.vagas.push(novaVagaCopia);
+
+      axios
+        .post('http://localhost:8000/api/jobs', this.companies)
+        .then(response => {
+            console.log('Vaga criada com sucesso:', response.data);
+        })
+        .catch(error => {
+            console.error('Erro ao criar vaga:', error);
+            alert('Erro ao criar vaga. Verifique os dados e tente novamente.');
+        });
 
       // Atualiza o localStorage com todas as vagas
       localStorage.setItem('vagas', JSON.stringify(this.vagas));
