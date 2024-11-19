@@ -165,7 +165,7 @@
 
                 // Envia os dados do usuário para a API
                 axios
-                    .post('http://localhost:8001/api/users', this.users)
+                    .post('http://localhost:8000/api/users', this.users)
                     .then(response => {
                         console.log('Usuário criado com sucesso:', response.data);
                         // Redireciona para a tela de login após o registro bem-sucedido
@@ -179,32 +179,6 @@
             redirecionarLogin() {
                 this.$router.push({ name: 'login' });
             },
-            // criarUsuario(){
-            //     axios
-            //         .post(`http://localhost:8001/api/users`, this.users)
-            //         .then(response => {
-            //             console.log(response.data);
-            //         })
-            //         .catch(error => {
-            //             console.error('Erro ao criar usuário:', error);
-            //         });
-            //         // .then(({ data }) => {
-            //         // try {
-            //         //     this.modalStatus = data.status ? "success" : "error";
-            //         //     this.Visivel = true;
-            //         // } catch (err) {
-            //         //     alert("Falha no sistema");
-            //         // }
-            //         // });
-            // },
-            // redirecionarLogin() {
-            //     this.$router.push({ name: "login" });
-            //     // this.Visivel = false;
-
-            //     // if (this.modalStatus === "success") {
-            //     //     this.$router.push({ name: "login" });
-            //     // }
-            // },
         },
     };
 </script>
