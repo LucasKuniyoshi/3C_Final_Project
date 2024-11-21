@@ -75,7 +75,7 @@ const router = createRouter({
   },
 })
 
-router.beforeEach((to, from, next) => {
+/*router.beforeEach((to, from, next) => {
   const publicPages = ["/login", "/signin", "/signinRecruiter", "/"]; // Rotas públicas
   const authRequired = !publicPages.includes(to.path); // Rotas protegidas
   const loggedIn = localStorage.getItem("user"); // Verifica se o usuário está logado
@@ -100,7 +100,7 @@ router.beforeEach((to, from, next) => {
   document.title = to.meta.title || "Recruta Fácil";
 
   next(); // Prossegue para a rota
-});
+});*/
 
 
 /*router.beforeEach((to, from, next) => {

@@ -93,9 +93,11 @@
                             </label>
                         </div>
                         <div>
-                            <button type="submit" class="entrarBtn">
-                                <h3>Registrar-se</h3>
-                            </button>
+                            <div class="entrarBtn">
+                                <button type="submit">
+                                    <h3>Registrar-se</h3>
+                                </button>
+                            </div>
                             <!--<div class="entrarBtn">
                                 <router-link>
                                     <h3>Registrar-se</h3>
@@ -115,7 +117,7 @@
                                 <p>a <a href="">Política de Cookies</a> do Recruta Fácil.</p>
                             </div>
                             <div class="recruiter">
-                                <h6>Já faz parte do Recruta Fácil? 
+                                <h6>Já possui conta de Recrutador? 
                                     <router-link to="/login">Entrar</router-link>
                                 </h6>
                             </div>
@@ -232,7 +234,7 @@
 
     .cardd{
         margin-top: 5%;
-        width: 33vw;
+        width: 32vw;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
         border-radius: 8px; /* opcional, para bordas arredondadas */
         padding: 5.5%;      /* opcional, para espaçamento interno */
@@ -291,7 +293,13 @@
         color: #333;
     }
 
-    .entrarBtn a h3{
+    .entrarBtn button{
+        border: none;
+        width: 100%;
+        background-color: #fff;
+    }
+
+    .entrarBtn h3{
         margin-top: 4%;
         padding: 1.5%;
         background-color: #114FEE;
@@ -304,7 +312,7 @@
         /* color: #FFF; */
     }
 
-    .entrarBtn a h3:hover{
+    .entrarBtn h3:hover{
         /* color: #FFF; */
         background-color: #0f3cad;
         transition: .35s;
@@ -387,6 +395,7 @@
 
     .footerCard{
         margin-top: 5%;
+        margin-bottom: 7%;
     }
 
     .footerCard h6{
