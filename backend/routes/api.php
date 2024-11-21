@@ -4,9 +4,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ApplicationController;
+use App\Domains\UserDomain\Controllers\UserController;
 
 
 Route::apiResource('users', UserController::class);
@@ -18,10 +18,10 @@ Route::apiResource('auths', AuthController::class);
 //Routes of User
 Route::prefix('users')->group(function () {
     Route::get('/', [UserController::class, 'index']);
-    Route::post('/', [UserController::class, "store"]);
+    Route::post('/', [UserController::class, 'store']);
     Route::get('/{id}', [UserController::class, 'show']);
     Route::put('/{id}', [UserController::class, 'update']);
-    Route::delete('/{id}', [UserController::class, 'delete']);
+    Route::delete('/{id}', [UserController::class, 'destroy']);
 });
 
 //Routes of Job

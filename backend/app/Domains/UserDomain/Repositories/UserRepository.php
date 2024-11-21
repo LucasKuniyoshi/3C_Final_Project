@@ -1,6 +1,7 @@
 <?php
 namespace App\Domains\UserDomain\Repositories;
 
+
 use App\Domains\UserDomain\Models\User;
 use App\Domains\UserDomain\Repositories\Contracts\UserRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;

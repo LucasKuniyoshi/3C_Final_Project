@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Domains\UserDomain\Validators\UserValidator;
 use App\Domains\UserDomain\Services\Contracts\UserServiceInterface;
 
+
 class UserController extends Controller
 {
     protected $userService;
