@@ -1,110 +1,103 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Domains\JobDomain\Controllers;
 
-use App\Models\Job;
-use App\Models\Application;
+
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Domains\JobDomain\Validators\JobValidator;
+use App\Domains\ApplicationDomain\Models\Application;
+use App\Domains\JobDomain\Services\Contracts\JobServiceInterface;
 
 class JobController extends Controller
 {
-    // Listar vagas do recrutador logado
+    protected $jobService;
+    protected $jobValidator;
+
+    public function __construct(JobServiceInterface $jobService, JobValidator $jobValidator)
+    {
+        $this->jobService = $jobService;
+        $this->jobValidator = $jobValidator;
+    }
+
     public function index(Request $request)
     {
         if (auth()->user()->user_type !== 'recruiter') {
             return response()->json(['message' => 'Unauthorized.'], 403);
         }
 
-        // Filtra as vagas pelo recrutador logado e permite filtragem por categoria
-        $query = Job::where('recruiter_id', auth()->id())->with('company');
+        $query = $this->jobService->getJobsByRecruiter(auth()->id());
 
         if ($request->has('departament')) {
             $query->where('departament', $request->departament);
         }
 
-        $jobs = $query->get();
-        return response()->json($jobs);
+        return response()->json($query);
     }
 
-    // Exibir detalhes de uma vaga
     public function show($id)
     {
-        $job = Job::with('company')->findOrFail($id);
+        $job = $this->jobService->getJobById($id);
         return response()->json($job);
     }
 
-    // Criar uma nova vaga (apenas para recrutadores)
     public function store(Request $request)
     {
         if (auth()->user()->user_type !== 'recruiter') {
             return response()->json(['message' => 'Unauthorized.'], 403);
         }
 
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'location' => 'required|string',
-            'salary' => 'nullable|numeric',
-            'employment_type' => 'required|in:full-time,part-time,contract,internship',
-            'company_id' => 'required|exists:companies,id',
-            'departament' => 'required|in:technology,sales,marketing,human resources,financial'
-        ]);
+        $validatedData = $this->jobValidator->validateJobCreation($request);
 
-        // Cria a vaga e define o recrutador
-        $job = Job::create(array_merge(
-            $request->all(),
-            ['recruiter_id' => auth()->id()]
-        ));
+        $job = $this->jobService->createJob(array_merge($validatedData, ['recruiter_id' => auth()->id()]));
 
         return response()->json($job, 201);
     }
 
-    // Atualizar uma vaga existente (apenas para recrutadores)
     public function update(Request $request, $id)
     {
         if (auth()->user()->user_type !== 'recruiter') {
             return response()->json(['message' => 'Unauthorized.'], 403);
         }
 
-        $job = Job::where('id', $id)->where('recruiter_id', auth()->id())->firstOrFail();
+        $job = $this->jobService->getJobById($id);
 
-        $request->validate([
-            'title' => 'string|max:255',
-            'description' => 'string',
-            'location' => 'string',
-            'salary' => 'nullable|numeric',
-            'employment_type' => 'in:full-time,part-time,contract,internship',
-            'company_id' => 'exists:companies,id',
-            'departament' => 'in:technology,sales,marketing,human resources,financial'
-        ]);
+        if ($job->recruiter_id !== auth()->id()) {
+            return response()->json(['message' => 'Unauthorized to update this job.'], 403);
+        }
 
-        $job->update($request->all());
+        $validatedData = $this->jobValidator->validateJobUpdate($request);
+
+        $this->jobService->updateJob($job, $validatedData);
+
         return response()->json($job);
     }
 
-    // Excluir uma vaga (apenas para recrutadores)
     public function destroy($id)
     {
         if (auth()->user()->user_type !== 'recruiter') {
             return response()->json(['message' => 'Unauthorized.'], 403);
         }
 
-        $job = Job::where('id', $id)->where('recruiter_id', auth()->id())->firstOrFail();
-        $job->delete();
+        $job = $this->jobService->getJobById($id);
+
+        if ($job->recruiter_id !== auth()->id()) {
+            return response()->json(['message' => 'Unauthorized to delete this job.'], 403);
+        }
+
+        $this->jobService->deleteJob($job);
 
         return response()->json(['message' => 'Job deleted successfully']);
     }
 
-    // Candidatar-se a uma vaga (apenas para candidatos)
     public function apply(Request $request, $id)
     {
         if (auth()->user()->user_type !== 'candidate') {
             return response()->json(['message' => 'Unauthorized.'], 403);
         }
 
-        $job = Job::findOrFail($id);
+        $job = $this->jobService->getJobById($id);
 
-        // Verifica se o usuário já aplicou para essa vaga
         $existingApplication = Application::where('user_id', auth()->id())
                                           ->where('job_id', $job->id)
                                           ->first();
@@ -113,12 +106,11 @@ class JobController extends Controller
             return response()->json(['message' => 'You have already applied for this job.'], 400);
         }
 
-        // Cria a aplicação
         $application = Application::create([
             'user_id' => auth()->id(),
             'job_id' => $job->id,
             'name' => auth()->user()->name,
-            'recruiter_name' => $job->company->name // Obtém o nome da empresa associada ao recrutador
+            'recruiter_name' => $job->company->name
         ]);
 
         return response()->json(['message' => 'Application submitted successfully', 'application' => $application], 201);

@@ -1,68 +1,60 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Domians\ApplicationDomain\Controllers;
 
-use App\Models\Application;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Domains\ApplicationDomain\Validators\ApplicationValidator;
+use App\Domains\ApplicationDomain\Services\Contracts\ApplicationServiceInterface;
 
 class ApplicationController extends Controller
 {
-    // Listar todas as candidaturas
+    protected $applicationService;
+    protected $applicationValidator;
+
+    public function __construct(ApplicationServiceInterface $applicationService, ApplicationValidator $applicationValidator)
+    {
+        $this->applicationService = $applicationService;
+        $this->applicationValidator = $applicationValidator;
+    }
+
     public function index()
     {
-        $applications = Application::with(['user', 'job'])->get();
+        $applications = $this->applicationService->getAllApplications();
         return response()->json($applications);
     }
 
-    // Exibir detalhes de uma candidatura específica
     public function show($id)
     {
-        $application = Application::with(['user', 'job'])->findOrFail($id);
+        $application = $this->applicationService->getApplicationById($id);
         return response()->json($application);
     }
 
-    // Criar uma nova candidatura
     public function store(Request $request)
     {
-        $request->validate([
-            'user_id' => 'required|exists:users,id', // Deve existir na tabela de usuários
-            'job_id' => 'required|exists:jobs,id',   // Deve existir na tabela de vagas
-            'name' => 'required|string|max:255',
-            'recruiter_name' => 'required|string|max:255',
-        ]);
+        $validatedData = $this->applicationValidator->validateApplicationCreation($request);
 
-        $application = Application::create([
-            'user_id' => $request->user_id,
-            'job_id' => $request->job_id,
-            'name' => $request->name,
-            'recruiter_name' => $request->recruiter_name,
-        ]);
+        $application = $this->applicationService->createApplication($validatedData);
 
         return response()->json($application, 201);
     }
 
-    // Atualizar uma candidatura existente
     public function update(Request $request, $id)
     {
-        $application = Application::findOrFail($id);
+        $application = $this->applicationService->getApplicationById($id);
 
-        $request->validate([
-            'user_id' => 'exists:users,id', // Deve existir na tabela de usuários
-            'job_id' => 'exists:jobs,id',   // Deve existir na tabela de vagas
-            'name' => 'string|max:255',
-            'recruiter_name' => 'string|max:255',
-        ]);
+        $validatedData = $this->applicationValidator->validateApplicationUpdate($request);
 
-        $application->update($request->only(['user_id', 'job_id', 'name', 'recruiter_name']));
+        $updatedApplication = $this->applicationService->updateApplication($application, $validatedData);
 
-        return response()->json($application);
+        return response()->json($updatedApplication);
     }
 
-    // Excluir uma candidatura
     public function destroy($id)
     {
-        $application = Application::findOrFail($id);
-        $application->delete();
+        $application = $this->applicationService->getApplicationById($id);
+
+        $this->applicationService->deleteApplication($application);
 
         return response()->json(['message' => 'Application deleted successfully']);
     }

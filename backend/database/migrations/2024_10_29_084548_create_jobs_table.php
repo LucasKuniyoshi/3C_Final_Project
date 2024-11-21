@@ -13,7 +13,7 @@ class CreateJobsTable extends Migration
             $table->text('description'); // Descrição da vaga
             $table->string('location'); // Localização da vaga
             $table->decimal('salary', 10, 2)->nullable(); // Salário (opcional)
-            $table->enum('employment_type', ['full-time', 'part-time', 'contract', 'internship']); // Tipo de emprego
+            $table->enum('employment_type', ['full-time', 'presential', 'homeoffice', 'hybrid']); // Tipo de emprego
             $table->foreignId('company_id')->constrained('companies')->onDelete('cascade'); // Relacionamento com empresa
             $table->foreignId('recruiter_id')->constrained('users')->onDelete('cascade'); // Relacionamento com recrutador
             $table->enum('departament', ['technology', 'sales', 'marketing', 'human resources', 'financial']); // Categoria da vaga

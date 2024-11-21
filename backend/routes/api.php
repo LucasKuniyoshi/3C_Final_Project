@@ -2,11 +2,11 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\JobController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CompanyController;
-use App\Http\Controllers\ApplicationController;
+use App\Domains\JobDomain\Controllers\JobController;
+use App\Domains\AuthDomain\Controllers\AuthController;
 use App\Domains\UserDomain\Controllers\UserController;
+use App\Domains\CompanyDomain\Controllers\CompanyController;
+use App\Domians\ApplicationDomain\Controllers\ApplicationController;
 
 
 Route::apiResource('users', UserController::class);
@@ -37,11 +37,11 @@ Route::middleware(['role:candidate'])->group(function () {
 
 //Routes of Company
 Route::prefix('companies')->group(function () {
-    Route::get('/', [CompanyController::class, 'index']);           // Listar todas as empresas
-    Route::post('/', [CompanyController::class, 'store']);          // Criar uma nova empresa
-    Route::get('/{id}', [CompanyController::class, 'show']);        // Exibir detalhes de uma empresa específica
-    Route::put('/{id}', [CompanyController::class, 'update']);      // Atualizar uma empresa existente
-    Route::delete('/{id}', [CompanyController::class, 'destroy']);  // Excluir uma empresa
+    Route::get('/', [CompanyController::class, 'index']);
+    Route::post('/', [CompanyController::class, 'store']);
+    Route::get('/{id}', [CompanyController::class, 'show']);
+    Route::put('/{id}', [CompanyController::class, 'update']);
+    Route::delete('/{id}', [CompanyController::class, 'destroy']);
 });
 
 //Routes of Application
