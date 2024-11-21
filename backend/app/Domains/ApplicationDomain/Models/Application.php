@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Models;
+namespace App\Domains\ApplicationDomain\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Domains\JobDomain\Models\Job;
+use App\Domains\UserDomain\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Application extends Model
 {
@@ -16,26 +18,13 @@ class Application extends Model
         'recruiter_name',
     ];
 
-
-    public function jobApplications()
+    public function job()
     {
-        return $this->hasMany(Application::class);
+        return $this->belongsTo(Job::class);
     }
 
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-
-    public function applicationsReceived()
-    {
-        return $this->hasMany(Application::class);
-    }
-
-
-    public function job()
-    {
-        return $this->belongsTo(Job::class);
     }
 }
