@@ -8,7 +8,7 @@
         <h2>Lucas</h2>
         <p>lucasTeste@gmail.com</p>
         <ul>
-          <li><router-link to="/dashboard">Visão Geral</router-link></li>
+          <li><router-link to="/recruiter/dashboard">Visão Geral</router-link></li>
           <li><router-link class="currentRouter" to="">Minhas Vagas</router-link></li>
           <li><router-link to="">Configurações</router-link></li>
           <li><router-link to="">Perfil</router-link></li>

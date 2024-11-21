@@ -11,7 +11,7 @@
         <div>
           <ul>
             <li><router-link class="currentRouter" to="">Visão Geral</router-link></li>
-            <li><router-link to="/jobs/candidateVagas">Minhas Vagas</router-link></li>
+            <li><router-link to="/candidate/jobs/candidateVagas">Minhas Vagas</router-link></li>
             <li><router-link to="">Vagas Salvas</router-link></li>
             <li><router-link to="">Configurações</router-link></li>
             <li><router-link to="">Perfil</router-link></li>
@@ -259,7 +259,14 @@ data() {
 },
 mounted() {
   this.carregarVagas();
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user || user.user_type !== "candidate") {
+        this.$router.push({ name: "login" });
+    }
 },
+/*mounted() {
+  this.carregarVagas();
+},*/
 methods: {
   abrirModal() {
     this.modalAberto = true; // Abre o modal

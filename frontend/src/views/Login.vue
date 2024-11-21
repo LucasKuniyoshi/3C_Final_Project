@@ -1,62 +1,121 @@
-<script setup>
+<script>
 import Footer from '@/components/Footer.vue';
+import axios from "axios";
 
+export default {
+    data() {
+        return {
+            email: "",
+            password: "",
+            errorMessage: "",
+        };
+    },
+    methods: {
+        login() {
+            // Faz a requisição para a API de login
+            axios
+                .post("http://localhost:8001/api/login", {
+                    email: this.email,
+                    password: this.password,
+                })
+                .then((response) => {
+                    const user = response.data.user;
+                    const token = response.data.token;
+
+                    // Armazena os dados no localStorage
+                    localStorage.setItem("token", token);
+                    localStorage.setItem("user", JSON.stringify(user));
+
+                    // Redireciona o usuário com base no user_type
+                    if (user.user_type === "candidate") {
+                        this.$router.push("/candidate/jobs");
+                    } else if (user.user_type === "recruiter") {
+                        this.$router.push("/recruiter/dashboard");
+                    } else {
+                        alert("Tipo de usuário inválido.");
+                    }
+                })
+                .catch((error) => {
+                    this.errorMessage = error.response?.data.message || "Erro ao realizar login.";
+                });
+        },
+    },
+};
 </script>
 
 <template>
     <div class="container">
         <header>
             <router-link to="/">
-                <img class="img-size-login" src="../assets/Recruta_facil.png" alt="Recruta_Facil_Logo">
+                <img class="img-size-login" src="../assets/Recruta_Facil.png" alt="Recruta_Facil_Logo">
             </router-link>
         </header>
         <section>
             <div class="cardd">
                 <h2>Entrar</h2>
                 <h6>Fique em dia com suas notícias profissionais</h6>
-                <form action="">
+                <form @submit.prevent="login">
                     <div class="campos">
                         <div class="input-container">
-                            <input type="text" required>
+                            <input
+                                type="email"
+                                v-model="email"
+                                placeholder=""
+                                required
+                            />
                             <label for="input">Email</label>
                             <!-- <span class="error-message">Este campo é obrigatório</span> -->
                         </div>
                         <div class="input-container">
-                            <input type="password" required minlength="8">
+                            <input
+                                type="password"
+                                v-model="password"
+                                placeholder=""
+                                minlength="8"
+                                required
+                            />
                             <label for="input">Senha</label>
                             <!-- <span class="error-message">A senha deve ter no mínimo 8 caracteres</span> -->
                         </div>
+                        </div>
+                        <div>
+                        <label class="checkbox-container">
+                            <input type="checkbox">
+                            Manter conectado
+                        </label>
+                    </div>
+                    <div v-if="errorMessage" class="error-message">
+                        {{ errorMessage }}
+                    </div>
+                    <div>
+                        <div class="entrarBtn">
+                            <button type="submit">
+                                <h3>Entrar</h3>
+                            </button>
+                        </div>
+                        <!--<div class="entrarBtn" type="submit">
+                            <router-link>
+                                <h3>Entrar</h3>
+                            </router-link>
+                        </div> -->
+                        <div class="line-container">
+                            <span class="OuPosition">ou</span>
+                        </div>
+                        <div class="googlebtn">
+                            <router-link>
+                                <h4>Entrar com conta Google <font-awesome-icon :icon="['fab', 'google']" /></h4>
+                            </router-link>
+                        </div>
+                        <div class="cookies">
+                            <p>Ao clicar em Continuar, você aceita o </p>
+                            <p><a href="#">Contrato do Usuário</a>, a <a href="">Política de Privacidade</a> e </p>
+                            <p>a <a href="">Política de Cookies</a> do Recruta Fácil.</p>
+                        </div>
+                        <div class="forgotPassword">
+                            <h6><a href="">Esqueceu a senha ?</a></h6>
+                        </div>
                     </div>
                 </form>
-                <div>
-                    <label class="checkbox-container">
-                        <input type="checkbox">
-                        Manter conectado
-                    </label>
-                </div>
-                <div>
-                    <div class="entrarBtn" type="submit">
-                        <router-link>
-                            <h3>Entrar</h3>
-                        </router-link>
-                    </div>
-                    <div class="line-container">
-                        <span class="OuPosition">ou</span>
-                    </div>
-                    <div class="googlebtn">
-                        <router-link>
-                            <h4>Entrar com conta Google <font-awesome-icon :icon="['fab', 'google']" /></h4>
-                        </router-link>
-                    </div>
-                    <div class="cookies">
-                        <p>Ao clicar em Continuar, você aceita o </p>
-                        <p><a href="#">Contrato do Usuário</a>, a <a href="">Política de Privacidade</a> e </p>
-                        <p>a <a href="">Política de Cookies</a> do Recruta Fácil.</p>
-                    </div>
-                    <div class="forgotPassword">
-                        <h6><a href="">Esqueceu a senha ?</a></h6>
-                    </div>
-                </div>
             </div>
             <div class="footerCard">
                 <h6>Ainda não faz parte do Recruta Fácil? 
