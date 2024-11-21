@@ -1,5 +1,4 @@
 <script>
-import Footer from '@/components/Footer.vue';
 import axios from "axios";
 
 export default {
@@ -14,11 +13,12 @@ export default {
         login() {
             // Faz a requisição para a API de login
             axios
-                .post("http://localhost:8001/api/login", {
+                .post("http://localhost:8000/api/login", {
                     email: this.email,
                     password: this.password,
                 })
                 .then((response) => {
+                    console.log(response);
                     const user = response.data.user;
                     const token = response.data.token;
 
@@ -123,7 +123,6 @@ export default {
                 </h6>
             </div>
         </section>
-        <Footer />
     </div>
 </template>
 
