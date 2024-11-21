@@ -9,7 +9,7 @@
         <p>lucasTeste@gmail.com</p>
         <ul>
           <li><router-link class="currentRouter" to="">Visão Geral</router-link></li>
-          <li><router-link to="/dashboard/recruiterVagas">Minhas Vagas</router-link></li>
+          <li><router-link to="/recruiter/dashboard/recruiterVagas">Minhas Vagas</router-link></li>
           <li><router-link to="">Configurações</router-link></li>
           <li><router-link to="">Perfil</router-link></li>
           <li><router-link to="/">Sair</router-link></li>
@@ -301,6 +301,10 @@ export default {
   },
   mounted() {
     this.carregarVagas();
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user || user.user_type !== "recruiter") {
+      this.$router.push("/login");
+    }
   },
   methods: {
     abrirModal() {
