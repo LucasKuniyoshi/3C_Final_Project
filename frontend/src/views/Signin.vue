@@ -78,9 +78,11 @@
                             </label>
                         </div>
                     <div>
-                        <button type="submit" class="entrarBtn">
-                            <h3>Registrar-se</h3>
-                        </button>
+                        <div class="entrarBtn">
+                            <button type="submit">
+                                <h3>Registrar-se</h3>
+                            </button>
+                        </div>
                         <!-- <div tipe="submit" class="entrarBtn">
                             <router-link>
                                 <h3>Registrar-se</h3>
@@ -206,7 +208,8 @@
 
     .cardd{
         margin-top: 5%;
-        width: 28vw;
+        margin-bottom: 7%;
+        width: 30vw;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
         border-radius: 8px; /* opcional, para bordas arredondadas */
         padding: 5.5%;      /* opcional, para espaçamento interno */
@@ -271,6 +274,12 @@
         font-size: 12px;
         /* visibility: hidden; */
         margin-bottom: 5px;
+    }
+
+    .entrarBtn button{
+        border: none;
+        width: 100%;
+        background-color: #fff;
     }
 
     .entrarBtn h3{
@@ -370,7 +379,7 @@
 
     .footerCard{
         margin-top: 5%;
-        margin-bottom: 10%;
+        /*margin-bottom: 10%;*/
     }
 
     .footerCard h6{

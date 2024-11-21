@@ -223,7 +223,13 @@ export default {
         visibility: visible;
     }
 
-    .entrarBtn a h3{
+    .entrarBtn button{
+        border: none;
+        width: 100%;
+        background-color: #fff;
+    }
+
+    .entrarBtn h3{
         margin-top: 4%;
         padding: 1.5%;
         background-color: #114FEE;
@@ -236,7 +242,7 @@ export default {
         /* color: #FFF; */
     }
 
-    .entrarBtn a h3:hover{
+    .entrarBtn h3:hover{
         /* color: #FFF; */
         background-color: #0f3cad;
         transition: .35s;
@@ -320,6 +326,7 @@ export default {
 
     .footerCard{
         margin-top: 5%;
+        margin-bottom: 7%;
     }
 
     .forgotPassword{

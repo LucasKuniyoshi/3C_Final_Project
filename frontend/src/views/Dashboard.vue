@@ -647,7 +647,7 @@ export default {
   }
   .modal-content .confirm-button{
       background-color: skyblue;
-   }
+  }
 
   .modal-content .confirm-button:hover {
     background-color: rgb(99, 197, 236);
