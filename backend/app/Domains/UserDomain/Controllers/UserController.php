@@ -1,65 +1,65 @@
 <?php
+namespace App\Domains\UserDomain\Controllers;
 
-
-namespace App\Http\Controllers;
-
-use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Domains\UserDomain\Models\User;
 use Illuminate\Support\Facades\Hash;
-
+use App\Domains\UserDomain\Validators\UserValidator;
+use App\Domains\UserDomain\Services\Contracts\UserServiceInterface;
 
 
 class UserController extends Controller
 {
-    // Listar todos os usuários
+    protected $userService;
+
+    public function __construct(UserServiceInterface $userService)
+    {
+        $this->userService = $userService;
+    }
+
     public function index()
     {
-        $users = User::all();
+        $users = $this->userService->getAllUsers();
         return response()->json($users);
     }
 
-    // Exibir detalhes de um usuário específico
     public function show($id)
     {
-        $user = User::findOrFail($id);
+        $user = $this->userService->getUserById($id);
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
         return response()->json($user);
     }
 
-    // Criar um novo usuário
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:8', // Confirmação de senha
-            'user_type' => 'required|in:recruiter,candidate', // Tipo de usuário
-        ]);
+        $validated = UserValidator::validateCreate($request->all());
 
+
+        $validated['password'] = Hash::make($validated['password']);
         $user = User::create($validated);
 
         return response()->json($user, 201);
     }
 
-    // Atualizar um usuário existente
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'string|max:255',
-            'email' => 'email|unique:users,email,' . $id,
-            'password' => 'nullable|string|min:8|confirmed',
-            'user_type' => 'in:recrutador,candidato',
-        ]);
+        $validated = UserValidator::validateUpdate($request->all(), $id);
 
         $user = User::findOrFail($id);
 
-        // Atualizar os campos
-        $user->name = $request->name ?? $user->name;
-        $user->email = $request->email ?? $user->email;
-        $user->user_type = $request->user_type ?? $user->user_type;
 
-        // Atualizar a senha apenas se for fornecida
-        if ($request->filled('password')) {
-            $user->password = Hash::make($request->password);
+        $user->name = $validated['name'] ?? $user->name;
+        $user->email = $validated['email'] ?? $user->email;
+        $user->user_type = $validated['user_type'] ?? $user->user_type;
+
+
+        if (isset($validated['password'])) {
+            $user->password = Hash::make($validated['password']);
         }
 
         $user->save();
@@ -67,11 +67,13 @@ class UserController extends Controller
         return response()->json($user);
     }
 
-    // Excluir um usuário
     public function destroy($id)
     {
-        $user = User::findOrFail($id);
-        $user->delete();
+        $deleted = $this->userService->deleteUser($id);
+
+        if (!$deleted) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
 
         return response()->json(['message' => 'User deleted successfully']);
     }
