@@ -4,7 +4,6 @@ namespace App\Domains\ApplicationDomain\Services;
 
 use App\Domains\ApplicationDomain\Services\Contracts\ApplicationServiceInterface;
 use App\Domains\ApplicationDomain\Repositories\Contracts\ApplicationRepositoryInterface;
-use App\Models\Application;
 
 class ApplicationService implements ApplicationServiceInterface
 {
