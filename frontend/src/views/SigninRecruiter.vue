@@ -130,13 +130,11 @@
                     </h6>
                 </div>
             </section>
-            <Footer />
         </div>
     </div>
 </template>
 
 <script>
-    import Footer from '@/components/Footer.vue';
     import axios from "axios";
 
     export default {
@@ -148,7 +146,7 @@
                     cnpj: "",
                     description: "",
                     password: "",
-                    //user_type: "recruiter",
+                    user_type: "recruiter",
                 },
             passwordConfirm: "",
             isFocusedName: false, // Controla o estado de foco
