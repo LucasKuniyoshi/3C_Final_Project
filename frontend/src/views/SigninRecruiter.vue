@@ -8,10 +8,22 @@
             </header>
             <section>
                 <div class="cardd">
-                    <form @submit.prevent="criarCompany">
+                    <form @submit.prevent="criarEmpresaEUsuario">
                         <h2>Entrar como Recrutador</h2>
                         <h6>Aproveite sua vida profissional ao máximo</h6>
                         <div class="campos">
+                            <div class="input-container">
+                                <input
+                                type="text"
+                                v-model="users.name"
+                                @focus="isFocusedName = true"
+                                @blur="handleBlur('name')"
+                                placeholder=" "
+                                required
+                                />
+                                <label for="input">Nome</label>
+                                <!-- <span>CAMPO OBRIGATÓRIO</span> -->
+                            </div>
                             <div class="input-container">
                                 <input
                                 type="text"
@@ -26,12 +38,13 @@
                             </div>
                             <div class="input-container">
                                 <input
-                                type="text"
-                                v-model="companies.email"
-                                @focus="isFocusedEmail = true"
-                                @blur="handleBlur('email')"
-                                placeholder=" "
-                                required
+                                    type="text"
+                                    :value="companies.email"
+                                    @input="updateEmails"
+                                    @focus="isFocusedEmail = true"
+                                    @blur="handleBlur('email')"
+                                    placeholder=" "
+                                    required
                                 />
                                 <label for="input">Email</label>
                             </div>
@@ -61,7 +74,8 @@
                             <div class="input-container">
                                 <input
                                 type="password"
-                                v-model="companies.password"
+                                :value="companies.password"
+                                @input="updatePassword"
                                 @focus="isFocusedPassword = true"
                                 @blur="handleBlur('password')"
                                 placeholder=" "
@@ -98,11 +112,6 @@
                                     <h3>Registrar-se</h3>
                                 </button>
                             </div>
-                            <!--<div class="entrarBtn">
-                                <router-link>
-                                    <h3>Registrar-se</h3>
-                                </router-link>
-                            </div> -->
                             <div class="line-container">
                                 <span class="OuPosition">ou</span>
                             </div>
@@ -130,13 +139,11 @@
                     </h6>
                 </div>
             </section>
-            <Footer />
         </div>
     </div>
 </template>
 
 <script>
-    import Footer from '@/components/Footer.vue';
     import axios from "axios";
 
     export default {
@@ -150,6 +157,12 @@
                     password: "",
                     //user_type: "recruiter",
                 },
+                users: {
+                    name: "",
+                    email: "",
+                    password: "",
+                    user_type: "recruiter"
+                },
             passwordConfirm: "",
             isFocusedName: false, // Controla o estado de foco
             isFocusedEmail: false, 
@@ -161,47 +174,59 @@
         },
         methods: {
             handleBlur(field) {
-            if (field === 'name' && this.companies.name) {
-                this.isFocusedName = false;
-            }
-            if (field === 'email' && this.companies.email) {
-                this.isFocusedEmail = false;
-            }
-            if (field === 'cnpj' && this.companies.cnpj) {
-                this.isFocusedCnpj = false;
-            }
-            if (field === 'description' && this.companies.description) {
-                this.isFocusedDescription = false;
-            }
-            if (field === 'password' && this.companies.password) {
-                this.isFocusedPassword = false;
-            }
-            if (field === 'passwordConfirm' && this.passwordConfirm) {
-                this.isFocusedPasswordConfirm = false;
-            }
-        },
-            criarCompany() {
-                // Verifica se as senhas coincidem antes de enviar a requisição
-                if (this.companies.password !== this.passwordConfirm) {
-                    alert("As senhas não coincidem.");
-                    return;
+                if (field === 'name' && this.companies.name) {
+                    this.isFocusedName = false;
                 }
-
-                // Envia os dados do usuário para a API
-                axios
-                    .post('http://localhost:8000/api/companies', this.companies)
+                if (field === 'email' && this.companies.email) {
+                    this.isFocusedEmail = false;
+                }
+                if (field === 'cnpj' && this.companies.cnpj) {
+                    this.isFocusedCnpj = false;
+                }
+                if (field === 'description' && this.companies.description) {
+                    this.isFocusedDescription = false;
+                }
+                if (field === 'password' && this.companies.password) {
+                    this.isFocusedPassword = false;
+                }
+                if (field === 'passwordConfirm' && this.passwordConfirm) {
+                    this.isFocusedPasswordConfirm = false;
+                }
+            },
+            criarEmpresaEUsuario() {
+                // Primeiro, cria a empresa
+                axios.post('http://localhost:8000/api/companies', this.companies)
                     .then(response => {
-                        console.log('Usuário criado com sucesso:', response.data);
-                        // Redireciona para a tela de login após o registro bem-sucedido
+                        console.log('Empresa criada:', response.data);
+
+                        // Atualiza os dados do usuário para incluir informações da empresa, se necessário
+                        //this.users.company_id = response.data.company.id; // Exemplo, ajuste conforme seu backend
+
+                        // Cria o usuário associado à empresa
+                        return axios.post('http://localhost:8000/api/users', this.users);
+                    })
+                    .then(response => {
+                        console.log('Usuário criado:', response.data);
                         this.redirecionarLogin();
+                        //alert('Empresa e usuário criados com sucesso!');
                     })
                     .catch(error => {
-                        console.error('Erro ao criar usuário:', error);
-                        alert('Erro ao criar usuário. Verifique os dados e tente novamente.');
+                        console.error('Erro ao criar empresa ou usuário:', error.response?.data || error.message);
+                        alert('Ocorreu um erro ao criar a empresa ou o usuário. Tente novamente.');
                     });
             },
             redirecionarLogin() {
-                this.$router.push({ name: 'dashboard' });
+                this.$router.push({ name: 'login' });
+            },
+            updateEmails(event) {
+                const value = event.target.value;
+                this.companies.email = value;
+                this.users.email = value;
+            },
+            updatePassword(event) {
+                const value = event.target.value;
+                this.companies.password = value;
+                this.users.password = value;
             },
         },
     };
