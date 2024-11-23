@@ -23,9 +23,13 @@ import Footer from '@/components/Footer.vue';
           <div class="login-elements">
             <h1>Conheça sua Comunidade Profissional</h1>
             <div>
-              <h3>Continue com Google <font-awesome-icon :icon="['fab', 'google']" /></h3>
+              <router-link to="/login">
+                <h3>Continue com Google <font-awesome-icon :icon="['fab', 'google']" /></h3>
+              </router-link>
             </div>
-            <h4>Entrar com e-mail <font-awesome-icon icon="envelope" /></h4>
+            <router-link to="/login">
+              <h4>Entrar com e-mail <font-awesome-icon icon="envelope" /></h4>
+            </router-link>
             <p>Ainda não conhece o Recruta Fácil? <router-link to="/signin">Cadastre-se agora</router-link></p>
           </div>
           <img class="templateImg" src="../assets/template-logo.webp" alt="templateImg">
@@ -128,7 +132,7 @@ import Footer from '@/components/Footer.vue';
     transition: .5s;
   }
 
-  .login-elements a:hover{
+  .login-elements p a:hover{
     text-decoration: underline;
   }
 

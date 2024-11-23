@@ -17,10 +17,10 @@
                                 v-model="users.name"
                                 @focus="isFocusedName = true"
                                 @blur="handleBlur('name')"
-                                placeholder=" "
+                                placeholder="Nome de usuário"
                                 required
                                 />
-                                <label>Nome de usuário</label>
+                                <!-- <label>Nome de usuário</label> -->
 
                                 <!-- Exibe o span de validação somente se o campo estiver focado e vazio ao desfocar -->
                                 <span v-if="isFocusedName && !users.name" class="validacao">Campo obrigatório</span>                            </div>
@@ -30,13 +30,13 @@
                                 v-model="users.email"
                                 @focus="isFocusedEmail = true"
                                 @blur="handleBlur('email')"
-                                placeholder=" "
+                                placeholder="Email"
                                 required
                                 />
-                                <label>Email</label>
+                                <!-- <label>Email</label> -->
 
                                 <!-- Exibe o span de validação somente se o campo estiver focado e vazio ao desfocar -->
-                                <span v-if="isFocusedEmail && !users.email" class="validacao">Email inválido</span>
+                                <span v-if="isFocusedEmail && !isEmail(users.email)" class="validacao">Email inválido</span>
                                 <!-- <span>EMAIL JÁ EXISTENTE</span> -->
                             </div>
                             <div class="input-container">
@@ -45,11 +45,11 @@
                                 v-model="users.password"
                                 @focus="isFocusedPassword = true"
                                 @blur="handleBlur('password')"
-                                placeholder=" "
+                                placeholder="Senha"
                                 minlength="8"
                                 required
                                 />
-                                <label>Senha</label>
+                                <!-- <label>Senha</label> -->
 
                                 <!-- Exibe o span de validação somente se o campo estiver focado e vazio ao desfocar -->
                                 <span v-if="isFocusedPassword && users.password.length < 8" class="validacao">Senha deve ter pelo menos 8 caracteres</span>
@@ -61,11 +61,11 @@
                                 v-model="passwordConfirm"
                                 @focus="isFocusedPasswordConfirm = true"
                                 @blur="handleBlur"
-                                placeholder=" "
+                                placeholder="Confirmar Senha"
                                 minlength="8"
                                 required
                                 />
-                                <label>Confirmar Senha</label>
+                                <!-- <label>Confirmar Senha</label> -->
 
                                 <!-- Exibe o span de validação somente se o campo estiver focado e vazio ao desfocar -->
                                 <!-- <span v-if="isFocusedPasswordConfirm && !passwordConfirm" class="validacao">Senha deve ter pelo menos 8 caracteres</span> -->
@@ -145,19 +145,19 @@
         },
         methods: {
             handleBlur(field) {
-            if (field === 'name' && this.users.name) {
-                this.isFocusedName = false;
-            }
-            if (field === 'email' && this.users.email) {
-                this.isFocusedEmail = false;
-            }
-            if (field === 'password' && this.users.password) {
-                this.isFocusedPassword = false;
-            }
-            if (field === 'passwordConfirm' && this.passwordConfirm) {
-                this.isFocusedPasswordConfirm = false;
-            }
-        },
+                if (field === 'name' && this.users.name) {
+                    this.isFocusedName = false;
+                }
+                if (field === 'email' && this.users.email) {
+                    this.isFocusedEmail = false;
+                }
+                if (field === 'password' && this.users.password) {
+                    this.isFocusedPassword = false;
+                }
+                if (field === 'passwordConfirm' && this.passwordConfirm) {
+                    this.isFocusedPasswordConfirm = false;
+                }
+            },
             criarUsuario() {
                 // Verifica se as senhas coincidem antes de enviar a requisição
                 if (this.users.password !== this.passwordConfirm) {
@@ -180,6 +180,11 @@
             },
             redirecionarLogin() {
                 this.$router.push({ name: 'login' });
+            },
+            isEmail(value) {
+                // Regex simples para validar o formato de email
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(value);
             },
         },
     };
@@ -234,7 +239,7 @@
     /* Estilo do contêiner campos */
     .input-container {
         position: relative;
-        margin-top: 7.4%;
+        margin-top: 3%;
     }
 
     /* Estilo do input */
@@ -273,7 +278,7 @@
         color: #666;
         font-size: 12px;
         /* visibility: hidden; */
-        margin-bottom: 5px;
+        /* margin-bottom: 5px; */
     }
 
     .entrarBtn button{

@@ -18,22 +18,23 @@
                                 v-model="users.name"
                                 @focus="isFocusedName = true"
                                 @blur="handleBlur('name')"
-                                placeholder=" "
+                                placeholder="Nome"
                                 required
                                 />
-                                <label for="input">Nome</label>
-                                <!-- <span>CAMPO OBRIGATÓRIO</span> -->
+                                <!-- <label for="input">Nome</label> -->
+                                <span v-if="isFocusedName && !users.name" class="validacao">Campo obrigatório</span>
                             </div>
                             <div class="input-container">
                                 <input
                                 type="text"
                                 v-model="companies.name"
-                                @focus="isFocusedName = true"
+                                @focus="isFocusedCompanyName = true"
                                 @blur="handleBlur('name')"
-                                placeholder=" "
+                                placeholder="Nome da empresa"
                                 required
                                 />
-                                <label for="input">Nome da empresa</label>
+                                <!-- <label for="input">Nome da empresa</label> -->
+                                <span v-if="isFocusedCompanyName && !companies.name" class="validacao">Campo obrigatório</span>
                                 <!-- <span>CAMPO OBRIGATÓRIO</span> -->
                             </div>
                             <div class="input-container">
@@ -43,21 +44,24 @@
                                     @input="updateEmails"
                                     @focus="isFocusedEmail = true"
                                     @blur="handleBlur('email')"
-                                    placeholder=" "
+                                    placeholder="Email"
                                     required
                                 />
-                                <label for="input">Email</label>
+                                <!-- <label for="input">Email</label> -->
+                                <span v-if="isFocusedEmail && !isEmail(companies.email)" class="validacao">Email inválido</span>
                             </div>
                             <div class="input-container">
                                 <input
                                 type="text"
                                 v-model="companies.cnpj"
+                                @keypress="validateCnpjInput"
                                 @focus="isFocusedCnpj = true"
                                 @blur="handleBlur('cnpj')"
-                                placeholder=" "
+                                placeholder="CNPJ"
                                 required
                                 />
-                                <label for="input">CNPJ</label>
+                                <span v-if="isFocusedCnpj && !companies.cnpj" class="validacao">Campo obrigatório</span>
+                                <!-- <label for="input">CNPJ</label> -->
                             </div>
                             <div class="input-container">
                                 <input
@@ -65,10 +69,11 @@
                                 v-model="companies.description"
                                 @focus="isFocusedDescription = true"
                                 @blur="handleBlur('description')"
-                                placeholder=" "
+                                placeholder="Descrição"
                                 required
                                 />
-                                <label for="input">Descrição</label>
+                                <span v-if="isFocusedDescription && !companies.description" class="validacao">Campo obrigatório</span>
+                                <!-- <label for="input">Descrição</label> -->
                             </div>
                             <!-- <span>CAMPO OBRIGATÓRIO E EMAIL JA EXISTENTE</span> -->
                             <div class="input-container">
@@ -78,11 +83,12 @@
                                 @input="updatePassword"
                                 @focus="isFocusedPassword = true"
                                 @blur="handleBlur('password')"
-                                placeholder=" "
+                                placeholder="Senha"
                                 minlength="8"
                                 required
                                 />
-                                <label for="input">Senha</label>
+                                <span v-if="isFocusedPassword && companies.password.length < 8" class="validacao">Senha deve ter pelo menos 8 caracteres</span>
+                                <!-- <label for="input">Senha</label> -->
                             </div>
                             <!-- <span>MIN-WITDH DA SENHA</span> -->
                             <div class="input-container">
@@ -91,11 +97,11 @@
                                 v-model="passwordConfirm"
                                 @focus="isFocusedPasswordConfirm = true"
                                 @blur="handleBlur"
-                                placeholder=" "
+                                placeholder="Confirmar senha"
                                 minlength="8"
                                 required
                                 />
-                                <label for="input">Confirmar senha</label>
+                                <!-- <label for="input">Confirmar senha</label> -->
                                 <span v-if="isFocusedPasswordConfirm && passwordConfirm != companies.password" class="validacao">Confirmar Senha diferente de Senha</span>
                             </div>
                             <!-- <span>CONFIRMACAO DE SENHAS</span> -->
@@ -165,6 +171,7 @@
                 },
             passwordConfirm: "",
             isFocusedName: false, // Controla o estado de foco
+            isFocusedCompanyName: false, 
             isFocusedEmail: false, 
             isFocusedCnpj: false, 
             isFocusedDescription: false, 
@@ -228,6 +235,21 @@
                 this.companies.password = value;
                 this.users.password = value;
             },
+            isEmail(value) {
+                // Regex simples para validar o formato de email
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(value);
+            },
+            validateCnpjInput(event) {
+                // Permite apenas números e os caracteres específicos
+                const allowedCharacters = /[0-9./-]/;
+                const key = event.key;
+
+                // Se a tecla pressionada não for permitida, impede o evento
+                if (!allowedCharacters.test(key)) {
+                    event.preventDefault();
+                }
+            },
         },
     };
 </script>
@@ -276,6 +298,7 @@
 
     .campos{
         margin-top: 10%;
+        margin-bottom: 2%;
         /* display: flex;
         flex-direction: column;
         align-items: center; */
@@ -284,7 +307,7 @@
     /* Estilo do contêiner campos */
     .input-container {
         position: relative;
-        margin: 20px 0;
+        margin-top: 3.5%;
     }
 
     /* Estilo do input */
@@ -316,6 +339,13 @@
         top: -22%;
         font-size: small;
         color: #333;
+    }
+
+    .validacao {
+        color: #666;
+        font-size: 12px;
+        /* visibility: hidden; */
+        /* margin-bottom: 5px; */
     }
 
     .entrarBtn button{
