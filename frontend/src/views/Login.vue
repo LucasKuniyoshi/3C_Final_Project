@@ -25,6 +25,7 @@ export default {
                 localStorage.setItem("token", token); // Token de autenticação
                 localStorage.setItem("user", JSON.stringify(user)); // Dados do usuário
                 localStorage.setItem("applications", JSON.stringify(applications)); // Vagas ligadas ao candidato
+                localStorage.setItem("company_id", company_id);
 
                 // Redirecionando com base no tipo de usuário
                 if (user.user_type === "candidate") {
