@@ -6,7 +6,7 @@ use App\Domains\JobDomain\Controllers\JobController;
 use App\Domains\AuthDomain\Controllers\AuthController;
 use App\Domains\UserDomain\Controllers\UserController;
 use App\Domains\CompanyDomain\Controllers\CompanyController;
-use App\Domians\ApplicationDomain\Controllers\ApplicationController;
+use App\Domains\ApplicationDomain\Controllers\ApplicationController;
 
 
 Route::apiResource('users', UserController::class);
