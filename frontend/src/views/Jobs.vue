@@ -7,7 +7,18 @@
       </div>
       <h2>Enrique</h2>
       <p>enriqueTeste@gmail.com</p>
-      <div class="menu">
+      <div>
+        <ul>
+          <li><router-link class="currentRouter" to="">Visão Geral</router-link></li>
+          <li><router-link to="/candidate/jobs/candidateVagas">Minhas Vagas</router-link></li>
+          <li><router-link to="">Vagas Salvas</router-link></li>
+          <li><router-link to="">Configurações</router-link></li>
+          <li><router-link to="">Perfil</router-link></li>
+          <li><router-link to="/">Sair</router-link></li>
+            <!--COLOCAR UMA AÇÃO PARA SAIR (LIBERAR O LOCALSTORAGE)-->
+        </ul>
+      </div>
+      <!--<div class="menu">
         <div>
           <ul>
             <li><router-link class="currentRouter" to="">Visão Geral</router-link></li>
@@ -16,6 +27,7 @@
             <li><router-link to="">Configurações</router-link></li>
             <li><router-link to="">Perfil</router-link></li>
             <li><router-link to="/">Sair</router-link></li>
+             COLOCAR UMA AÇÃO PARA SAIR (LIBERAR O LOCALSTORAGE)
           </ul>
         </div>
         <div class="menuBottom">
@@ -24,7 +36,7 @@
             <router-link to="/signinRecruiter">Fazer login como recrutador</router-link>
           </p>
         </div>
-      </div>
+      </div>-->
     </aside>
 
     <div class="border-main-content">
@@ -98,22 +110,22 @@
                     <input type="text" v-model="vagaAtual.nome" :placeholder="vagaAtual ? vagaAtual.nome : ''" />
 
                     <h4>Descrição</h4>
-                    <textarea v-model="vagaAtual.descricao"></textarea>
+                    <textarea v-model="vagaAtual.descricao" disabled ></textarea>
 
                     <h4>Salário</h4>
-                    <input type="text" v-model="vagaAtual.salario" />
+                    <input type="text" v-model="vagaAtual.salario" disabled />
 
                     <h4>Localização</h4>
-                    <input type="text" v-model="vagaAtual.localizacao" />
+                    <input type="text" v-model="vagaAtual.localizacao" disabled/>
 
                     <h4>Requisitos</h4>
-                    <textarea v-model="vagaAtual.requisitos"></textarea>
+                    <textarea v-model="vagaAtual.requisitos" disabled ></textarea>
                     
                     <h4>Setor</h4>
-                    <p>{{ vagaAtual.department }}</p>
+                    <p disabled >{{ vagaAtual.department }}</p>
 
                     <h4>Regime de Trabalho</h4>
-                    <p>{{ vagaAtual.employment_type }}</p>
+                    <p disabled >{{ vagaAtual.employment_type }}</p>
 
                     <button type="submit">Salvar Alterações</button>
                     <button type="button" @click="fecharModalDetalhes">Cancelar</button>

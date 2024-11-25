@@ -112,12 +112,11 @@
                     </div>
                 </form>
             </div>
-                
-            <!--<div class="footerCard">
+            <div class="footerCard">
                 <h6>É um recrutador? 
                     <router-link to="/SigninRecruiter">Realizar cadastro como recrutador</router-link>
                 </h6>
-            </div>-->
+            </div>
         </section>
         <Footer />
     </div>
@@ -383,7 +382,8 @@
     }
 
     .footerCard{
-        margin-top: 5%;
+        margin-top: 3.5%;
+        margin-bottom: 8%;
         /*margin-bottom: 10%;*/
     }
 
