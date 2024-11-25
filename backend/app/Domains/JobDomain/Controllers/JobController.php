@@ -20,6 +20,7 @@ class JobController extends Controller
 
     public function index(Request $request)
     {
+
         if (auth()->user()->user_type !== 'recruiter') {
             return response()->json(['message' => 'Unauthorized.'], 403);
         }

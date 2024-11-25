@@ -45,27 +45,40 @@
                     <form @submit.prevent="adicionarVaga">
                       <div class="campos">
                         <div class="input-container">
-                          <input type="text" v-model="novaVaga.nome" @focus="isFocusedTitle = true" @blur="handleBlur('Nome da vaga')" placeholder=" " required />
-                          <label>Nome da vaga</label>
-                          <!-- <span v-if="isFocusedTitle && !novaVaga.nome" class="validacao">Campo obrigatório</span> -->
+                          <input type="text" v-model="novaVaga.nome" @focus="isFocusedTitle = true" @blur="handleBlur('title')" placeholder="Nome da vaga" required />
+                          <span v-if="isFocusedTitle && !novaVaga.nome" class="validacao">Campo obrigatório</span>
                         </div>
-                        <input type="text" v-model="novaVaga.descricao" placeholder="Descrição" required />
-                        <input type="text" v-model="novaVaga.salario" placeholder="Salário" />
-                        <input type="text" v-model="novaVaga.localizacao" placeholder="Localização" />
-                        <input type="text" v-model="novaVaga.requisitos" placeholder="Requisitos" />
-                        <h4>Setor</h4>
-                        <select v-model="novaVaga.department">
+                        <div class="input-container">
+                          <input type="text" v-model="novaVaga.descricao" @focus="isFocusedDescription = true" @blur="handleBlur('description')" placeholder="Descrição" required />
+                          <span v-if="isFocusedDescription && !novaVaga.descricao" class="validacao">Campo obrigatório</span>
+                        </div>
+                        <div class="input-container">
+                          <input type="text" v-model="novaVaga.salario" @focus="isFocusedSalary = true" @blur="handleBlur('salary')" placeholder="Salário" required />
+                          <span v-if="isFocusedSalary && !novaVaga.salario" class="validacao">Campo obrigatório</span>
+                        </div>
+                        <div class="input-container">
+                          <input type="text" v-model="novaVaga.localizacao" @focus="isFocusedLocation = true" @blur="handleBlur('location')" placeholder="Localização" required />
+                          <span v-if="isFocusedLocation && !novaVaga.localizacao" class="validacao">Campo obrigatório</span>
+                        </div>
+                        <div class="input-container">
+                          <input type="text" v-model="novaVaga.requisitos" @focus="isFocusedRequest = true" @blur="handleBlur('request')" placeholder="Requisitos" required />
+                          <span v-if="isFocusedRequest && !novaVaga.requisitos" class="validacao">Campo obrigatório</span>
+                        </div>
+                        <div style="margin-top: 2%;"></div>
+                        <select class="custom-select" v-model="novaVaga.department">
                           <option value="" disabled selected>Selecione o setor</option>
                           <option v-for="department in departments" :key="department" :value="department">{{ department }}</option>
                         </select>
-                        <h4>Regime de Trabalho</h4>
-                        <select v-model="novaVaga.employment_type">
-                          <option value="" disabled selected>Selecione o setor</option>
+                        <div style="margin-top: 2%;"></div>
+                        <select class="custom-select" v-model="novaVaga.employment_type">
+                          <option value="" disabled selected>Regime de Trabalho</option>
                           <option v-for="employment_type in employment_types" :key="employment_type" :value="employment_type">{{ employment_type }}</option>
                         </select>
                       </div>
-                      <button type="submit" class="confirm-button" >Confirmar</button>
-                      <button type="button" class="cancel-button" @click="fecharModal">Cancelar</button>
+                      <div class="btnDisplay">
+                        <button type="submit" class="confirm-button" >Confirmar</button>
+                        <button type="button" class="cancel-button" @click="fecharModal">Cancelar</button>
+                      </div>
                     </form>
                   </div>
                 </div>
@@ -77,50 +90,28 @@
                   </div>
                 </div>
 
-                <!-- Modal de Última Vaga -->
-                <!--<div v-if="modalUltimaVagaAberto" class="modal-overlay" @click.self="fecharModalUltimaVaga">
-                  <div class="modal-content">
-                    <h2>Última Vaga Criada</h2>
-                    <form @submit.prevent="salvarAlteracoesUltimaVaga">
-                      <h4>Nome da Vaga</h4>
-                      <input type="text" v-model="ultimaVaga.nome" disabled />
-
-                      <h4>Descrição</h4>
-                      <textarea v-model="ultimaVaga.descricao" disabled></textarea>
-
-                      <h4>Salário</h4>
-                      <input type="text" v-model="ultimaVaga.salario" disabled />
-
-                      <h4>Localização</h4>
-                      <input type="text" v-model="ultimaVaga.localizacao" disabled />
-
-                      <h4>Requisitos</h4>
-                      <textarea v-model="ultimaVaga.requisitos" disabled></textarea>
-                      
-                      <h4>Setor</h4>
-                      <select v-model="vagaAtual.department">
-                        <option value="" disabled>Selecione o setor</option>
-                        <option v-for="department in departments" :key="department" :value="department">{{ department }}</option>
-                      </select>
-                      <h4>Regime de Trabalho</h4>
-                      <select v-model="vagaAtual.employment_type">
-                        <option value="" disabled selected>Selecione o setor</option>
-                        <option v-for="employment_type in employment_types" :key="employment_type" :value="employment_type">{{ employment_type }}</option>
-                      </select>
-                      <button type="submit">Salvar Alterações</button>
-                      <button type="button" @click="fecharModalUltimaVaga">Cancelar</button>
-                    </form>
-                  </div>
-                </div>-->
-
                 <!-- Seção Minhas Vagas -->
                 <h5 class="topicos2">Minhas Vagas</h5>
+                <div class="card-content">
+                    <div
+                        v-for="(vaga, index) in vagas"
+                        :key="vaga.id"
+                        class="card"
+                        @click="abrirModalDetalhes(vaga)"
+                    >
+                        <h4>{{ vaga.title }}</h4>
+                        <p>{{ vaga.description }}</p>
+                    </div>
+                </div>
+
+                <!-- Seção Minhas Vagas -->
+                <!--<h5 class="topicos2">Minhas Vagas</h5>
                 <div class="card-content">
                   <div v-for="(vaga, index) in vagas" :key="index" class="card" @click="abrirModalDetalhes(vaga)">
                     <h4>{{ vaga.nome }}</h4>
                     <p>{{ vaga.descricao }}</p>
                   </div>
-                </div>
+                </div>-->
 
                 <!-- Modal de Detalhes da Vaga em Minhas Vagas -->
                 <div v-if="modalDetalhesAberto" class="modal-overlay" @click.self="fecharModalDetalhes">
@@ -138,26 +129,26 @@
                           <h4>Descrição</h4>
                           <textarea class="custom-textarea" v-model="vagaAtual.descricao"></textarea>
 
-                          <h4>Requisitos</h4>
-                          <textarea class="custom-textarea" v-model="vagaAtual.requisitos"></textarea>
+                          <h4>Localização</h4>
+                          <input class="custom-input" type="text" v-model="vagaAtual.localizacao" />
+
+                          <h4>Regime de Trabalho</h4>
+                          <select class="custom-select" v-model="vagaAtual.employment_type">
+                            <option value="" disabled selected>Selecione o setor</option>
+                            <option v-for="employment_type in employment_types" :key="employment_type" :value="employment_type">{{ employment_type }}</option>
+                          </select>
                         </div>
                         <div class="modal-content-right">
                           <h4>Salário</h4>
                           <input class="custom-input" type="text" v-model="vagaAtual.salario" />
 
-                          <h4>Localização</h4>
-                          <input class="custom-input" type="text" v-model="vagaAtual.localizacao" />
-
+                          <h4>Requisitos</h4>
+                          <textarea class="custom-textarea" v-model="vagaAtual.requisitos"></textarea>
+                          
                           <h4>Setor</h4>
                           <select class="custom-select" v-model="vagaAtual.department">
                             <option value="" disabled>Selecione o setor</option>
                             <option v-for="department in departments" :key="department" :value="department">{{ department }}</option>
-                          </select>
-                          <div style="margin-bottom: 1%"></div>
-                          <h4>Regime de Trabalho</h4>
-                          <select class="custom-select" v-model="vagaAtual.employment_type">
-                            <option value="" disabled selected>Selecione o setor</option>
-                            <option v-for="employment_type in employment_types" :key="employment_type" :value="employment_type">{{ employment_type }}</option>
                           </select>
                         </div>
                       </div>
@@ -310,6 +301,7 @@ export default {
   },
   mounted() {
     this.carregarVagas();
+    //console.log(JSON.parse(localStorage.getItem('vagas')));
     const user = JSON.parse(localStorage.getItem("user"));
     if (!user || user.user_type !== "recruiter") {
       this.$router.push("/login");
@@ -331,6 +323,49 @@ export default {
       if (field === 'request' && this.request) this.isFocusedRequest = false;
     },
     adicionarVaga() {
+        const token = localStorage.getItem("token"); // Recupera o token do usuário autenticado
+
+        axios
+            .post(
+                "http://localhost:8000/api/jobs",
+                {
+                    title: this.novaVaga.nome,
+                    description: this.novaVaga.descricao,
+                    salary: this.novaVaga.salario,
+                    location: this.novaVaga.localizacao,
+                    requirements: this.novaVaga.requisitos,
+                    employment_type: this.novaVaga.employment_type,
+                    department: this.novaVaga.department,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`, // Autenticação com o token
+                    },
+                }
+            )
+            .then((response) => {
+                // Adiciona a nova vaga na lista de vagas exibidas
+                this.vagas.push(response.data.job); // Ajuste conforme a resposta do backend
+                alert("Vaga criada com sucesso!");
+                this.fecharModal(); // Fecha o modal
+            })
+            .catch((error) => {
+                console.error("Erro ao criar vaga:", error);
+                alert("Erro ao criar a vaga. Verifique os dados e tente novamente.");
+            });
+
+        // Reseta o formulário após a submissão
+        this.novaVaga = {
+            nome: "",
+            descricao: "",
+            salario: "",
+            localizacao: "",
+            requisitos: "",
+            employment_type: "",
+            department: "",
+        };
+    },
+    /*adicionarVaga() {
       // Armazena a nova vaga na lista de vagas
       const novaVagaCopia = { ...this.novaVaga };
       this.vagas.push(novaVagaCopia);
@@ -364,7 +399,7 @@ export default {
 
       // Fecha o modal
       this.modalAberto = false;
-    },  
+    },*/  
     fecharModalUltimaVaga() {
       // Fecha o modal da última vaga
       this.modalUltimaVagaAberto = false;
@@ -394,12 +429,28 @@ export default {
       this.modalDetalhesAberto = false;
     },
     carregarVagas() {
+        const token = localStorage.getItem("token");
+
+        axios
+            .get("http://localhost:8000/api/jobs", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+            .then((response) => {
+                this.vagas = response.data.jobs; // Ajuste conforme a resposta do backend
+            })
+            .catch((error) => {
+                console.error("Erro ao carregar vagas:", error);
+            });
+    },
+    /*carregarVagas() {
       // Carrega as vagas do localStorage ao montar o componente
       const vagasSalvas = localStorage.getItem("vagas");
       if (vagasSalvas) {
         this.vagas = JSON.parse(vagasSalvas);
       }
-    },
+    },*/
     limparVagas() {
       // Remove as chaves 'vagas' e 'ultimaVaga' do localStorage
       localStorage.removeItem('vagas');
@@ -692,7 +743,7 @@ export default {
     /* Estilo do contêiner campos */
     .input-container {
         position: relative;
-        margin-top: 7.4%;
+        margin-top: 2%;
     }
 
     /* Estilo do input */
