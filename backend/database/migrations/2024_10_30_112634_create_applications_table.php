@@ -17,7 +17,10 @@ return new class extends Migration
             $table->foreignId('job_id')->constrained()->onDelete('cascade');  // Relacionamento com Job
             $table->string('name'); // Nome do candidato
             $table->string('recruiter_name'); // Nome do recrutador
+            $table->text('additional_info')->nullable();
+            $table->string('resume_path')->nullable();
             $table->timestamps();
+
         });
     }
 
