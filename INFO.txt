@@ -53,3 +53,18 @@ DB_CONNECTION=sqlite
 # DB_DATABASE=codeacademy_laravel_vue
 # DB_USERNAME=root
 # DB_PASSWORD=root
+
+=================================
+Alterar "usuário" do git
+Atualizado em 28/08/2024
+Abrir um terminal na pasta raiz do linux digite os comandos
+
+rm ~/.git-credentials
+
+git config --global --unset credential.helper
+
+git config --global --unset user.name
+git config --global --unset user.email
+
+git config --global user.name "Seu Nome"
+git config --global user.email "seuemail@exemplo.com"
