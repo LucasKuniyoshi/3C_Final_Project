@@ -78,7 +78,7 @@
                 </div>
 
                 <!-- Modal de Última Vaga -->
-                <div v-if="modalUltimaVagaAberto" class="modal-overlay" @click.self="fecharModalUltimaVaga">
+                <!--<div v-if="modalUltimaVagaAberto" class="modal-overlay" @click.self="fecharModalUltimaVaga">
                   <div class="modal-content">
                     <h2>Última Vaga Criada</h2>
                     <form @submit.prevent="salvarAlteracoesUltimaVaga">
@@ -111,7 +111,7 @@
                       <button type="button" @click="fecharModalUltimaVaga">Cancelar</button>
                     </form>
                   </div>
-                </div>
+                </div>-->
 
                 <!-- Seção Minhas Vagas -->
                 <h5 class="topicos2">Minhas Vagas</h5>
@@ -127,35 +127,44 @@
                   <div class="modal-content">
                     <h2>Detalhes da Vaga</h2>
                     <form @submit.prevent="salvarAlteracoes">
-                      <h4>Nome da Vaga</h4>
-                      <!-- Usa a diretiva :placeholder para definir o nome como placeholder -->
-                      <input type="text" v-model="vagaAtual.nome" :placeholder="vagaAtual ? vagaAtual.nome : ''" />
+                      <div class="modal-content-position">
+                        <div class="modal-content-left">
+                          <div class="modal-content-field">
+                            <h4>Nome da Vaga</h4>
+                            <!-- Usa a diretiva :placeholder para definir o nome como placeholder -->
+                            <input class="custom-input" type="text" v-model="vagaAtual.nome" :placeholder="vagaAtual ? vagaAtual.nome : ''" />
+                          </div>
+                        
+                          <h4>Descrição</h4>
+                          <textarea class="custom-textarea" v-model="vagaAtual.descricao"></textarea>
 
-                      <h4>Descrição</h4>
-                      <textarea v-model="vagaAtual.descricao"></textarea>
+                          <h4>Requisitos</h4>
+                          <textarea class="custom-textarea" v-model="vagaAtual.requisitos"></textarea>
+                        </div>
+                        <div class="modal-content-right">
+                          <h4>Salário</h4>
+                          <input class="custom-input" type="text" v-model="vagaAtual.salario" />
 
-                      <h4>Salário</h4>
-                      <input type="text" v-model="vagaAtual.salario" />
+                          <h4>Localização</h4>
+                          <input class="custom-input" type="text" v-model="vagaAtual.localizacao" />
 
-                      <h4>Localização</h4>
-                      <input type="text" v-model="vagaAtual.localizacao" />
-
-                      <h4>Requisitos</h4>
-                      <textarea v-model="vagaAtual.requisitos"></textarea>
-                      
-                      <h4>Setor</h4>
-                      <select v-model="vagaAtual.department">
-                        <option value="" disabled>Selecione o setor</option>
-                        <option v-for="department in departments" :key="department" :value="department">{{ department }}</option>
-                      </select>
-                      <h4>Regime de Trabalho</h4>
-                      <select v-model="vagaAtual.employment_type">
-                        <option value="" disabled selected>Selecione o setor</option>
-                        <option v-for="employment_type in employment_types" :key="employment_type" :value="employment_type">{{ employment_type }}</option>
-                      </select>
-
-                      <button type="submit">Salvar Alterações</button>
-                      <button type="button" @click="fecharModalDetalhes">Cancelar</button>
+                          <h4>Setor</h4>
+                          <select class="custom-select" v-model="vagaAtual.department">
+                            <option value="" disabled>Selecione o setor</option>
+                            <option v-for="department in departments" :key="department" :value="department">{{ department }}</option>
+                          </select>
+                          <div style="margin-bottom: 1%"></div>
+                          <h4>Regime de Trabalho</h4>
+                          <select class="custom-select" v-model="vagaAtual.employment_type">
+                            <option value="" disabled selected>Selecione o setor</option>
+                            <option v-for="employment_type in employment_types" :key="employment_type" :value="employment_type">{{ employment_type }}</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="btnDisplay">
+                        <button class="confirm-button" type="submit">Salvar Alterações</button>
+                        <button class="cancel-button" type="button" @click="fecharModalDetalhes">Cancelar</button>
+                      </div>
                     </form>
                   </div>
                 </div>
@@ -628,12 +637,20 @@ export default {
     padding: 20px;
     border-radius: 8px;
     width: 90%;
-    max-width: 26.5%;
+    max-width: 31.5%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
   
   .modal-content h2 {
     margin-top: 0;
+  }
+
+  .modal-content-position{
+    display: flex;
+  }
+
+  .modal-content-left{
+    margin-right: 5%;
   }
   
   .modal-content button{
@@ -646,11 +663,11 @@ export default {
     background-color: #555;
   }
   .modal-content .confirm-button{
-      background-color: skyblue;
+      background-color: rgb(124, 191, 218);
   }
 
   .modal-content .confirm-button:hover {
-    background-color: rgb(99, 197, 236);
+    background-color: rgb(59, 151, 187);
     transition: 0.3s;
   }
   
@@ -716,6 +733,74 @@ export default {
         /* visibility: hidden; */
         margin-bottom: 5px;
     }
+
+    .custom-input, .custom-textarea {
+        width: 100%;
+        padding: 0.625rem;
+        font-size: 0.875rem ;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+        color: #333;
+    }
+    
+    .custom-input::placeholder,
+    .custom-textarea::placeholder {
+        color: #aaa;
+        font-style: italic;
+    }
+
+    .custom-input:focus,
+    .custom-textarea:focus {
+        border-color: #333;
+        outline: none;
+        background-color: #fff;
+    }
+
+    .custom-textarea {
+        resize: none;
+        height: 100px;
+    }
+
+    .custom-input{
+      margin-bottom: 5%;
+    }
+
+    .custom-select {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #f9f9f9;
+      color: #333;
+      appearance: none; /* Remove a seta padrão em alguns navegadores */
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23333' d='M2 0L0 2h4zM2 5L0 3h4z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 10px;
+    }
+
+    .custom-select:focus {
+      border-color: #333;
+      outline: none;
+      background-color: #fff;
+    }
+
+    .custom-select option:disabled {
+      color: #aaa;
+      font-style: italic;
+    }
+
+    .btnDisplay{
+      display: flex;
+      flex-direction: column;
+    }
+
+    .btnDisplay-confirm{
+
+    }
+
 
   .activities{
     margin-right: 4.2%;
