@@ -84,10 +84,7 @@
                 </div>
                 <h5 class="topicos2">Última Vaga Criada</h5>
                 <div class="card-content">
-                  <div v-if="vagas.length > 0" class="card" @click="abrirModalDetalhes(vagas[vagas.length - 1])">
-                    <h4>{{ vagas[vagas.length - 1].nome }}</h4>
-                    <p>{{ vagas[vagas.length - 1].descricao }}</p>
-                  </div>
+                  
                 </div>
 
                 <!-- Seção Minhas Vagas -->
@@ -288,8 +285,8 @@ export default {
         department: '',
         employment_type: '',
       },
-      departments: ["technology", "sales", "marketing", "human resources", "Financial"],
-      employment_types: ["presencial", "remote", "hybrid"],
+      departments: ["technology", "sales", "marketing", "human resources", "financial"],
+      employment_types: ["presencial", "homeoffice", "hybrid"],
       ultimaVaga: null,
       modalUltimaVagaAberto: false, // Controle do modal de última vaga
       modalAberto: false,
@@ -324,6 +321,23 @@ export default {
     },
     adicionarVaga() {
         const token = localStorage.getItem("token"); // Recupera o token do usuário autenticado
+        const companyId = localStorage.getItem("company_id"); // Recupera o company_id do localStorage
+
+        if (!companyId) {
+            alert("Erro: ID da empresa não encontrado.");
+            return;
+        }
+
+        console.log({
+            title: this.novaVaga.nome,
+            description: this.novaVaga.descricao,
+            salary: parseFloat(this.novaVaga.salario),
+            location: this.novaVaga.localizacao,
+            //requirements: this.novaVaga.requisitos,
+            employment_type: this.novaVaga.employment_type,
+            department: this.novaVaga.department,
+            company_id: companyId, // Inclui o company_id
+        });
 
         axios
             .post(
@@ -331,11 +345,12 @@ export default {
                 {
                     title: this.novaVaga.nome,
                     description: this.novaVaga.descricao,
-                    salary: this.novaVaga.salario,
+                    salary: parseFloat(this.novaVaga.salario),
                     location: this.novaVaga.localizacao,
-                    requirements: this.novaVaga.requisitos,
+                    //requirements: this.novaVaga.requisitos,
                     employment_type: this.novaVaga.employment_type,
                     department: this.novaVaga.department,
+                    company_id: companyId, // Inclui o company_id
                 },
                 {
                     headers: {
@@ -350,8 +365,16 @@ export default {
                 this.fecharModal(); // Fecha o modal
             })
             .catch((error) => {
-                console.error("Erro ao criar vaga:", error);
-                alert("Erro ao criar a vaga. Verifique os dados e tente novamente.");
+                console.error("Erro ao criar vaga:", error.response.data);
+                if (error.response.data.errors) {
+                    alert(
+                        `Erro ao criar vaga: ${Object.values(error.response.data.errors)
+                            .flat()
+                            .join(", ")}`
+                    );
+                } else {
+                    alert("Erro ao criar vaga. Verifique os dados e tente novamente.");
+                }
             });
 
         // Reseta o formulário após a submissão
