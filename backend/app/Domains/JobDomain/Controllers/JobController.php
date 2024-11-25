@@ -24,13 +24,13 @@ class JobController extends Controller
             return response()->json(['message' => 'Unauthorized.'], 403);
         }
 
-        $query = $this->jobService->getJobsByRecruiter(auth()->id());
+        $jobs = $this->jobService->getJobsByRecruiter(auth()->id());
 
         if ($request->has('departament')) {
-            $query->where('departament', $request->departament);
+            $jobs = $jobs->where('departament', $request->departament);
         }
 
-        return response()->json($query);
+        return response()->json($jobs);
     }
 
     public function show($id)
