@@ -297,8 +297,8 @@ export default {
         department: '',
         employment_type: '',
       },
-      departments: ["Tecnologia", "Vendas", "Marketing", "Recursos Humanos", "Financeiro"],
-      employment_types: ["Presencial", "Remoto", "Híbrido"],
+      departments: ["technology", "sales", "marketing", "human resources", "Financial"],
+      employment_types: ["presencial", "remote", "hybrid"],
       ultimaVaga: null,
       modalUltimaVagaAberto: false, // Controle do modal de última vaga
       modalAberto: false,
@@ -797,11 +797,6 @@ export default {
       flex-direction: column;
     }
 
-    .btnDisplay-confirm{
-
-    }
-
-
   .activities{
     margin-right: 4.2%;
   }
@@ -899,7 +894,7 @@ export default {
   }
 
   .insights .insights-position img{
-    height: 18vh;
+    height: 16vh;
     width: 8.7vw;
   }
   </style>
