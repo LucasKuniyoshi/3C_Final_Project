@@ -99,6 +99,21 @@
                   <p>{{ vaga.descricao }}</p>
                 </div>
               </div>
+              <div>
+                <h2>Vagas Inscritas:</h2>
+                <div v-if="vagasInscritas.length">
+                    <div v-for="vaga in vagasInscritas" :key="vaga.id" class="vaga-card">
+                        <h3>{{ vaga.title }}</h3>
+                        <p>{{ vaga.description }}</p>
+                        <p>Localização: {{ vaga.location }}</p>
+                        <p>Salário: R$ {{ vaga.salary }}</p>
+                    </div>
+                </div>
+                <div v-else>
+                    <p>Você ainda não está inscrito em nenhuma vaga.</p>
+                </div>
+              </div>
+
 
               <!-- Modal de Detalhes da Vaga em Minhas Vagas -->
               <div v-if="modalDetalhesAberto" class="modal-overlay" @click.self="fecharModalDetalhes">
@@ -107,7 +122,7 @@
                   <form @submit.prevent="salvarAlteracoes">
                     <h4>Nome da Vaga</h4>
                     <!-- Usa a diretiva :placeholder para definir o nome como placeholder -->
-                    <input type="text" v-model="vagaAtual.nome" :placeholder="vagaAtual ? vagaAtual.nome : ''" />
+                    <input type="text" v-model="vagaAtual.nome" :placeholder="vagaAtual ? vagaAtual.nome : ''" disabled/>
 
                     <h4>Descrição</h4>
                     <textarea v-model="vagaAtual.descricao" disabled ></textarea>
@@ -249,6 +264,7 @@ data() {
     isFocusedSalary: false,
     isFocusedLocation: false,
     isFocusedRequest: false,
+    vagasInscritas: [],
 
     novaVaga: {
       nome: '',
@@ -274,6 +290,13 @@ mounted() {
     const user = JSON.parse(localStorage.getItem("user"));
     if (!user || user.user_type !== "candidate") {
         this.$router.push({ name: "login" });
+    }
+
+    const vagas = JSON.parse(localStorage.getItem("vagasInscritas"));
+    if (vagas) {
+        this.vagasInscritas = vagas; // Preenche o array de vagas
+    } else {
+        console.error("Nenhuma vaga encontrada para o candidato.");
     }
 },
 /*mounted() {

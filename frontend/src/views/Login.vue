@@ -11,34 +11,35 @@ export default {
     },
     methods: {
         login() {
-            // Faz a requisição para a API de login
-            axios
-                .post("http://localhost:8000/api/login", {
-                    email: this.email,
-                    password: this.password,
-                })
-                .then((response) => {
-                    console.log(response);
-                    const user = response.data.user;
-                    const token = response.data.token;
+        axios
+            .post("http://localhost:8000/api/login", {
+                email: this.email,
+                password: this.password,
+            })
+            .then((response) => {
+                console.log(response);
+                // Extraindo dados do retorno
+                const { token, user, applications } = response.data;
 
-                    // Armazena os dados no localStorage
-                    localStorage.setItem("token", token);
-                    localStorage.setItem("user", JSON.stringify(user));
+                // Armazenando no localStorage
+                localStorage.setItem("token", token); // Token de autenticação
+                localStorage.setItem("user", JSON.stringify(user)); // Dados do usuário
+                localStorage.setItem("applications", JSON.stringify(applications)); // Vagas ligadas ao candidato
 
-                    // Redireciona o usuário com base no user_type
-                    if (user.user_type === "candidate") {
-                        this.$router.push("/candidate/jobs");
-                    } else if (user.user_type === "recruiter") {
-                        this.$router.push("/recruiter/dashboard");
-                    } else {
-                        alert("Tipo de usuário inválido.");
-                    }
-                })
-                .catch((error) => {
-                    this.errorMessage = error.response?.data.message || "Erro ao realizar login.";
-                });
-        },
+                // Redirecionando com base no tipo de usuário
+                if (user.user_type === "candidate") {
+                    this.$router.push("/candidate/jobs");
+                } else if (user.user_type === "recruiter") {
+                    this.$router.push("/recruiter/dashboard");
+                } else {
+                    alert("Tipo de usuário inválido.");
+                }
+            })
+            .catch((error) => {
+                this.errorMessage = error.response?.data.message || "Erro ao realizar login.";
+                console.error("Erro no login:", error);
+            });
+    },
     },
 };
 </script>
