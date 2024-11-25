@@ -2,11 +2,9 @@
 
 namespace App\Domains\JobDomain\Controllers;
 
-
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Domains\JobDomain\Validators\JobValidator;
-use App\Domains\ApplicationDomain\Models\Application;
 use App\Domains\JobDomain\Services\Contracts\JobServiceInterface;
 
 class JobController extends Controller
@@ -98,20 +96,11 @@ class JobController extends Controller
 
         $job = $this->jobService->getJobById($id);
 
-        $existingApplication = Application::where('user_id', auth()->id())
-                                          ->where('job_id', $job->id)
-                                          ->first();
-
-        if ($existingApplication) {
+        if ($this->jobService->checkExistingApplication(auth()->id(), $job->id)) {
             return response()->json(['message' => 'You have already applied for this job.'], 400);
         }
 
-        $application = Application::create([
-            'user_id' => auth()->id(),
-            'job_id' => $job->id,
-            'name' => auth()->user()->name,
-            'recruiter_name' => $job->company->name
-        ]);
+        $application = $this->jobService->applyToJob(auth()->id(), $job, $request->all());
 
         return response()->json(['message' => 'Application submitted successfully', 'application' => $application], 201);
     }

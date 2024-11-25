@@ -19,6 +19,7 @@ class Job extends Model
         'company_id',
         'departament',
         'recruiter_id',
+
     ];
 
     public function company()

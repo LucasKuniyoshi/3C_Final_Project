@@ -4,6 +4,7 @@ namespace App\Domains\JobDomain\Repositories;
 
 use App\Domains\JobDomain\Repositories\Contracts\JobRepositoryInterface;
 use App\Domains\JobDomain\Models\Job;
+use App\Domains\ApplicationDomain\Models\Application;
 
 class JobRepository implements JobRepositoryInterface
 {
@@ -31,5 +32,19 @@ class JobRepository implements JobRepositoryInterface
     public function delete($job)
     {
         $job->delete();
+    }
+
+    public function checkExistingApplication(int $userId, int $jobId): bool
+    {
+
+        return Application::where('user_id', $userId)
+                          ->where('job_id', $jobId)
+                          ->exists();
+    }
+
+    public function createApplication(array $data)
+    {
+
+        return Application::create($data);
     }
 }

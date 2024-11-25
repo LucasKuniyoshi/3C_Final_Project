@@ -3,7 +3,6 @@
 namespace App\Domains\JobDomain\Validators;
 
 use Illuminate\Http\Request;
-
 class JobValidator
 {
     public function validateJobCreation(Request $request)
@@ -15,7 +14,9 @@ class JobValidator
             'salary' => 'nullable|numeric',
             'employment_type' => 'required|in:presential,homeoffice,hybrid',
             'company_id' => 'required|exists:companies,id',
-            'departament' => 'required|in:technology,sales,marketing,human resources,financial'
+            'departament' => 'required|in:technology,sales,marketing,human resources,financial',
+            'additional_info' => 'nullable|string|max:500',
+            'resume' => 'nullable|file|mimes:pdf,doc,docx|max:2048'
         ]);
     }
 
