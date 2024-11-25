@@ -36,7 +36,6 @@ class JobRepository implements JobRepositoryInterface
 
     public function checkExistingApplication(int $userId, int $jobId): bool
     {
-
         return Application::where('user_id', $userId)
                           ->where('job_id', $jobId)
                           ->exists();
@@ -44,7 +43,6 @@ class JobRepository implements JobRepositoryInterface
 
     public function createApplication(array $data)
     {
-
         return Application::create($data);
     }
 }

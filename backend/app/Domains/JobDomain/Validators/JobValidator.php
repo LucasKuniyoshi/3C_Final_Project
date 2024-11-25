@@ -2,34 +2,45 @@
 
 namespace App\Domains\JobDomain\Validators;
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
+
 class JobValidator
 {
-    public function validateJobCreation(Request $request)
+    public function validateJobCreation($request)
     {
-        return $request->validate([
+        $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'location' => 'required|string',
-            'salary' => 'nullable|numeric',
-            'employment_type' => 'required|in:presential,homeoffice,hybrid',
+            'location' => 'required|string|max:255',
+            'salary' => 'required|numeric|min:0',
+            'employment_type' => 'required|string|in:hybrid,remote,presential',
             'company_id' => 'required|exists:companies,id',
-            'departament' => 'required|in:technology,sales,marketing,human resources,financial',
-            'additional_info' => 'nullable|string|max:500',
-            'resume' => 'nullable|file|mimes:pdf,doc,docx|max:2048'
+            'departament' => 'required|string|in:technology, sales, marketing, human resources, financial',
         ]);
+
+        if ($validator->fails()) {
+            throw new ValidationException($validator);
+        }
+
+        return $validator->validated();
     }
 
-    public function validateJobUpdate(Request $request)
+    public function validateJobUpdate($request)
     {
-        return $request->validate([
-            'title' => 'string|max:255',
-            'description' => 'string',
-            'location' => 'string',
-            'salary' => 'nullable|numeric',
-            'employment_type' => 'in:full-time,part-time,contract,internship',
-            'company_id' => 'exists:companies,id',
-            'departament' => 'in:technology,sales,marketing,human resources,financial'
+        $validator = Validator::make($request->all(), [
+            'title' => 'sometimes|string|max:255',
+            'description' => 'sometimes|string',
+            'location' => 'sometimes|string|max:255',
+            'salary' => 'sometimes|numeric|min:0',
+            'employment_type' => 'sometimes|string|in:full_time,part_time,freelance,internship',
+            'departament' => 'sometimes|string|in:technology, sales, marketing, human resources, financial',
         ]);
+
+        if ($validator->fails()) {
+            throw new ValidationException($validator);
+        }
+
+        return $validator->validated();
     }
 }

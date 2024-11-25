@@ -1,9 +1,12 @@
 <?php
+
 namespace App\Domains\AuthDomain\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Domains\AuthDomain\Services\AuthService;
+use App\Domains\JobDomain\Models\Job;
+use App\Domains\ApplicationDomain\Models\Application;
 
 class AuthController extends Controller
 {
@@ -31,8 +34,7 @@ class AuthController extends Controller
 
         $token = $this->authService->generateToken($user);
 
-        // Retorna os dados do usuário junto com o token
-        return response()->json([
+        $responseData = [
             'message' => 'Login successful. Welcome!',
             'token' => $token,
             'user' => [
@@ -44,6 +46,21 @@ class AuthController extends Controller
                 'updated_at' => $user->updated_at,
                 // Inclua mais campos, se necessário
             ],
-        ]);
+        ];
+
+        // Adiciona dados específicos para candidatos e recrutadores
+        if ($user->user_type === 'candidate') {
+            // Retorna as vagas em que o candidato se inscreveu
+            $applications = Application::with('job')
+                ->where('user_id', $user->id)
+                ->get();
+            $responseData['applications'] = $applications;
+        } elseif ($user->user_type === 'recruiter') {
+            // Retorna as vagas criadas pelo recrutador
+            $jobs = Job::where('recruiter_id', $user->id)->get();
+            $responseData['jobs'] = $jobs;
+        }
+
+        return response()->json($responseData, 200);
     }
 }
