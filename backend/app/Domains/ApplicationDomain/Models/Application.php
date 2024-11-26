@@ -20,6 +20,11 @@ class Application extends Model
         'resume_path',
     ];
 
+    public function candidate()
+    {
+        return $this->belongsTo(\App\Domains\UserDomain\Models\User::class, 'candidate_id');
+    }
+
     public function job()
     {
         return $this->belongsTo(Job::class);

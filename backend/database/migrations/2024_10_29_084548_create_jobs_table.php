@@ -9,15 +9,15 @@ class CreateJobsTable extends Migration
     {
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
-            $table->string('title'); // Título da vaga
-            $table->text('description'); // Descrição da vaga
+            $table->string('title');
+            $table->text('description');
             $table->text('request');
-            $table->string('location'); // Localização da vaga
-            $table->decimal('salary', 10, 2)->nullable(); // Salário (opcional)
-            $table->enum('employment_type', ['presential', 'homeoffice', 'hybrid']); // Tipo de emprego
-            $table->foreignId('company_id')->constrained('companies')->onDelete('cascade'); // Relacionamento com empresa
-            $table->foreignId('recruiter_id')->constrained('users')->onDelete('cascade'); // Relacionamento com recrutador
-            $table->enum('departament', ['technology', 'sales', 'marketing', 'human resources', 'financial']); // Categoria da vaga
+            $table->string('location');
+            $table->decimal('salary', 10, 2)->nullable();
+            $table->enum('employment_type', ['presential', 'homeoffice', 'hybrid']);
+            $table->foreignId('company_id')->constrained('companies')->onDelete('cascade');
+            $table->foreignId('recruiter_id')->constrained('users')->onDelete('cascade');
+            $table->enum('department', ['technology', 'sales', 'marketing', 'human resources', 'financial']);
             $table->timestamps();
         });
     }
