@@ -61,6 +61,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/recruiter/dashboard', [AuthController::class, 'recruiterDashboard'])->name('recruiter.dashboard');
     Route::get('/candidate/jobs', [AuthController::class, 'candidateJobs'])->name('candidate.jobs');
+    Route::get('/recruiter/{id}/candidates', [UserController::class, 'listCandidates'])->name('recruiter.candidates');
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

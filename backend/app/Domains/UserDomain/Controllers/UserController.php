@@ -3,8 +3,9 @@ namespace App\Domains\UserDomain\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Domains\UserDomain\Models\User;
 use Illuminate\Support\Facades\Hash;
+use App\Domains\JobDomain\Models\Job;
+use App\Domains\UserDomain\Models\User;
 use App\Domains\UserDomain\Validators\UserValidator;
 use App\Domains\UserDomain\Services\Contracts\UserServiceInterface;
 
@@ -76,5 +77,30 @@ class UserController extends Controller
         }
 
         return response()->json(['message' => 'User deleted successfully']);
+    }
+    public function listCandidates($recruiterId)
+    {
+        // Verifica se o usuário é um recrutador
+        $recruiter = User::findOrFail($recruiterId);
+
+        if (!$recruiter->isRecruiter()) {
+            return response()->json(['message' => 'User is not a recruiter'], 403);
+        }
+
+        // Busca todas as vagas criadas pelo recrutador
+        $jobs = Job::where('recruiter_id', $recruiterId)->with('applications.candidate')->get();
+
+
+        $candidates = $jobs->flatMap(function ($job) {
+            return $job->applications->map(function ($application) {
+                return [
+                    'candidate_name' => $application->candidate->name,
+                    'email' => $application->candidate->email,
+                    'applied_at' => $application->created_at,
+                ];
+            });
+        });
+
+        return response()->json($candidates);
     }
 }

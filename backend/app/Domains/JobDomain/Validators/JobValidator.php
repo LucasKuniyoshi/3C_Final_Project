@@ -17,7 +17,7 @@ class JobValidator
             'salary' => 'required|numeric|min:0',
             'employment_type' => 'required|string|in:hybrid,remote,presential',
             'company_id' => 'required|exists:companies,id',
-            'departament' => 'required|string|in:technology,sales,marketing,human resources,financial',
+            'department' => 'required|string|in:technology,sales,marketing,human resources,financial',
         ]);
 
         if ($validator->fails()) {
@@ -36,7 +36,7 @@ class JobValidator
             'location' => 'sometimes|string|max:255',
             'salary' => 'sometimes|numeric|min:0',
             'employment_type' => 'sometimes|string|in:hybrid,remote,presential',
-            'departament' => 'sometimes|string|in:technology,sales,marketing,human resources,financial',
+            'department' => 'sometimes|string|in:technology,sales,marketing,human resources,financial',
         ]);
 
         if ($validator->fails()) {

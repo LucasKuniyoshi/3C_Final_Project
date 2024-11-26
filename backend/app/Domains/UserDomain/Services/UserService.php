@@ -28,7 +28,7 @@ class UserService implements UserServiceInterface
 
     public function createUser(array $data): User
     {
-        // Hash da senha antes de salvar
+
         if (isset($data['password'])) {
             $data['password'] = Hash::make($data['password']);
         }
@@ -61,7 +61,7 @@ class UserService implements UserServiceInterface
             return null;
         }
 
-        // Hash da senha se necessário
+
         if (isset($data['password'])) {
             $data['password'] = Hash::make($data['password']);
         }

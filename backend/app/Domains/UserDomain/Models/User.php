@@ -43,7 +43,9 @@ class User extends Authenticatable implements AuthenticatableContract
     public function isCandidate(): bool
     {
         return $this->user_type === self::USER_TYPES['CANDIDATE'];
+        return $this->belongsToMany(User::class, 'job_applications', 'job_id', 'candidate_id');
     }
+
 
 
     public function scopeByType($query, string $type)

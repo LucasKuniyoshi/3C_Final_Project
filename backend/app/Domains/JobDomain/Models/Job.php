@@ -18,10 +18,14 @@ class Job extends Model
         'salary',
         'employment_type',
         'company_id',
-        'departament',
+        'department',
         'recruiter_id',
     ];
 
+    public function applications()
+    {
+        return $this->hasMany(\App\Domains\ApplicationDomain\Models\Application::class);
+    }
     public function company()
     {
         return $this->belongsTo(Company::class);
