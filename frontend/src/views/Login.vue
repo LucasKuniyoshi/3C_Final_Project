@@ -23,6 +23,10 @@ export default {
                     localStorage.setItem("token", token);
                     localStorage.setItem("user", JSON.stringify(user));
 
+                    console.log("Dados do usuário logado:", user);
+                    console.log("Token recebido:", token);
+                    console.log("Vagas associadas ao usuário:", jobs);
+
                     // Armazenar o company_id e recruiter_id apenas se for um recrutador
                     if (user.user_type === "recruiter") {
                         localStorage.setItem("recruiter_id", user.id); // Armazena o id do recrutador
