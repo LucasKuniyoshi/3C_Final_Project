@@ -14,7 +14,7 @@ class CreateJobsTable extends Migration
             $table->text('request');
             $table->string('location');
             $table->decimal('salary', 10, 2)->nullable();
-            $table->enum('employment_type', ['presential', 'homeoffice', 'hybrid']);
+            $table->enum('employment_type', ['presential', 'remote', 'hybrid']);
             $table->foreignId('company_id')->constrained('companies')->onDelete('cascade');
             $table->foreignId('recruiter_id')->constrained('users')->onDelete('cascade');
             $table->enum('department', ['technology', 'sales', 'marketing', 'human resources', 'financial']);
