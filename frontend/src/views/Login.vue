@@ -11,36 +11,39 @@ export default {
     },
     methods: {
         login() {
-        axios
-            .post("http://localhost:8000/api/login", {
-                email: this.email,
-                password: this.password,
-            })
-            .then((response) => {
-                console.log(response);
-                // Extraindo dados do retorno
-                const { token, user, applications } = response.data;
+            axios
+                .post("http://localhost:8000/api/login", {
+                    email: this.email,
+                    password: this.password,
+                })
+                .then((response) => {
+                    const { token, user, jobs } = response.data;
 
-                // Armazenando no localStorage
-                localStorage.setItem("token", token); // Token de autenticação
-                localStorage.setItem("user", JSON.stringify(user)); // Dados do usuário
-                localStorage.setItem("applications", JSON.stringify(applications)); // Vagas ligadas ao candidato
-                localStorage.setItem("company_id", company_id);
+                    // Armazenar dados do usuário e token
+                    localStorage.setItem("token", token);
+                    localStorage.setItem("user", JSON.stringify(user));
 
-                // Redirecionando com base no tipo de usuário
-                if (user.user_type === "candidate") {
-                    this.$router.push("/candidate/jobs");
-                } else if (user.user_type === "recruiter") {
-                    this.$router.push("/recruiter/dashboard");
-                } else {
-                    alert("Tipo de usuário inválido.");
-                }
-            })
-            .catch((error) => {
-                this.errorMessage = error.response?.data.message || "Erro ao realizar login.";
-                console.error("Erro no login:", error);
-            });
-    },
+                    // Armazenar o company_id apenas se for um recrutador
+                    if (user.user_type === "recruiter" && jobs.length > 0 && jobs[0].company_id) {
+                        localStorage.setItem("company_id", jobs[0].company_id);
+                    } else {
+                        localStorage.removeItem("company_id"); // Garante que não há company_id armazenado
+                    }
+
+                    // Redirecionar com base no tipo de usuário
+                    if (user.user_type === "recruiter") {
+                        this.$router.push("/recruiter/dashboard");
+                    } else if (user.user_type === "candidate") {
+                        this.$router.push("/candidate/jobs");
+                    } else {
+                        alert("Tipo de usuário inválido.");
+                    }
+                })
+                .catch((error) => {
+                    console.error("Erro ao realizar login:", error.response?.data || error);
+                    alert("Erro ao realizar login. Tente novamente.");
+                });
+        }
     },
 };
 </script>

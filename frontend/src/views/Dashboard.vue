@@ -65,15 +65,34 @@
                           <span v-if="isFocusedRequest && !novaVaga.requisitos" class="validacao">Campo obrigatório</span>
                         </div>
                         <div style="margin-top: 2%;"></div>
-                        <select class="custom-select" v-model="novaVaga.department">
+                        <select class="custom-select" v-model="novaVaga.department" required>
                           <option value="" disabled selected>Selecione o setor</option>
-                          <option v-for="department in departments" :key="department" :value="department">{{ department }}</option>
+                          <option value="technology">Tecnologia</option>
+                          <option value="sales">Vendas</option>
+                          <option value="marketing">Marketing</option>
+                          <option value="human resources">Recursos Humanos</option>
+                          <option value="financal">Financeiro</option>
                         </select>
+
+                        <!--<select class="custom-select" v-model="novaVaga.department">
+                          <option value="" disabled selected>Selecione o setor</option>
+                          <option value="technology">Tecnologia</option>
+                          <option value="sales">Vendas</option>
+                          <option value="marketing">Marketing</option>
+                          <option value="human resources">Recursos Humanos</option>
+                          <option value="financial">Financeiro</option>
+                        </!--select>-->
                         <div style="margin-top: 2%;"></div>
                         <select class="custom-select" v-model="novaVaga.employment_type">
                           <option value="" disabled selected>Regime de Trabalho</option>
-                          <option v-for="employment_type in employment_types" :key="employment_type" :value="employment_type">{{ employment_type }}</option>
+                          <option value="hybrid">Híbrido</option>
+                          <option value="remote">Remoto</option>
+                          <option value="presential">Presencial</option>
                         </select>
+                        <!--<select class="custom-select" v-model="novaVaga.employment_type">
+                          <option value="" disabled selected>Regime de Trabalho</option>
+                          <option v-for="employment_type in employment_types" :key="employment_type" :value="employment_type">{{ employment_type }}</option>
+                        </select>-->
                       </div>
                       <div class="btnDisplay">
                         <button type="submit" class="confirm-button" >Confirmar</button>
@@ -286,7 +305,7 @@ export default {
         employment_type: '',
       },
       departments: ["technology", "sales", "marketing", "human resources", "financial"],
-      employment_types: ["presencial", "homeoffice", "hybrid"],
+      employment_types: ["presential", "remote", "hybrid"],
       ultimaVaga: null,
       modalUltimaVagaAberto: false, // Controle do modal de última vaga
       modalAberto: false,
@@ -320,11 +339,12 @@ export default {
       if (field === 'request' && this.request) this.isFocusedRequest = false;
     },
     adicionarVaga() {
-        const token = localStorage.getItem("token"); // Recupera o token do usuário autenticado
-        const companyId = localStorage.getItem("company_id"); // Recupera o company_id do localStorage
+        const token = localStorage.getItem("token");
+        const companyId = localStorage.getItem("company_id"); // Recupera o company_id (pode ser null)
 
+        // Verifica se o usuário tem um company_id antes de criar a vaga
         if (!companyId) {
-            alert("Erro: ID da empresa não encontrado.");
+            alert("Erro: Você não tem permissão para criar vagas. Faça login como recrutador.");
             return;
         }
 
@@ -339,54 +359,32 @@ export default {
             company_id: companyId, // Inclui o company_id
         });
 
+        const vaga = {
+            title: this.novaVaga.nome,
+            description: this.novaVaga.descricao,
+            salary: parseFloat(this.novaVaga.salario),
+            location: this.novaVaga.localizacao,
+            //requirements: this.novaVaga.requisitos,
+            employment_type: this.novaVaga.employment_type,
+            department: this.novaVaga.department,
+            company_id: companyId, // Envia o company_id
+        };
+
         axios
-            .post(
-                "http://localhost:8000/api/jobs",
-                {
-                    title: this.novaVaga.nome,
-                    description: this.novaVaga.descricao,
-                    salary: parseFloat(this.novaVaga.salario),
-                    location: this.novaVaga.localizacao,
-                    //requirements: this.novaVaga.requisitos,
-                    employment_type: this.novaVaga.employment_type,
-                    department: this.novaVaga.department,
-                    company_id: companyId, // Inclui o company_id
+            .post("http://localhost:8000/api/jobs", vaga, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
                 },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`, // Autenticação com o token
-                    },
-                }
-            )
+            })
             .then((response) => {
-                // Adiciona a nova vaga na lista de vagas exibidas
-                this.vagas.push(response.data.job); // Ajuste conforme a resposta do backend
+                this.vagas.push(response.data.job);
                 alert("Vaga criada com sucesso!");
-                this.fecharModal(); // Fecha o modal
+                this.fecharModal();
             })
             .catch((error) => {
-                console.error("Erro ao criar vaga:", error.response.data);
-                if (error.response.data.errors) {
-                    alert(
-                        `Erro ao criar vaga: ${Object.values(error.response.data.errors)
-                            .flat()
-                            .join(", ")}`
-                    );
-                } else {
-                    alert("Erro ao criar vaga. Verifique os dados e tente novamente.");
-                }
+                console.error("Erro ao criar vaga:", error.response?.data || error);
+                alert("Erro ao criar vaga. Verifique os dados.");
             });
-
-        // Reseta o formulário após a submissão
-        this.novaVaga = {
-            nome: "",
-            descricao: "",
-            salario: "",
-            localizacao: "",
-            requisitos: "",
-            employment_type: "",
-            department: "",
-        };
     },
     /*adicionarVaga() {
       // Armazena a nova vaga na lista de vagas
