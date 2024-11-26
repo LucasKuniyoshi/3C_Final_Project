@@ -12,7 +12,7 @@ class JobValidator
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'request' => 'required|string', // Corrigido de 'requited' para 'required'
+            'request' => 'required|string',
             'location' => 'required|string|max:255',
             'salary' => 'required|numeric|min:0',
             'employment_type' => 'required|string|in:hybrid,remote,presential',
