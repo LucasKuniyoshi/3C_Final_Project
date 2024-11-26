@@ -12,6 +12,7 @@ class JobValidator
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
             'description' => 'required|string',
+            'requests' => 'requited|string',
             'location' => 'required|string|max:255',
             'salary' => 'required|numeric|min:0',
             'employment_type' => 'required|string|in:hybrid,remote,presential',
@@ -31,6 +32,7 @@ class JobValidator
         $validator = Validator::make($request->all(), [
             'title' => 'sometimes|string|max:255',
             'description' => 'sometimes|string',
+            'requests' => 'requited|string',
             'location' => 'sometimes|string|max:255',
             'salary' => 'sometimes|numeric|min:0',
             'employment_type' => 'sometimes|string|in:full_time,part_time,freelance,internship',

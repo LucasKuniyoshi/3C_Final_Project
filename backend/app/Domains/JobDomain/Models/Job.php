@@ -13,6 +13,7 @@ class Job extends Model
     protected $fillable = [
         'title',
         'description',
+        'requests',
         'location',
         'salary',
         'employment_type',
