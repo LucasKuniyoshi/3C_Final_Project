@@ -12,11 +12,12 @@ class JobValidator
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
             'description' => 'required|string',
+            'request' => 'required|string', // Corrigido de 'requited' para 'required'
             'location' => 'required|string|max:255',
             'salary' => 'required|numeric|min:0',
             'employment_type' => 'required|string|in:hybrid,remote,presential',
             'company_id' => 'required|exists:companies,id',
-            'departament' => 'required|string|in:technology, sales, marketing, human resources, financial',
+            'departament' => 'required|string|in:technology,sales,marketing,human resources,financial',
         ]);
 
         if ($validator->fails()) {
@@ -31,10 +32,11 @@ class JobValidator
         $validator = Validator::make($request->all(), [
             'title' => 'sometimes|string|max:255',
             'description' => 'sometimes|string',
+            'request' => 'required|string', // Corrigido de 'requited' para 'required'
             'location' => 'sometimes|string|max:255',
             'salary' => 'sometimes|numeric|min:0',
-            'employment_type' => 'sometimes|string|in:full_time,part_time,freelance,internship',
-            'departament' => 'sometimes|string|in:technology, sales, marketing, human resources, financial',
+            'employment_type' => 'sometimes|string|in:hybrid,remote,presential',
+            'departament' => 'sometimes|string|in:technology,sales,marketing,human resources,financial',
         ]);
 
         if ($validator->fails()) {
