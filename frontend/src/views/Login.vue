@@ -23,11 +23,19 @@ export default {
                     localStorage.setItem("token", token);
                     localStorage.setItem("user", JSON.stringify(user));
 
-                    // Armazenar o company_id apenas se for um recrutador
-                    if (user.user_type === "recruiter" && jobs.length > 0 && jobs[0].company_id) {
-                        localStorage.setItem("company_id", jobs[0].company_id);
+                    // Armazenar o company_id e recruiter_id apenas se for um recrutador
+                    if (user.user_type === "recruiter") {
+                        localStorage.setItem("recruiter_id", user.id); // Armazena o id do recrutador
+
+                        if (jobs.length > 0 && jobs[0].company_id) {
+                            localStorage.setItem("company_id", jobs[0].company_id);
+                        } else {
+                            localStorage.removeItem("company_id"); // Remove caso não haja company_id
+                        }
                     } else {
-                        localStorage.removeItem("company_id"); // Garante que não há company_id armazenado
+                        // Garante que esses itens não estão no localStorage para candidatos
+                        localStorage.removeItem("company_id");
+                        localStorage.removeItem("recruiter_id");
                     }
 
                     // Redirecionar com base no tipo de usuário
@@ -44,6 +52,7 @@ export default {
                     alert("Erro ao realizar login. Tente novamente.");
                 });
         }
+
     },
 };
 </script>
