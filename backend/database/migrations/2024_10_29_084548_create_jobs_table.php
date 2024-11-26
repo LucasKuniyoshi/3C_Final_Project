@@ -11,7 +11,7 @@ class CreateJobsTable extends Migration
             $table->id();
             $table->string('title'); // Título da vaga
             $table->text('description'); // Descrição da vaga
-            $table->text('requests');
+            $table->text('request');
             $table->string('location'); // Localização da vaga
             $table->decimal('salary', 10, 2)->nullable(); // Salário (opcional)
             $table->enum('employment_type', ['presential', 'homeoffice', 'hybrid']); // Tipo de emprego
