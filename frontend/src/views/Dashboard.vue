@@ -109,8 +109,16 @@
             </div>
             <h5 class="topicos2">Última Vaga Criada</h5>
             <div class="card-content">
-
+              <div v-if="vagas.length > 0" class="card" @click="abrirModalDetalhes(vagas[vagas.length - 1])">
+                <h4>{{ vagas[vagas.length - 1].title }}</h4>
+                <p>{{ vagas[vagas.length - 1].description }}</p>
+              </div>
+              <div v-else>
+                <p>Nenhuma vaga cadastrada.</p>
+              </div>
             </div>
+
+            
 
             <!-- Seção Minhas Vagas -->
             <h5 class="topicos2">Minhas Vagas</h5>
