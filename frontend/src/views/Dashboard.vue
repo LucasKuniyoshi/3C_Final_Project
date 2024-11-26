@@ -115,10 +115,19 @@
             <!-- Seção Minhas Vagas -->
             <h5 class="topicos2">Minhas Vagas</h5>
             <div class="card-content">
-              <div v-for="(vaga, index) in vagas" :key="vaga.id" class="card" @click="abrirModalDetalhes(vaga)">
+              <div v-if="vagas && vagas.length > 0">
+                <div v-for="(vaga, index) in vagas" :key="index">
+                    <h4>{{ vaga.title }}</h4>
+                    <p>{{ vaga.description }}</p>
+                </div>
+            </div>
+            <div v-else>
+                <p>Nenhuma vaga criada.</p>
+            </div>
+              <!--<div v-for="(vaga, index) in vagas" :key="vaga.id" class="card" @click="abrirModalDetalhes(vaga)">
                 <h4>{{ vaga.title }}</h4>
                 <p>{{ vaga.description }}</p>
-              </div>
+              </div>-->
             </div>
 
             <!-- Seção Minhas Vagas -->
@@ -328,10 +337,10 @@ export default {
     if (!user || user.user_type !== "recruiter") {
       this.$router.push("/login");
     }
-    if (!this.vagas) {
+    if (!this.vagas || !Array.isArray(this.vagas)) {
         this.vagas = [];
     }
-    console.log("Estado inicial de vagas:", this.vagas); // Verifique se `vagas` é um array
+    console.log("Vagas inicializadas:", this.vagas);
   },
   methods: {
     abrirModal() {
@@ -349,6 +358,56 @@ export default {
       if (field === 'request' && this.request) this.isFocusedRequest = false;
     },
     adicionarVaga() {
+        const token = localStorage.getItem("token");
+        const companyId = localStorage.getItem("company_id");
+        const recruiterId = localStorage.getItem("recruiter_id");
+
+        if (!companyId || !recruiterId) {
+            alert("Erro: ID da empresa ou do recrutador não encontrado. Faça login novamente.");
+            return;
+        }
+
+        const vaga = {
+            title: this.novaVaga.nome,
+            description: this.novaVaga.descricao,
+            salary: parseFloat(this.novaVaga.salario),
+            location: this.novaVaga.localizacao,
+            request: this.novaVaga.requisitos,
+            employment_type: this.novaVaga.employment_type,
+            department: this.novaVaga.department,
+            company_id: companyId,
+            recruiter_id: recruiterId,
+        };
+
+        axios
+            .post("http://localhost:8000/api/jobs", vaga, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+            .then((response) => {
+                console.log("Resposta da API:", response.data);
+
+                // Garante que `vagas` é um array antes de usar .push()
+                if (!Array.isArray(this.vagas)) {
+                    this.vagas = [];
+                }
+
+                // Adiciona a nova vaga ao array
+                this.vagas.push(response.data);
+                console.log("Vagas atualizadas:", this.vagas);
+
+                alert("Vaga criada com sucesso!");
+                this.fecharModal();
+            })
+            .catch((error) => {
+                console.error("Erro ao criar vaga:", error.response?.data || error);
+                alert("Erro ao criar vaga. Verifique os dados.");
+            });
+    },
+
+
+    /*adicionarVaga() {
       const token = localStorage.getItem("token");
       const companyId = localStorage.getItem("company_id"); // Recupera o company_id (pode ser null)
       const recruiterId = localStorage.getItem("recruiter_id");
@@ -390,17 +449,22 @@ export default {
             },
         })
         .then((response) => {
-          if (!this.vagas) {
-              this.vagas = [];
-          }
-            // Verifica se `vagas` está undefined ou não é um array
-            /*if (!Array.isArray(this.vagas)) {
-                this.$set(this, 'vagas', []); // Inicializa como um array vazio de forma reativa
-            }*/
+            console.log("Resposta da API:", response.data);
 
-            // Adiciona a nova vaga ao array
-            this.vagas.push(response.data.job);
+            // Certifique-se de que o dado está correto
+            const novaVaga = response.data.job;
 
+            if (!novaVaga || typeof novaVaga !== "object") {
+                throw new Error("Resposta inválida do backend");
+            }
+
+            // Inicialize `vagas` se necessário
+            if (!this.vagas || !Array.isArray(this.vagas)) {
+                this.vagas = [];
+            }
+
+            // Adicione a nova vaga
+            this.vagas.push(novaVaga);
             console.log("Vagas atualizadas:", this.vagas);
 
             alert("Vaga criada com sucesso!");
@@ -410,7 +474,7 @@ export default {
             console.error("Erro ao criar vaga:", error.response?.data || error);
             alert("Erro ao criar vaga. Verifique os dados.");
         });
-},
+},*/
     /*adicionarVaga() {
       // Armazena a nova vaga na lista de vagas
       const novaVagaCopia = { ...this.novaVaga };
