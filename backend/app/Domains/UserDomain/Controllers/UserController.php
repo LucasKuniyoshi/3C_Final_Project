@@ -80,14 +80,12 @@ class UserController extends Controller
     }
     public function listCandidates($recruiterId)
     {
-        // Verifica se o usuário é um recrutador
         $recruiter = User::findOrFail($recruiterId);
 
         if (!$recruiter->isRecruiter()) {
             return response()->json(['message' => 'User is not a recruiter'], 403);
         }
 
-        // Busca todas as vagas criadas pelo recrutador
         $jobs = Job::where('recruiter_id', $recruiterId)->with('applications.candidate')->get();
 
 

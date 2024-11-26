@@ -2,7 +2,6 @@
 
 namespace App\Domains\JobDomain\Services;
 
-use App\Domains\ApplicationDomain\Models\Application;
 use App\Domains\JobDomain\Services\Contracts\JobServiceInterface;
 use App\Domains\JobDomain\Repositories\Contracts\JobRepositoryInterface;
 

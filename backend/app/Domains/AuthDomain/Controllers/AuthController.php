@@ -44,19 +44,15 @@ class AuthController extends Controller
                 'user_type' => $user->user_type,
                 'created_at' => $user->created_at,
                 'updated_at' => $user->updated_at,
-                // Inclua mais campos, se necessário
             ],
         ];
 
-        // Adiciona dados específicos para candidatos e recrutadores
         if ($user->user_type === 'candidate') {
-            // Retorna as vagas em que o candidato se inscreveu
             $applications = Application::with('job')
                 ->where('user_id', $user->id)
                 ->get();
             $responseData['applications'] = $applications;
         } elseif ($user->user_type === 'recruiter') {
-            // Retorna as vagas criadas pelo recrutador
             $jobs = Job::where('recruiter_id', $user->id)->get();
             $responseData['jobs'] = $jobs;
         }
