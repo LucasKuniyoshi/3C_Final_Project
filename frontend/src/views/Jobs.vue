@@ -50,99 +50,45 @@
         <section class="body">
           <div class="vagas-content">
               <h5 class="topicos">Vagas para você</h5>
-              <div class="card-content">
-                <div v-if="vagas.length > 0" class="card" @click="abrirModalDetalhes(vagas[vagas.length - 1])">
-                  <h4>{{ vagas[vagas.length - 1].nome }}</h4>
-                  <p>{{ vagas[vagas.length - 1].descricao }}</p>
-                </div>
-              </div>
 
-              <!-- Modal de Última Vaga -->
-              <div v-if="modalUltimaVagaAberto" class="modal-overlay" @click.self="fecharModalUltimaVaga">
-                <div class="modal-content">
-                  <h2>Última Vaga Criada</h2>
-                  <form @submit.prevent="salvarAlteracoesUltimaVaga">
-                    <h4>Nome da Vaga</h4>
-                    <input type="text" v-model="ultimaVaga.nome" disabled />
-
-                    <h4>Descrição</h4>
-                    <textarea v-model="ultimaVaga.descricao" disabled></textarea>
-
-                    <h4>Salário</h4>
-                    <input type="text" v-model="ultimaVaga.salario" disabled />
-
-                    <h4>Localização</h4>
-                    <input type="text" v-model="ultimaVaga.localizacao" disabled />
-
-                    <h4>Requisitos</h4>
-                    <textarea v-model="ultimaVaga.requisitos" disabled></textarea>
-                    
-                    <h4>Setor</h4>
-                    <p>{{ vagaAtual.department }}</p>
-
-                    <h4>Regime de Trabalho</h4>
-                    <p>{{ vagaAtual.employment_type }}</p>
-
-                    <button type="submit">Salvar Alterações</button>
-                    <button type="button" @click="fecharModalUltimaVaga">Cancelar</button>
-                  </form>
-                </div>
-              </div>
-
-              <!-- Seção Minhas Vagas -->
+              <!-- Seção Mais Vagas -->
               <h5 class="topicos2">Mais Vagas</h5>
               <div class="card-content">
-                <div v-for="(vaga, index) in vagas" :key="index" class="card" @click="abrirModalDetalhes(vaga)">
-                  <h4>{{ vaga.nome }}</h4>
-                  <p>{{ vaga.descricao }}</p>
+                <div v-for="(vaga, index) in vagas" :key="vaga.id" class="card" @click="abrirModalDetalhes(vaga)">
+                  <h4>{{ vaga.title }}</h4>
+                  <p>{{ vaga.description }}</p>
                 </div>
               </div>
               <div>
-                <h2>Vagas Inscritas:</h2>
-                <div v-if="vagasInscritas.length">
-                    <div v-for="vaga in vagasInscritas" :key="vaga.id" class="vaga-card">
-                        <h3>{{ vaga.title }}</h3>
-                        <p>{{ vaga.description }}</p>
-                        <p>Localização: {{ vaga.location }}</p>
-                        <p>Salário: R$ {{ vaga.salary }}</p>
-                    </div>
-                </div>
-                <div v-else>
-                    <p>Você ainda não está inscrito em nenhuma vaga.</p>
-                </div>
+                <h5>Vagas Inscritas:</h5>
               </div>
 
 
-              <!-- Modal de Detalhes da Vaga em Minhas Vagas -->
+              <!-- Modal de Detalhes -->
               <div v-if="modalDetalhesAberto" class="modal-overlay" @click.self="fecharModalDetalhes">
                 <div class="modal-content">
-                  <h2>Detalhes da Vaga</h2>
-                  <form @submit.prevent="salvarAlteracoes">
-                    <h4>Nome da Vaga</h4>
-                    <!-- Usa a diretiva :placeholder para definir o nome como placeholder -->
-                    <input type="text" v-model="vagaAtual.nome" :placeholder="vagaAtual ? vagaAtual.nome : ''" disabled/>
-
+                  <h2>{{ vagaAtual?.title }}</h2>
+                  <div>
                     <h4>Descrição</h4>
-                    <textarea v-model="vagaAtual.descricao" disabled ></textarea>
+                    <p>{{ vagaAtual?.description }}</p>
 
                     <h4>Salário</h4>
-                    <input type="text" v-model="vagaAtual.salario" disabled />
+                    <p>R$ {{ vagaAtual?.salary }}</p>
 
                     <h4>Localização</h4>
-                    <input type="text" v-model="vagaAtual.localizacao" disabled/>
+                    <p>{{ vagaAtual?.location }}</p>
 
                     <h4>Requisitos</h4>
-                    <textarea v-model="vagaAtual.requisitos" disabled ></textarea>
-                    
+                    <p>{{ vagaAtual?.request }}</p>
+
                     <h4>Setor</h4>
-                    <p disabled >{{ vagaAtual.department }}</p>
+                    <p>{{ vagaAtual?.department }}</p>
 
                     <h4>Regime de Trabalho</h4>
-                    <p disabled >{{ vagaAtual.employment_type }}</p>
+                    <p>{{ vagaAtual?.employment_type }}</p>
 
-                    <button type="submit">Salvar Alterações</button>
-                    <button type="button" @click="fecharModalDetalhes">Cancelar</button>
-                  </form>
+                    <button class="cancel-button" @click="fecharModalDetalhes">Fechar</button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -249,6 +195,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
 data() {
   return {
@@ -284,11 +232,11 @@ data() {
   };
 },
 mounted() {
-  this.carregarVagas();
   const user = JSON.parse(localStorage.getItem("user"));
   if (!user || user.user_type !== "candidate") {
-      this.$router.push({ name: "login" });
+    this.$router.push({ name: "login" });
   }
+  this.carregarVagas();
 
   const vagas = JSON.parse(localStorage.getItem("vagasInscritas"));
   if (vagas) {
@@ -344,11 +292,28 @@ methods: {
     this.modalDetalhesAberto = false;
   },
   carregarVagas() {
-    // Carrega as vagas do localStorage ao montar o componente
-    const vagasSalvas = localStorage.getItem("vagas");
-    if (vagasSalvas) {
-      this.vagas = JSON.parse(vagasSalvas);
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("Erro: Token de autenticação não encontrado. Faça login novamente.");
+      this.$router.push("/login");
+      return;
     }
+
+    axios
+      .get("http://localhost:8000/api/jobs", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log("Vagas carregadas:", response.data);
+        this.vagas = response.data; // Atribui as vagas recebidas à lista local
+      })
+      .catch((error) => {
+        console.error("Erro ao carregar vagas:", error.response?.data || error);
+        alert("Erro ao carregar vagas. Tente novamente mais tarde.");
+      });
   },
   limparVagas() {
     // Remove as chaves 'vagas' e 'ultimaVaga' do localStorage
