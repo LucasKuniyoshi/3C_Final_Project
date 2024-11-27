@@ -145,7 +145,7 @@
                   </form>
                 </div>
               </div>
-          </div>
+            </div>
           <div class="activities">
               <div class="calendar">
                   <div class="calendar-header">
