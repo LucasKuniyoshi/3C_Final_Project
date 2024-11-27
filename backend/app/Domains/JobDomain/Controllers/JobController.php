@@ -1,7 +1,6 @@
 <?php
 namespace App\Domains\JobDomain\Controllers;
 
-use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Domains\JobDomain\Models\Job;
@@ -17,28 +16,34 @@ class JobController extends Controller
 
     public function __construct(JobServiceInterface $jobService, JobValidator $jobValidator)
     {
-        $this->middleware('auth:sanctum');
+
+        $this->middleware('auth:sanctum')->except(['index', 'show']);
         $this->jobService = $jobService;
         $this->jobValidator = $jobValidator;
     }
 
-    public function index(Request $request)
+    public function getAllJobs()
+{
+    $jobs = Job::all();
+
+
+    return response()->json($jobs);
+}
+    public function index()
     {
-        $this->authorizeUserType('recruiter');
-        $jobs = $this->jobService->getJobsByRecruiter(auth()->id());
-
-        if ($request->has('department')) {
-            $jobs = $jobs->where('department', $request->department);
-        }
-
+        $jobs = Job::all();
         return response()->json($jobs);
     }
-
     public function show($id)
-    {
-        $job = $this->getJobOrFail($id);
-        return response()->json($job);
+{
+    $job = Job::find($id);
+
+    if (!$job) {
+        return response()->json(['error' => 'Job not found.'], 404);
     }
+
+    return response()->json($job);
+}
 
     public function store(Request $request)
     {
@@ -105,8 +110,8 @@ class JobController extends Controller
     protected function authorizeJobOwnership(Job $job)
     {
         if ($job->recruiter_id !== auth()->id()) {
-            Log::warning('User not authorized to edit this job', ['jobId' => $job->id, 'userId' => auth()->id()]);
             throw new AccessDeniedHttpException('Unauthorized to perform this action.');
         }
     }
 }
+

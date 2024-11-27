@@ -25,8 +25,10 @@ Route::prefix('users')->group(function () {
 });
 
 //Routes of Job
+Route::get('/jobs', [JobController::class, 'index']);
+Route::get('/jobs/{id}', [JobController::class, 'show']);
+
 Route::middleware(['role:recruiter', 'auth:sanctum'])->group(function () {
-    Route::get('/jobs', [JobController::class, 'index']);
     Route::post('/jobs', [JobController::class, 'store']);
     Route::put('/jobs/{id}', [JobController::class, 'update'])->where('id', '[0-9]+');
     Route::delete('/jobs/{id}', [JobController::class, 'destroy']);

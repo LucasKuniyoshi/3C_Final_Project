@@ -2,6 +2,7 @@
 
 namespace App\Domains\JobDomain\Services;
 
+use App\Domains\JobDomain\Models\Job;
 use App\Domains\JobDomain\Services\Contracts\JobServiceInterface;
 use App\Domains\JobDomain\Repositories\Contracts\JobRepositoryInterface;
 
@@ -22,6 +23,10 @@ class JobService implements JobServiceInterface
     public function getJobById(int $jobId)
     {
         return $this->jobRepository->find($jobId);
+    }
+    public function getAllJobs()
+    {
+        return Job::all();
     }
 
     public function createJob(array $data)
