@@ -87,7 +87,10 @@
                     <h4>Regime de Trabalho</h4>
                     <p>{{ vagaAtual?.employment_type }}</p>
 
-                    <button class="cancel-button" @click="fecharModalDetalhes">Fechar</button>
+                    <div>
+                      <button class="inscrever-button" @click="inscreverVaga(vagaAtual)">Inscrever-se</button>
+                      <button class="cancel-button" @click="fecharModalDetalhes">Fechar</button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -315,6 +318,46 @@ methods: {
         alert("Erro ao carregar vagas. Tente novamente mais tarde.");
       });
   },
+  methods: {
+  inscreverVaga(vaga) {
+      const token = localStorage.getItem("token");
+      const user = JSON.parse(localStorage.getItem("user"));
+
+      if (!user || user.user_type !== "candidate") {
+        alert("Somente candidatos podem se inscrever em vagas.");
+        return;
+      }
+
+      if (!vaga || !vaga.id) {
+        alert("Erro: Detalhes da vaga não encontrados.");
+        return;
+      }
+
+      const inscricao = {
+        user_id: user.id, // ID do candidato
+        job_id: vaga.id, // ID da vaga
+        name: `Inscrição para ${vaga.title}`, // Nome descritivo da inscrição
+        recruiter_name: vaga.recruiter_name || "Recrutador Desconhecido", // Nome do recrutador (ajuste conforme o backend)
+        recruiter_id: vaga.recruiter_id, // ID do recrutador
+      };
+
+      axios
+        .post("http://localhost:8000/api/applications", inscricao, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          console.log("Inscrição realizada com sucesso:", response.data);
+          alert("Inscrição realizada com sucesso!");
+        })
+        .catch((error) => {
+          console.error("Erro ao realizar inscrição:", error.response?.data || error);
+          alert("Erro ao realizar inscrição. Tente novamente.");
+        });
+    },
+  },
+
   limparVagas() {
     // Remove as chaves 'vagas' e 'ultimaVaga' do localStorage
     localStorage.removeItem('vagas');
