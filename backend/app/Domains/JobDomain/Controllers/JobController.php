@@ -55,9 +55,7 @@ class JobController extends Controller
 
     public function update(Request $request, $id)
     {
-        if (auth()->user()->user_type !== 'recruiter') {
-            return response()->json(['message' => 'Unauthorized.'], 403);
-        }
+
 
         $job = $this->jobService->getJobById($id);
 
