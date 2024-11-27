@@ -11,8 +11,6 @@
         <ul>
           <li><router-link class="currentRouter" to="">Visão Geral</router-link></li>
           <li><router-link to="/candidate/jobs/candidateVagas">Minhas Vagas</router-link></li>
-          <li><router-link to="">Vagas Salvas</router-link></li>
-          <li><router-link to="">Configurações</router-link></li>
           <li><router-link to="">Perfil</router-link></li>
           <li><router-link to="/">Sair</router-link></li>
             <!--COLOCAR UMA AÇÃO PARA SAIR (LIBERAR O LOCALSTORAGE)-->
@@ -287,17 +285,17 @@ data() {
 },
 mounted() {
   this.carregarVagas();
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (!user || user.user_type !== "candidate") {
-        this.$router.push({ name: "login" });
-    }
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (!user || user.user_type !== "candidate") {
+      this.$router.push({ name: "login" });
+  }
 
-    const vagas = JSON.parse(localStorage.getItem("vagasInscritas"));
-    if (vagas) {
-        this.vagasInscritas = vagas; // Preenche o array de vagas
-    } else {
-        console.error("Nenhuma vaga encontrada para o candidato.");
-    }
+  const vagas = JSON.parse(localStorage.getItem("vagasInscritas"));
+  if (vagas) {
+      this.vagasInscritas = vagas; // Preenche o array de vagas
+  } else {
+      console.error("Nenhuma vaga encontrada para o candidato.");
+  }
 },
 /*mounted() {
   this.carregarVagas();

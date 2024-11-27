@@ -10,8 +10,7 @@
       <ul>
         <li><router-link class="currentRouter" to="">Visão Geral</router-link></li>
         <li><router-link to="/recruiter/dashboard/recruiterVagas">Minhas Vagas</router-link></li>
-        <li><router-link to="">Configurações</router-link></li>
-        <li><router-link to="">Perfil</router-link></li>
+        <li><router-link to="recruiter/dashboard/recruiterPerl">Perfil</router-link></li>
         <li><router-link to="/">Sair</router-link></li>
       </ul>
     </aside>

@@ -53,6 +53,14 @@ const router = createRouter({
       }
     },
     {
+      path: '/candidate/jobs/candidatePerfil',
+      name: '/candidate/jobs/candidatePerfil',
+      component: () => import('../views/CandidatePerfil.vue'),
+      meta: {
+        title: 'Recruta Fácil'
+      }
+    },
+    {
       path: '/recruiter/dashboard',
       name: '/recruiter/dashboard',
       component: () => import('../views/Dashboard.vue'),
@@ -64,6 +72,14 @@ const router = createRouter({
       path: '/recruiter/dashboard/recruiterVagas',
       name: '/recruiter/dashboard/recruiterVagas',
       component: () => import('../views/RecruiterVagas.vue'),
+      meta: {
+        title: 'Recruta Fácil'
+      }
+    },
+    {
+      path: '/recruiter/dashboard/recruiterPerfil',
+      name: '/recruiter/dashboard/recruiterPerfil',
+      component: () => import('../views/RecruiterPerfil.vue'),
       meta: {
         title: 'Recruta Fácil'
       }
