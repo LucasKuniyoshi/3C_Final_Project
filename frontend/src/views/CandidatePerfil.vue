@@ -10,8 +10,8 @@
         <div>
           <ul>
             <li><router-link to="/candidate/jobs">Visão Geral</router-link></li>
-            <li><router-link class="currentRouter" to="">Minhas Vagas</router-link></li>
-            <li><router-link to="/candidate/jobs/candidatePerfil">Perfil</router-link></li>
+            <li><router-link to="">Minhas Vagas</router-link></li>
+            <li><router-link class="currentRouter" to="/candidate/jobs/candidatePerfil">Perfil</router-link></li>
             <li><router-link to="/">Sair</router-link></li>
           </ul>
         </div>

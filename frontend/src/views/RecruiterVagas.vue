@@ -10,8 +10,7 @@
         <ul>
           <li><router-link to="/recruiter/dashboard">Visão Geral</router-link></li>
           <li><router-link class="currentRouter" to="">Minhas Vagas</router-link></li>
-          <li><router-link to="">Configurações</router-link></li>
-          <li><router-link to="">Perfil</router-link></li>
+          <li><router-link to="recruiter/dashboard/recruiterPerfil">Perfil</router-link></li>
           <li><router-link to="/">Sair</router-link></li>
         </ul>
       </aside>
@@ -284,6 +283,10 @@ export default {
     };
   },
   mounted() {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user || user.user_type !== "recruiter") {
+      this.$router.push("/login");
+    }
     this.carregarVagas();
     this.carregarEndVagas();
   },
