@@ -316,16 +316,26 @@ export default {
     };
   },
   mounted() {
-    this.carregarVagas();
-    //console.log(JSON.parse(localStorage.getItem('vagas')));
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (!user || user.user_type !== "recruiter") {
-      this.$router.push("/login");
-    }
-    if (!this.vagas || !Array.isArray(this.vagas)) {
-        this.vagas = [];
-    }
-    console.log("Vagas inicializadas:", this.vagas);
+      // Tenta carregar as vagas do localStorage
+      const vagasSalvas = JSON.parse(localStorage.getItem('vagas'));
+
+      // Verifica se `vagasSalvas` é um array válido
+      if (Array.isArray(vagasSalvas)) {
+          this.vagas = vagasSalvas;
+          console.log("Vagas carregadas do localStorage:", this.vagas);
+      } else {
+          // Caso contrário, inicializa como array vazio e busca do backend
+          this.vagas = [];
+          this.carregarVagas();
+      }
+
+      // Verifica o tipo do usuário e redireciona caso necessário
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (!user || user.user_type !== "recruiter") {
+          this.$router.push("/login");
+      }
+
+      console.log("Vagas inicializadas:", this.vagas);
   },
   methods: {
     abrirModal() {
@@ -453,7 +463,6 @@ export default {
 
                 localStorage.setItem("vagas", JSON.stringify(this.vagas));
 
-                alert("Vaga atualizada com sucesso!");
                 this.fecharModalDetalhes();
             })
             .catch((error) => {
@@ -465,22 +474,27 @@ export default {
 
 
     carregarVagas() {
-      const token = localStorage.getItem("token");
+        const token = localStorage.getItem("token");
 
-      axios
-        .get("http://localhost:8000/api/jobs", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((response) => {
-          //this.vagas = response.data.jobs; // Ajuste conforme a resposta do backend
-          this.vagas = response.data.jobs;
-        })
-        .catch((error) => {
-          console.error("Erro ao carregar vagas:", error);
-        });
+        axios
+            .get("http://localhost:8000/api/jobs", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+            .then((response) => {
+                // Armazena as vagas recebidas
+                this.vagas = response.data.jobs || [];
+                console.log("Vagas carregadas do backend:", this.vagas);
+
+                // Atualiza o localStorage para persistência
+                localStorage.setItem('vagas', JSON.stringify(this.vagas));
+            })
+            .catch((error) => {
+                console.error("Erro ao carregar vagas:", error.response?.data || error);
+            });
     },
+
     /*carregarVagas() {
       // Carrega as vagas do localStorage ao montar o componente
       const vagasalvas = localStorage.getItem("vagas");
