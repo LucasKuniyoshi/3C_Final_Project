@@ -21,13 +21,37 @@ class ApplicationController extends Controller
     public function index()
     {
         $applications = $this->applicationService->getAllApplications();
-        return response()->json($applications);
+
+        return response()->json($applications->map(function ($application) {
+            return [
+                'id' => $application->id,
+                'user_id' => $application->user_id,
+                'job_id' => $application->job_id,
+                'name' => $application->name,
+                'recruiter_id' => $application->recruiter_id, // Retornando recruiter_id
+                'additional_info' => $application->additional_info,
+                'resume_path' => $application->resume_path,
+                'created_at' => $application->created_at,
+                'updated_at' => $application->updated_at,
+            ];
+        }));
     }
 
     public function show($id)
     {
         $application = $this->applicationService->getApplicationById($id);
-        return response()->json($application);
+
+        return response()->json([
+            'id' => $application->id,
+            'user_id' => $application->user_id,
+            'job_id' => $application->job_id,
+            'name' => $application->name,
+            'recruiter_id' => $application->recruiter_id, // Retornando recruiter_id
+            'additional_info' => $application->additional_info,
+            'resume_path' => $application->resume_path,
+            'created_at' => $application->created_at,
+            'updated_at' => $application->updated_at,
+        ]);
     }
 
     public function store(Request $request)

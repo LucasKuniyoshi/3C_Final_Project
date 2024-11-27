@@ -12,7 +12,7 @@ class ApplicationValidator
             'user_id' => 'required|exists:users,id',
             'job_id' => 'required|exists:jobs,id',
             'name' => 'required|string|max:255',
-            'recruiter_name' => 'required|string|max:255',
+            'recruiter_id' => 'required|string|max:255',
         ]);
     }
 

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Domains\ApplicationDomain\Models;
 
 use App\Domains\JobDomain\Models\Job;
@@ -15,14 +14,14 @@ class Application extends Model
         'user_id',
         'job_id',
         'name',
-        'recruiter_name',
+        'recruiter_id',  // Incluído o recruiter_id
         'additional_info',
         'resume_path',
     ];
 
     public function candidate()
     {
-        return $this->belongsTo(\App\Domains\UserDomain\Models\User::class, 'candidate_id');
+        return $this->belongsTo(User::class, 'user_id');  // Relaciona com o candidato
     }
 
     public function job()
@@ -30,8 +29,8 @@ class Application extends Model
         return $this->belongsTo(Job::class);
     }
 
-    public function user()
+    public function recruiter()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'recruiter_id');  // Relaciona com o recrutador
     }
 }

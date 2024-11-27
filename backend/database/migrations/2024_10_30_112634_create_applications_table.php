@@ -14,7 +14,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('job_id')->constrained()->onDelete('cascade');
             $table->string('name');
-            $table->string('recruiter_name');
+            $table->foreignId('recruiter_id')->constrained('users')->onDelete('cascade');
             $table->text('additional_info')->nullable();
             $table->string('resume_path')->nullable();
             $table->timestamps();
