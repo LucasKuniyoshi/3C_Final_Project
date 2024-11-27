@@ -1,6 +1,5 @@
 <script setup>
 import HelloWorld from '@/components/HelloWorld.vue';
-import Footer from '@/components/Footer.vue';
 
 </script>
 
@@ -36,7 +35,6 @@ import Footer from '@/components/Footer.vue';
         </div>
       </section>
     </div>
-    <Footer />
   </main>
 </template>
 
