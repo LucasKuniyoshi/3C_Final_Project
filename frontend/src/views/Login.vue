@@ -29,18 +29,23 @@ export default {
 
                     // Armazenar o company_id e recruiter_id apenas se for um recrutador
                     if (user.user_type === "recruiter") {
-                        localStorage.setItem("recruiter_id", user.id); // Armazena o id do recrutador
-
-                        if (jobs.length > 0 && jobs[0].company_id) {
+                        localStorage.setItem("recruiter_id", user.id);
+                        if (user.company_id) {
+                            localStorage.setItem("company_id", user.company_id); // Direto do `user`
+                        } else if (jobs.length > 0 && jobs[0].company_id) {
                             localStorage.setItem("company_id", jobs[0].company_id);
                         } else {
-                            localStorage.removeItem("company_id"); // Remove caso não haja company_id
+                            localStorage.removeItem("company_id");
                         }
-                    } else {
+                    }
+                    else {
                         // Garante que esses itens não estão no localStorage para candidatos
                         localStorage.removeItem("company_id");
                         localStorage.removeItem("recruiter_id");
                     }
+                    console.log("company_id armazenado:", localStorage.getItem("company_id"));
+                    console.log("recruiter_id armazenado:", localStorage.getItem("recruiter_id"));
+
 
                     // Redirecionar com base no tipo de usuário
                     if (user.user_type === "recruiter") {

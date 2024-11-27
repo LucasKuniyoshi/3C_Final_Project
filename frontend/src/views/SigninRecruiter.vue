@@ -206,6 +206,11 @@
                     .then(response => {
                         console.log('Empresa criada:', response.data);
 
+                        const companyId = response.data.id;
+
+                        // Adiciona o ID da empresa ao objeto do usuário
+                        this.users.company_id = companyId;
+
                         // Atualiza os dados do usuário para incluir informações da empresa, se necessário
                         //this.users.company_id = response.data.company.id; // Exemplo, ajuste conforme seu backend
 
