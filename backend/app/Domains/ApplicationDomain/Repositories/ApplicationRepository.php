@@ -9,12 +9,12 @@ class ApplicationRepository implements ApplicationRepositoryInterface
 {
     public function getAll()
     {
-        return Application::with(['user', 'job'])->get();
+        return Application::with(['user', 'job'])->get(); // Não precisa de 'recruiter'
     }
 
     public function find(int $id)
     {
-        return Application::with(['user', 'job'])->findOrFail($id);
+        return Application::with(['user', 'job'])->findOrFail($id); // Não precisa de 'recruiter'
     }
 
     public function create(array $data)

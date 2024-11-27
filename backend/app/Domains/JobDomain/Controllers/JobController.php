@@ -67,15 +67,17 @@ class JobController extends Controller
     }
 
     public function destroy($id)
-    {
-        $this->authorizeUserType('recruiter');
-        $job = $this->getJobOrFail($id);
-        $this->authorizeJobOwnership($job);
+{
+    $this->authorizeUserType('recruiter');
 
-        $this->jobService->deleteJob($job);
+    $job = $this->getJobOrFail($id);
 
-        return response()->json(['message' => 'Job deleted successfully']);
-    }
+    $this->authorizeJobOwnership($job);
+
+    $this->jobService->deleteJob($job);
+
+    return response()->json(['message' => 'Job deleted successfully'], 200);
+}
 
     public function apply(Request $request, $id)
     {
@@ -108,10 +110,10 @@ class JobController extends Controller
     }
 
     protected function authorizeJobOwnership(Job $job)
-    {
-        if ($job->recruiter_id !== auth()->id()) {
-            throw new AccessDeniedHttpException('Unauthorized to perform this action.');
-        }
+{
+    if ($job->recruiter_id !== auth()->id()) {
+        throw new AccessDeniedHttpException('Unauthorized to perform this action.');
     }
+}
 }
 
