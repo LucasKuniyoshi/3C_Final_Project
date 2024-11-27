@@ -6,6 +6,9 @@ git branch -M main
 git remote add origin https://github.com/LucasKuniyoshi/3C_Final_Project.git
 git push -u origin main
 
+Imagem docker
+https://gitlab.com/moacirguedes/docker-laravel-vuejs
+
 ______________
 Testando merge
 
