@@ -108,7 +108,7 @@
               </div>
             </div>
             <h5 class="topicos2">Última Vaga Criada</h5>
-            <div class="card-content">
+            <!--<div class="card-content">
               <div v-if="vagas.length > 0" class="card" @click="abrirModalDetalhes(vagas[vagas.length - 1])">
                 <h4>{{ vagas[vagas.length - 1].title }}</h4>
                 <p>{{ vagas[vagas.length - 1].description }}</p>
@@ -116,7 +116,7 @@
               <div v-else>
                 <p>Nenhuma vaga cadastrada.</p>
               </div>
-            </div>
+            </div>-->
 
             
 
@@ -150,10 +150,8 @@
                     <form @submit.prevent="salvarAlteracoes">
                       <div class="modal-content-position">
                         <div class="modal-content-left">
-                          <div class="modal-content-field">
-                            <h4>Nome da Vaga</h4>
-                            <input class="custom-input" type="text" v-model="vagaAtual.title" :placeholder="vagaAtual ? vagaAtual.title : ''" />
-                          </div>
+                          <h4>Nome da Vaga</h4>
+                          <input class="custom-input" type="text" v-model="vagaAtual.title" />
 
                           <h4>Descrição</h4>
                           <textarea class="custom-textarea" v-model="vagaAtual.description"></textarea>
@@ -190,6 +188,7 @@
                     </form>
                   </div>
                 </div>
+
 
             <!-- Modal de Detalhes da Vaga em Minhas Vagas -->
             <!--<div v-if="modalDetalhesAberto" class="modal-overlay" @click.self="fecharModalDetalhes">
@@ -413,9 +412,10 @@ export default {
         const token = localStorage.getItem("token");
         const companyId = localStorage.getItem("company_id");
         const recruiterId = localStorage.getItem("recruiter_id");
+        const userType = JSON.parse(localStorage.getItem("user"))?.user_type; // Recupera o user_type do localStorage
 
-        if (!companyId || !recruiterId) {
-            alert("Erro: ID da empresa ou do recrutador não encontrado. Faça login novamente.");
+        if (!companyId || !recruiterId || !userType) {
+            alert("Erro: ID da empresa, recrutador ou tipo de usuário não encontrado. Faça login novamente.");
             return;
         }
 
@@ -429,6 +429,7 @@ export default {
             department: this.novaVaga.department,
             company_id: companyId,
             recruiter_id: recruiterId,
+            user_type: userType, // Inclui o user_type no objeto
         };
 
         axios
@@ -457,6 +458,7 @@ export default {
                 alert("Erro ao criar vaga. Verifique os dados.");
             });
     },
+
     fecharModalUltimaVaga() {
       // Fecha o modal da última vaga
       this.modalUltimaVagaAberto = false;
@@ -481,13 +483,44 @@ export default {
       this.vagaAtual = null;
     },
     salvarAlteracoes() {
-      // Salva as alterações feitas na vaga atual
-      /*this.vagas[this.indexAtual] = { ...this.vagaAtual };
-      localStorage.setItem("vagas", JSON.stringify(this.vagas));*/
-      this.vagas[this.indexAtual] = { ...this.vagaAtual };
-      localStorage.setItem("vagas", JSON.stringify(this.vagas));
-      this.modalDetalhesAberto = false;
+      const token = localStorage.getItem("token");
+
+      // Verifica se há vaga atual
+      if (!this.vagaAtual || !this.vagaAtual.id) {
+        alert("Erro: Nenhuma vaga selecionada para edição.");
+        return;
+      }
+
+      // Inclui o campo `user_type` manualmente na vaga atual
+      const userType = JSON.parse(localStorage.getItem("user"))?.user_type || "recruiter";
+      const vagaAtualizada = {
+        ...this.vagaAtual,
+        user_type: userType, // Adiciona o user_type necessário para o backend
+      };
+
+      axios
+        .put(`http://localhost:8000/api/jobs/${this.vagaAtual.id}`, vagaAtualizada, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          console.log("Vaga atualizada:", response.data);
+
+          // Atualiza a vaga no array local
+          this.vagas[this.indexAtual] = response.data;
+          localStorage.setItem("vagas", JSON.stringify(this.vagas));
+
+          alert("Vaga atualizada com sucesso!");
+          this.fecharModalDetalhes();
+        })
+        .catch((error) => {
+          console.error("Erro ao atualizar vaga:", error.response?.data || error);
+          alert("Erro ao atualizar vaga. Verifique os dados.");
+        });
     },
+
+
     carregarVagas() {
       const token = localStorage.getItem("token");
 
