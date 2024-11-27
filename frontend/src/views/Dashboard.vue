@@ -123,26 +123,11 @@
             <!-- Seção Minhas Vagas -->
             <h5 class="topicos2">Minhas Vagas</h5>
             <div class="card-content">
-              <div v-if="vagas && vagas.length > 0">
                 <div v-for="(vaga, index) in vagas" :key="vaga.id" class="card" @click="abrirModalDetalhes(vaga)">
                   <h4>{{ vaga.title }}</h4>
                   <p>{{ vaga.description }}</p>
                 </div>
-              </div>
-              <div v-else>
-                <p>Nenhuma vaga criada.</p>
-              </div>
             </div>
-
-
-            <!-- Seção Minhas Vagas -->
-            <!--<h5 class="topicos2">Minhas Vagas</h5>
-                <div class="card-content">
-                  <div v-for="(vaga, index) in vagas" :key="index" class="card" @click="abrirModalDetalhes(vaga)">
-                    <h4>{{ vaga.nome }}</h4>
-                    <p>{{ vaga.descricao }}</p>
-                  </div>
-                </div>-->
 
                 <div v-if="modalDetalhesAberto" class="modal-overlay" @click.self="fecharModalDetalhes">
                   <div class="modal-content">
@@ -189,56 +174,6 @@
                   </div>
                 </div>
 
-
-            <!-- Modal de Detalhes da Vaga em Minhas Vagas -->
-            <!--<div v-if="modalDetalhesAberto" class="modal-overlay" @click.self="fecharModalDetalhes">
-              <div class="modal-content">
-                <h2>Detalhes da Vaga</h2>
-                <form @submit.prevent="salvarAlteracoes">
-                  <div class="modal-content-position">
-                    <div class="modal-content-left">
-                      <div class="modal-content-field">
-                        <h4>Nome da Vaga</h4>
-                        <!-- Usa a diretiva :placeholder para definir o nome como placeholder 
-                        <input class="custom-input" type="text" v-model="vagaAtual.nome"
-                          :placeholder="vagaAtual ? vagaAtual.nome : ''" />
-                      </div>
-
-                      <h4>Descrição</h4>
-                      <textarea class="custom-textarea" v-model="vagaAtual.descricao"></textarea>
-
-                      <h4>Localização</h4>
-                      <input class="custom-input" type="text" v-model="vagaAtual.localizacao" />
-
-                      <h4>Regime de Trabalho</h4>
-                      <select class="custom-select" v-model="vagaAtual.employment_type">
-                        <option value="" disabled selected>Selecione o setor</option>
-                        <option v-for="employment_type in employment_types" :key="employment_type"
-                          :value="employment_type">{{ employment_type }}</option>
-                      </select>
-                    </div>
-                    <div class="modal-content-right">
-                      <h4>Salário</h4>
-                      <input class="custom-input" type="text" v-model="vagaAtual.salario" />
-
-                      <h4>Requisitos</h4>
-                      <textarea class="custom-textarea" v-model="vagaAtual.requisitos"></textarea>
-
-                      <h4>Setor</h4>
-                      <select class="custom-select" v-model="vagaAtual.department">
-                        <option value="" disabled>Selecione o setor</option>
-                        <option v-for="department in departments" :key="department" :value="department">{{ department }}
-                        </option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="btnDisplay">
-                    <button class="confirm-button" type="submit">Salvar Alterações</button>
-                    <button class="cancel-button" type="button" @click="fecharModalDetalhes">Cancelar</button>
-                  </div>
-                </form>
-              </div>
-            </div>-->
           </div>
           <div class="activities">
             <div class="calendar">
@@ -412,10 +347,13 @@ export default {
         const token = localStorage.getItem("token");
         const companyId = localStorage.getItem("company_id");
         const recruiterId = localStorage.getItem("recruiter_id");
-        const userType = JSON.parse(localStorage.getItem("user"))?.user_type; // Recupera o user_type do localStorage
 
-        if (!companyId || !recruiterId || !userType) {
-            alert("Erro: ID da empresa, recrutador ou tipo de usuário não encontrado. Faça login novamente.");
+        console.log("company_id recuperado:", companyId);
+        console.log("recruiter_id recuperado:", recruiterId);
+
+
+        if (!companyId || !recruiterId) {
+            alert("Erro: ID da empresa ou do recrutador não encontrado. Faça login novamente.");
             return;
         }
 
@@ -429,7 +367,6 @@ export default {
             department: this.novaVaga.department,
             company_id: companyId,
             recruiter_id: recruiterId,
-            user_type: userType, // Inclui o user_type no objeto
         };
 
         axios
@@ -450,7 +387,7 @@ export default {
                 this.vagas.push(response.data);
                 console.log("Vagas atualizadas:", this.vagas);
 
-                alert("Vaga criada com sucesso!");
+                //alert("Vaga criada com sucesso!");
                 this.fecharModal();
             })
             .catch((error) => {
@@ -458,7 +395,6 @@ export default {
                 alert("Erro ao criar vaga. Verifique os dados.");
             });
     },
-
     fecharModalUltimaVaga() {
       // Fecha o modal da última vaga
       this.modalUltimaVagaAberto = false;
@@ -492,14 +428,14 @@ export default {
       }
 
       // Inclui o campo `user_type` manualmente na vaga atual
-      const userType = JSON.parse(localStorage.getItem("user"))?.user_type || "recruiter";
+      //const userType = JSON.parse(localStorage.getItem("user"))?.user_type || "recruiter";
       const vagaAtualizada = {
         ...this.vagaAtual,
-        user_type: userType, // Adiciona o user_type necessário para o backend
+        //user_type: userType, // Adiciona o user_type necessário para o backend
       };
 
       axios
-        .put(`http://localhost:8000/api/jobs/${this.vagaAtual.id}`, vagaAtualizada, {
+        .put(`http://localhost:8000/api/jobs/${this.vagaAtual.id}`, this.vagaAtual, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -511,7 +447,7 @@ export default {
           this.vagas[this.indexAtual] = response.data;
           localStorage.setItem("vagas", JSON.stringify(this.vagas));
 
-          alert("Vaga atualizada com sucesso!");
+          //alert("Vaga atualizada com sucesso!");
           this.fecharModalDetalhes();
         })
         .catch((error) => {
