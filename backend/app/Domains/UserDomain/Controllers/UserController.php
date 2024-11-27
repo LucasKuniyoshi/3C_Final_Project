@@ -40,7 +40,6 @@ class UserController extends Controller
     {
         $validated = UserValidator::validateCreate($request->all());
 
-
         $validated['password'] = Hash::make($validated['password']);
         $user = User::create($validated);
 
@@ -53,11 +52,7 @@ class UserController extends Controller
 
         $user = User::findOrFail($id);
 
-
-        $user->name = $validated['name'] ?? $user->name;
-        $user->email = $validated['email'] ?? $user->email;
-        $user->user_type = $validated['user_type'] ?? $user->user_type;
-
+        $user->fill($validated);
 
         if (isset($validated['password'])) {
             $user->password = Hash::make($validated['password']);

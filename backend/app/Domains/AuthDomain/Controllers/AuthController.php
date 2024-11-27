@@ -10,7 +10,7 @@ use App\Domains\ApplicationDomain\Models\Application;
 
 class AuthController extends Controller
 {
-    protected $authService;
+    protected AuthService $authService;
 
     public function __construct(AuthService $authService)
     {
@@ -19,21 +19,36 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+        $validatedData = $this->validateLogin($request);
 
-        $user = $this->authService->login($request->email, $request->password);
+        $user = $this->authService->login($validatedData['email'], $validatedData['password']);
 
         if (!$user) {
-            return response()->json([
-                'message' => 'Invalid credentials. Please check your email and password and try again.'
-            ], 401);
+            return $this->respondInvalidCredentials();
         }
 
         $token = $this->authService->generateToken($user);
 
+        return $this->respondWithUserData($user, $token);
+    }
+
+    protected function validateLogin(Request $request): array
+    {
+        return $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+    }
+
+    protected function respondInvalidCredentials()
+    {
+        return response()->json([
+            'message' => 'Invalid credentials. Please check your email and password and try again.'
+        ], 401);
+    }
+
+    protected function respondWithUserData($user, $token)
+    {
         $responseData = [
             'message' => 'Login successful. Welcome!',
             'token' => $token,
@@ -47,16 +62,25 @@ class AuthController extends Controller
             ],
         ];
 
-        if ($user->user_type === 'candidate') {
-            $applications = Application::with('job')
-                ->where('user_id', $user->id)
-                ->get();
-            $responseData['applications'] = $applications;
-        } elseif ($user->user_type === 'recruiter') {
-            $jobs = Job::where('recruiter_id', $user->id)->get();
-            $responseData['jobs'] = $jobs;
+        if ($user->isCandidate()) {
+            $responseData['applications'] = $this->getCandidateApplications($user->id);
+        } elseif ($user->isRecruiter()) {
+            $responseData['jobs'] = $this->getRecruiterJobs($user->id);
+            $responseData['user']['company_id'] = $user->company_id; // Adiciona o company_id
         }
 
         return response()->json($responseData, 200);
+    }
+
+    protected function getCandidateApplications(int $userId)
+    {
+        return Application::with('job')
+            ->where('user_id', $userId)
+            ->get();
+    }
+
+    protected function getRecruiterJobs(int $recruiterId)
+    {
+        return Job::where('recruiter_id', $recruiterId)->get();
     }
 }

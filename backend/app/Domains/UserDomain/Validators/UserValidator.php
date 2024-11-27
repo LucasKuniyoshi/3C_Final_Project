@@ -13,10 +13,12 @@ class UserValidator
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8',
             'user_type' => 'required|in:recruiter,candidate',
+            'company_id' => 'required_if:user_type,recruiter|exists:companies,id',
         ];
 
         return self::validate($data, $rules);
     }
+
     public static function validateUpdate(array $data, int $id): array
     {
         $rules = [
@@ -24,10 +26,12 @@ class UserValidator
             'email' => 'sometimes|email|unique:users,email,' . $id,
             'password' => 'nullable|string|min:8|confirmed',
             'user_type' => 'sometimes|in:recruiter,candidate',
+            'company_id' => 'required_if:user_type,recruiter|exists:companies,id',
         ];
 
         return self::validate($data, $rules);
     }
+
     private static function validate(array $data, array $rules): array
     {
         $validator = Validator::make($data, $rules);
