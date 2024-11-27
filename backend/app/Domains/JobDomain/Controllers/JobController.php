@@ -1,11 +1,14 @@
 <?php
-
 namespace App\Domains\JobDomain\Controllers;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Domains\JobDomain\Models\Job;
 use App\Domains\JobDomain\Validators\JobValidator;
 use App\Domains\JobDomain\Services\Contracts\JobServiceInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class JobController extends Controller
 {
@@ -14,21 +17,18 @@ class JobController extends Controller
 
     public function __construct(JobServiceInterface $jobService, JobValidator $jobValidator)
     {
+        $this->middleware('auth:sanctum');
         $this->jobService = $jobService;
         $this->jobValidator = $jobValidator;
     }
 
     public function index(Request $request)
     {
-
-        if (auth()->user()->user_type !== 'recruiter') {
-            return response()->json(['message' => 'Unauthorized.'], 403);
-        }
-
+        $this->authorizeUserType('recruiter');
         $jobs = $this->jobService->getJobsByRecruiter(auth()->id());
 
-        if ($request->has('departament')) {
-            $jobs = $jobs->where('departament', $request->departament);
+        if ($request->has('department')) {
+            $jobs = $jobs->where('department', $request->department);
         }
 
         return response()->json($jobs);
@@ -36,51 +36,36 @@ class JobController extends Controller
 
     public function show($id)
     {
-        $job = $this->jobService->getJobById($id);
+        $job = $this->getJobOrFail($id);
         return response()->json($job);
     }
 
     public function store(Request $request)
     {
-        if (auth()->user()->user_type !== 'recruiter') {
-            return response()->json(['message' => 'Unauthorized.'], 403);
-        }
-
+        $this->authorizeUserType('recruiter');
         $validatedData = $this->jobValidator->validateJobCreation($request);
-
-        $job = $this->jobService->createJob(array_merge($validatedData, ['recruiter_id' => auth()->id()]));
+        $jobData = array_merge($validatedData, ['recruiter_id' => auth()->id()]);
+        $job = $this->jobService->createJob($jobData);
 
         return response()->json($job, 201);
     }
 
     public function update(Request $request, $id)
     {
-
-
-        $job = $this->jobService->getJobById($id);
-
-        if ($job->recruiter_id !== auth()->id()) {
-            return response()->json(['message' => 'Unauthorized to update this job.'], 403);
-        }
+        $job = $this->getJobOrFail($id);
+        $this->authorizeJobOwnership($job);
 
         $validatedData = $this->jobValidator->validateJobUpdate($request);
+        $updatedJob = $this->jobService->updateJob($job, $validatedData);
 
-        $this->jobService->updateJob($job, $validatedData);
-
-        return response()->json($job);
+        return response()->json($updatedJob);
     }
 
     public function destroy($id)
     {
-        if (auth()->user()->user_type !== 'recruiter') {
-            return response()->json(['message' => 'Unauthorized.'], 403);
-        }
-
-        $job = $this->jobService->getJobById($id);
-
-        if ($job->recruiter_id !== auth()->id()) {
-            return response()->json(['message' => 'Unauthorized to delete this job.'], 403);
-        }
+        $this->authorizeUserType('recruiter');
+        $job = $this->getJobOrFail($id);
+        $this->authorizeJobOwnership($job);
 
         $this->jobService->deleteJob($job);
 
@@ -89,11 +74,8 @@ class JobController extends Controller
 
     public function apply(Request $request, $id)
     {
-        if (auth()->user()->user_type !== 'candidate') {
-            return response()->json(['message' => 'Unauthorized.'], 403);
-        }
-
-        $job = $this->jobService->getJobById($id);
+        $this->authorizeUserType('candidate');
+        $job = $this->getJobOrFail($id);
 
         if ($this->jobService->checkExistingApplication(auth()->id(), $job->id)) {
             return response()->json(['message' => 'You have already applied for this job.'], 400);
@@ -102,5 +84,29 @@ class JobController extends Controller
         $application = $this->jobService->applyToJob(auth()->id(), $job, $request->all());
 
         return response()->json(['message' => 'Application submitted successfully', 'application' => $application], 201);
+    }
+
+    protected function authorizeUserType($userType)
+    {
+        if (auth()->user()->user_type !== $userType) {
+            throw new AccessDeniedHttpException('Unauthorized.');
+        }
+    }
+
+    protected function getJobOrFail($jobId)
+    {
+        $job = Job::find($jobId);
+        if (!$job) {
+            throw new NotFoundHttpException('Job not found.');
+        }
+        return $job;
+    }
+
+    protected function authorizeJobOwnership(Job $job)
+    {
+        if ($job->recruiter_id !== auth()->id()) {
+            Log::warning('User not authorized to edit this job', ['jobId' => $job->id, 'userId' => auth()->id()]);
+            throw new AccessDeniedHttpException('Unauthorized to perform this action.');
+        }
     }
 }

@@ -17,6 +17,7 @@ class CreateJobsTable extends Migration
             $table->enum('employment_type', ['presential', 'remote', 'hybrid']);
             $table->foreignId('company_id')->constrained('companies')->onDelete('cascade');
             $table->foreignId('recruiter_id')->constrained('users')->onDelete('cascade');
+
             $table->enum('department', ['technology', 'sales', 'marketing', 'human resources', 'financial']);
             $table->timestamps();
         });

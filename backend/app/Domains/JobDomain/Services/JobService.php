@@ -31,6 +31,7 @@ class JobService implements JobServiceInterface
 
     public function updateJob($job, array $data)
     {
+
         return $this->jobRepository->update($job, $data);
     }
 

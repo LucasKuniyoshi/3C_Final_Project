@@ -28,7 +28,7 @@ Route::prefix('users')->group(function () {
 Route::middleware(['role:recruiter', 'auth:sanctum'])->group(function () {
     Route::get('/jobs', [JobController::class, 'index']);
     Route::post('/jobs', [JobController::class, 'store']);
-    Route::put('/jobs/{id}', [JobController::class, 'update']);
+    Route::put('/jobs/{id}', [JobController::class, 'update'])->where('id', '[0-9]+');
     Route::delete('/jobs/{id}', [JobController::class, 'destroy']);
 });
 
