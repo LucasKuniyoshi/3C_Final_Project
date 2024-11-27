@@ -28,119 +28,82 @@
           
           <section class="body">
             <div class="vagas-content">
-                <!-- Seção Minhas Vagas -->
-                <h5 class="topicos">Minhas Vagas</h5>
-                <div class="card-content">
-                  <div v-for="(vaga, index) in vagas" :key="index" class="card" @click="abrirModalDetalhes(vaga)">
-                    <h3>{{ vaga.nome }}</h3>
-                    <p>{{ vaga.descricao }}</p>
-                  </div>
+              <h5 class="topicos2">Minhas Vagas</h5>
+              <div class="card-content">
+                <div v-for="(vaga, index) in vagas" :key="vaga.id" class="card" @click="abrirModalDetalhes(vaga)">
+                  <h4>{{ vaga.title }}</h4>
+                  <p>{{ vaga.description }}</p>
                 </div>
+              </div>
 
-                <!-- Modal de Detalhes da Vaga em Minhas Vagas -->
-                <div v-if="modalDetalhesAberto" class="modal-overlay" @click.self="fecharModalDetalhes">
-                  <div class="modal-content">
-                    <h2>Detalhes da Vaga</h2>
-                    <form @submit.prevent="salvarAlteracoes">
-                      <div class="modal-content-position">
-                        <div class="modal-content-left">
-                          <div class="modal-content-field">
-                            <h4>Nome da Vaga</h4>
-                            <!-- Usa a diretiva :placeholder para definir o nome como placeholder -->
-                            <input class="custom-input" type="text" v-model="vagaAtual.nome" :placeholder="vagaAtual ? vagaAtual.nome : ''" />
-                          </div>
-                        
-                          <h4>Descrição</h4>
-                          <textarea class="custom-textarea" v-model="vagaAtual.descricao"></textarea>
-
-                          <h4>Requisitos</h4>
-                          <textarea class="custom-textarea" v-model="vagaAtual.requisitos"></textarea>
-                        </div>
-                        <div class="modal-content-right">
-                          <h4>Salário</h4>
-                          <input class="custom-input" type="text" v-model="vagaAtual.salario" />
-
-                          <h4>Localização</h4>
-                          <input class="custom-input" type="text" v-model="vagaAtual.localizacao" />
-
-                          <h4>Setor</h4>
-                          <select class="custom-select" v-model="vagaAtual.department">
-                            <option value="" disabled>Selecione o setor</option>
-                            <option v-for="department in departments" :key="department" :value="department">{{ department }}</option>
-                          </select>
-                          <div style="margin-bottom: 1%"></div>
-                          <h4>Regime de Trabalho</h4>
-                          <select class="custom-select" v-model="vagaAtual.employment_type">
-                            <option value="" disabled selected>Selecione o setor</option>
-                            <option v-for="employment_type in employment_types" :key="employment_type" :value="employment_type">{{ employment_type }}</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div class="btnDisplay">
-                        <button class="confirm-button" type="submit">Salvar Alterações</button>
-                        <button class="down-button" type="button" @click="encerrarVaga">Encerrar Vaga</button> <!-- Botão para encerrar a vaga -->
-                        <button class="cancel-button" type="button" @click="fecharModalDetalhes">Cancelar</button>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-                <!-- VAGAS ENCERRADAS -->
-                <h5 class="topicos2">Vagas Encerradas</h5>
-                <div class="card-content">
-                    <div v-for="(vaga, index) in endVagas" :key="index" class="EndCard" @click="abrirModalEncerradas(vaga)">
-                        <h4>{{ vaga.nome }}</h4>
-                        <p>{{ vaga.descricao }}</p>
-                    </div>
-                </div>
-
-                <!-- Modal de Detalhes da Vaga em Vagas Encerradas -->
-                <div v-if="modalDetalhesEncerradasAberto" class="modal-overlay" @click.self="fecharModalEncerradas">
+              <!-- Modal Detalhes Minhas Vagas -->
+              <div v-if="modalDetalhesAberto" class="modal-overlay" @click.self="fecharModalDetalhes">
                 <div class="modal-content">
-                    <h2>Detalhes da Vaga Encerrada</h2>
-                    <form @submit.prevent="fecharModalEncerradas">
-                      <div class="modal-content-position">
-                        <div class="modal-content-left">
-                          <div class="modal-content-field">
-                            <h4>Nome da Vaga</h4>
-                            <!-- Usa a diretiva :placeholder para definir o nome como placeholder -->
-                            <input class="custom-input" type="text" v-model="vagaAtual.nome" :placeholder="vagaAtual ? vagaAtual.nome : ''" disabled>
-                          </div>
-                        
-                          <h4>Descrição</h4>
-                          <textarea class="custom-textarea" v-model="vagaAtual.descricao" disabled></textarea>
+                  <h2>Detalhes da Vaga</h2>
+                  <form @submit.prevent="salvarAlteracoes">
+                    <div class="modal-content-position">
+                      <div class="modal-content-left">
+                        <h4>Nome da Vaga</h4>
+                        <input class="custom-input" type="text" v-model="vagaAtual.title" />
 
-                          <h4>Requisitos</h4>
-                          <textarea class="custom-textarea" v-model="vagaAtual.requisitos" disabled></textarea>
-                        </div>
-                        <div class="modal-content-right">
-                          <h4>Salário</h4>
-                          <input class="custom-input" type="text" v-model="vagaAtual.salario" disabled/>
+                        <h4>Descrição</h4>
+                        <textarea class="custom-textarea" v-model="vagaAtual.description"></textarea>
 
-                          <h4>Localização</h4>
-                          <input class="custom-input" type="text" v-model="vagaAtual.localizacao" disabled/>
-
-                          <h4>Setor</h4>
-                          <select class="custom-select" v-model="vagaAtual.department" disabled>
-                            <option value="" disabled>Selecione o setor</option>
-                            <option v-for="department in departments" :key="department" :value="department">{{ department }}</option>
-                          </select>
-                          <div style="margin-bottom: 1%"></div>
-                          <h4>Regime de Trabalho</h4>
-                          <select class="custom-select" v-model="vagaAtual.employment_type" disabled>
-                            <option value="" disabled selected>Selecione o setor</option>
-                            <option v-for="employment_type in employment_types" :key="employment_type" :value="employment_type">{{ employment_type }}</option>
-                          </select>
-                        </div>
+                        <h4>Localização</h4>
+                        <input class="custom-input" type="text" v-model="vagaAtual.location" />
                       </div>
-                      <div class="btnDisplay">
-                        <button class="recreate-button" type="button" @click="recriarVaga">Recriar Vaga</button>
-                        <button class="delete-button" type="button" @click="deletarVagaEncerrada">Deletar Vaga</button>
-                        <button class="cancel-button" type="button" @click="fecharModalEncerradas">Fechar</button>
-                        <p>*Vagas Encerradas não podem ser editadas, apenas recriadas ou deletadas.</p>
+                      <div class="modal-content-right">
+                        <h4>Setor</h4>
+                        <select class="custom-select" v-model="vagaAtual.department">
+                          <option value="" disabled>Selecione o setor</option>
+                          <option v-for="department in departments" :key="department" :value="department">{{ department }}</option>
+                        </select>
+
+                        <h4>Regime de Trabalho</h4>
+                        <select class="custom-select" v-model="vagaAtual.employment_type">
+                          <option value="" disabled>Selecione o tipo de trabalho</option>
+                          <option v-for="employment_type in employment_types" :key="employment_type" :value="employment_type">
+                            {{ employment_type }}
+                          </option>
+                        </select>
                       </div>
-                    </form>
+                    </div>
+                    <div class="btnDisplay">
+                      <button class="confirm-button" type="submit">Salvar Alterações</button>
+                      <button class="down-button" type="button" @click="encerrarVaga">Encerrar Vaga</button>
+                      <button class="cancel-button" type="button" @click="fecharModalDetalhes">Cancelar</button>
+                    </div>
+                  </form>
                 </div>
+              </div>
+
+              <h5 class="topicos2">Vagas Encerradas</h5>
+              <div class="card-content">
+                <div v-for="(vaga, index) in endVagas" :key="vaga.id" class="EndCard" @click="abrirModalEncerradas(vaga)">
+                  <h4>{{ vaga.title }}</h4>
+                  <p>{{ vaga.description }}</p>
                 </div>
+              </div>
+
+              <!-- Modal Detalhes Vagas Encerradas -->
+              <div v-if="modalDetalhesEncerradasAberto" class="modal-overlay" @click.self="fecharModalEncerradas">
+                <div class="modal-content">
+                  <h2>Detalhes da Vaga Encerrada</h2>
+                  <p>Vagas encerradas não podem ser editadas, apenas recriadas ou deletadas.</p>
+                  <div>
+                    <h4>Nome da Vaga</h4>
+                    <input class="custom-input" type="text" v-model="vagaAtual.title" disabled />
+
+                    <h4>Descrição</h4>
+                    <textarea class="custom-textarea" v-model="vagaAtual.description" disabled></textarea>
+                  </div>
+                  <div class="btnDisplay">
+                    <button class="recreate-button" type="button" @click="recriarVaga">Recriar Vaga</button>
+                    <button class="delete-button" type="button" @click="deletarVagaEncerrada">Deletar Vaga</button>
+                    <button class="cancel-button" type="button" @click="fecharModalEncerradas">Fechar</button>
+                  </div>
+                </div>
+              </div>
 
             </div>
             <div class="activities">
@@ -359,42 +322,44 @@ export default {
       this.modalDetalhesAberto = false;
     },
     encerrarVaga() {
-      // Encontra o índice da vaga atual na lista de vagas
-      const index = this.vagas.findIndex(v => v.nome === this.vagaAtual.nome && v.descricao === this.vagaAtual.descricao);
-      
+      const index = this.vagas.findIndex(v => v.id === this.vagaAtual.id);
       if (index !== -1) {
-        // Remove a vaga da lista de vagas e a adiciona à lista de vagas encerradas
         const vagaEncerrada = this.vagas.splice(index, 1)[0];
         this.endVagas.push(vagaEncerrada);
 
-        // Atualiza o localStorage
-        localStorage.setItem('vagas', JSON.stringify(this.vagas));
-        localStorage.setItem('endVagas', JSON.stringify(this.endVagas));
-        
-        // Fecha o modal
+        localStorage.setItem("vagas", JSON.stringify(this.vagas));
+        localStorage.setItem("endVagas", JSON.stringify(this.endVagas));
+
         this.fecharModalDetalhes();
       }
     },
+    recriarVaga() {
+      const index = this.endVagas.findIndex(v => v.id === this.vagaAtual.id);
+      if (index !== -1) {
+        const vagaRecriada = this.endVagas.splice(index, 1)[0];
+        this.vagas.push(vagaRecriada);
+
+        localStorage.setItem("vagas", JSON.stringify(this.vagas));
+        localStorage.setItem("endVagas", JSON.stringify(this.endVagas));
+
+        this.fecharModalEncerradas();
+      }
+    },
     deletarVagaEncerrada() {
-      // Exibe uma confirmação antes de deletar a vaga
-      if (confirm("Tem certeza de que deseja deletar esta vaga? Esta ação não pode ser desfeita.")) {
-        const index = this.endVagas.findIndex(v => v.nome === this.vagaAtual.nome && v.descricao === this.vagaAtual.descricao);
+      if (confirm("Tem certeza de que deseja deletar esta vaga?")) {
+        const index = this.endVagas.findIndex(v => v.id === this.vagaAtual.id);
         if (index !== -1) {
           this.endVagas.splice(index, 1);
 
-          // Atualiza o localStorage
-          localStorage.setItem('endVagas', JSON.stringify(this.endVagas));
+          localStorage.setItem("endVagas", JSON.stringify(this.endVagas));
 
           this.fecharModalEncerradas();
         }
       }
     },
     carregarVagas() {
-      // Carrega as vagas do localStorage ao montar o componente
-      const vagasSalvas = localStorage.getItem("vagas");
-      if (vagasSalvas) {
-        this.vagas = JSON.parse(vagasSalvas);
-      }
+      const vagasSalvas = JSON.parse(localStorage.getItem("vagas")) || [];
+      this.vagas = vagasSalvas;
     },
     abrirModalEncerradas(vaga) {
       this.vagaAtual = { ...vaga };
@@ -403,18 +368,6 @@ export default {
     fecharModalEncerradas() {
       this.modalDetalhesEncerradasAberto = false;
       this.vagaAtual = null;
-    },
-    recriarVaga() {
-      const index = this.endVagas.findIndex(v => v.nome === this.vagaAtual.nome && v.descricao === this.vagaAtual.descricao);
-      if (index !== -1) {
-        const vagaRecriada = this.endVagas.splice(index, 1)[0];
-        this.vagas.push(vagaRecriada);
-
-        localStorage.setItem('vagas', JSON.stringify(this.vagas));
-        localStorage.setItem('endVagas', JSON.stringify(this.endVagas));
-
-        this.fecharModalEncerradas();
-      }
     },
     carregarEndVagas() {
       const endVagasSalvas = localStorage.getItem("endVagas");
