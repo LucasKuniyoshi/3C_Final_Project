@@ -418,42 +418,50 @@ export default {
       this.vagaAtual = null;
     },
     salvarAlteracoes() {
-      const token = localStorage.getItem("token");
+        const token = localStorage.getItem("token");
 
-      // Verifica se há vaga atual
-      if (!this.vagaAtual || !this.vagaAtual.id) {
-        alert("Erro: Nenhuma vaga selecionada para edição.");
-        return;
-      }
+        // Verifica se há vaga atual
+        if (!this.vagaAtual || !this.vagaAtual.id) {
+            alert("Erro: Nenhuma vaga selecionada para edição.");
+            return;
+        }
 
-      // Inclui o campo `user_type` manualmente na vaga atual
-      //const userType = JSON.parse(localStorage.getItem("user"))?.user_type || "recruiter";
-      const vagaAtualizada = {
-        ...this.vagaAtual,
-        //user_type: userType, // Adiciona o user_type necessário para o backend
-      };
+        const vagaAtualizada = {
+            title: this.vagaAtual.title,
+            description: this.vagaAtual.description,
+            request: this.vagaAtual.request,
+            location: this.vagaAtual.location,
+            salary: this.vagaAtual.salary,
+            employment_type: this.vagaAtual.employment_type,
+            department: this.vagaAtual.department,
+        };
 
-      axios
-        .put(`http://localhost:8000/api/jobs/${this.vagaAtual.id}`, this.vagaAtual, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((response) => {
-          console.log("Vaga atualizada:", response.data);
+        axios
+            .put(`http://localhost:8000/api/jobs/${this.vagaAtual.id}`, vagaAtualizada, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+            .then((response) => {
+                console.log("Vaga atualizada:", response.data);
 
-          // Atualiza a vaga no array local
-          this.vagas[this.indexAtual] = response.data;
-          localStorage.setItem("vagas", JSON.stringify(this.vagas));
+                // Atualiza a vaga no array local
+                const index = this.vagas.findIndex((vaga) => vaga.id === response.data.id);
+                if (index !== -1) {
+                    this.vagas.splice(index, 1, response.data); // Substitui o item no array
+                }
 
-          //alert("Vaga atualizada com sucesso!");
-          this.fecharModalDetalhes();
-        })
-        .catch((error) => {
-          console.error("Erro ao atualizar vaga:", error.response?.data || error);
-          alert("Erro ao atualizar vaga. Verifique os dados.");
-        });
+                localStorage.setItem("vagas", JSON.stringify(this.vagas));
+
+                alert("Vaga atualizada com sucesso!");
+                this.fecharModalDetalhes();
+            })
+            .catch((error) => {
+                console.error("Erro ao atualizar vaga:", error.response?.data || error);
+                alert("Erro ao atualizar vaga. Verifique os dados.");
+            });
     },
+
 
 
     carregarVagas() {
