@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Domains\ApplicationDomain\Services\Contracts;
 
 interface ApplicationServiceInterface
