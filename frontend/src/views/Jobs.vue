@@ -54,10 +54,8 @@
         
         <section class="body">
           <div class="vagas-content">
-              <h5 class="topicos">Vagas para você</h5>
-
               <!-- Seção Mais Vagas -->
-              <h5 class="topicos2">Mais Vagas</h5>
+              <h5 class="topicos2">Vagas Disponíveis</h5>
               <div class="card-content">
                 <div v-for="(vaga, index) in vagas" :key="vaga.id" class="card" @click="abrirModalDetalhes(vaga)">
                   <h4>{{ vaga.title }}</h4>
