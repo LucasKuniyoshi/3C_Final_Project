@@ -19,6 +19,11 @@ class Application extends Model
         'resume_path',
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function candidate()
     {
         return $this->belongsTo(User::class, 'user_id');
