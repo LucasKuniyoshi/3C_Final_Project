@@ -9,3 +9,4 @@ interface ApplicationServiceInterface
     public function updateApplication($application, array $data);
     public function deleteApplication($application);
 }
+
