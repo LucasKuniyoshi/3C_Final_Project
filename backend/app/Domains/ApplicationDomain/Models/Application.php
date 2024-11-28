@@ -14,14 +14,14 @@ class Application extends Model
         'user_id',
         'job_id',
         'name',
-        'recruiter_id',  // Incluído o recruiter_id
+        'recruiter_id',
         'additional_info',
         'resume_path',
     ];
 
     public function candidate()
     {
-        return $this->belongsTo(User::class, 'user_id');  // Relaciona com o candidato
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function job()
@@ -31,6 +31,6 @@ class Application extends Model
 
     public function recruiter()
     {
-        return $this->belongsTo(User::class, 'recruiter_id');  // Relaciona com o recrutador
+        return $this->belongsTo(User::class, 'recruiter_id');
     }
 }
