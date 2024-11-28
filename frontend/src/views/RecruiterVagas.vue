@@ -414,7 +414,6 @@ export default {
           // Atualiza o localStorage
           localStorage.setItem("endVagas", JSON.stringify(this.endVagas));
 
-          alert("Vaga deletada com sucesso!");
           this.fecharModalEncerradas();
         }
       })

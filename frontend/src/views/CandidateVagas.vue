@@ -343,6 +343,16 @@ export default {
         this.endVagas = JSON.parse(endVagasSalvas);
       }
     },
+    confirmarLogout() {
+      const confirmacao = confirm("Tem certeza de que deseja sair?");
+      if (confirmacao) {
+        this.realizarLogout();
+      }
+    },
+    realizarLogout() {
+      localStorage.clear(); // Limpa todos os dados do localStorage
+      this.$router.push("/login"); // Redireciona para a página de login
+    },
   },
 };
 </script>
