@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Domains\ApplicationDomain\Repositories\Contracts;
 
 interface ApplicationRepositoryInterface
@@ -10,3 +9,4 @@ interface ApplicationRepositoryInterface
     public function update($application, array $data);
     public function delete($application);
 }
+

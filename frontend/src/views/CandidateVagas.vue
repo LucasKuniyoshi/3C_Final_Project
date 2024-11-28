@@ -258,7 +258,10 @@ export default {
         this.$router.push({ name: "login" });
     }
     this.carregarVagas();
-    this.carregarEndVagas();
+    //this.carregarEndVagas();
+  },
+  created() {
+    this.userCandidate = userService.getUser();
   },
   created() {
     this.userCandidate = userService.getUser();

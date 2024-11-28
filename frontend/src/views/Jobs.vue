@@ -274,9 +274,6 @@ mounted() {
       console.error("Nenhuma vaga encontrada para o candidato.");
   }
 },
-created() {
-  this.userCandidate = userService.getUser();
-},
 /*mounted() {
   this.carregarVagas();
 },*/

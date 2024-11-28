@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Domains\ApplicationDomain\Services;
 
 use App\Domains\ApplicationDomain\Services\Contracts\ApplicationServiceInterface;

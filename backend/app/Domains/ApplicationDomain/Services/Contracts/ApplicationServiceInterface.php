@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Domains\ApplicationDomain\Services\Contracts;
 
 interface ApplicationServiceInterface
@@ -10,3 +9,4 @@ interface ApplicationServiceInterface
     public function updateApplication($application, array $data);
     public function deleteApplication($application);
 }
+
