@@ -5,8 +5,8 @@
         <div class="user">
           <font-awesome-icon class="icon" icon="user" />
         </div>
-        <h2>Enrique</h2>
-        <p>enriqueTeste@gmail.com</p>
+        <h2>{{userCandidate.name}}</h2>
+        <p>{{userCandidate.email}}</p>
         <div>
           <ul>
             <li><router-link to="/candidate/jobs">Visão Geral</router-link></li>
@@ -213,9 +213,12 @@
 </template>
 
 <script>
+import { userService } from "../services/userService";
+
 export default {
   data() {
     return {
+      userCandidate: null,
       title: "",  
       description: "",
       salary: "",
@@ -254,6 +257,9 @@ export default {
     }
     this.carregarVagas();
     this.carregarEndVagas();
+  },
+  created() {
+    this.user = userService.getUser();
   },
   methods: {
     abrirModal() {

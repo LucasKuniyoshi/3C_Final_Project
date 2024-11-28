@@ -5,8 +5,13 @@
       <div class="user">
         <font-awesome-icon class="icon" icon="user" />
       </div>
-      <h2>Enrique</h2>
-      <p>enriqueTeste@gmail.com</p>
+      <div v-if="userCandidate">
+        <h2>{{ userCandidate.name }}</h2>
+        <p>{{ userCandidate.email }}</p>
+      </div>
+      <div v-else>
+        <p>Carregando informações do usuário...</p>
+      </div>
       <div>
         <ul>
           <li><router-link class="currentRouter" to="">Visão Geral</router-link></li>
@@ -199,10 +204,12 @@
 
 <script>
 import axios from "axios";
+import { userService } from "../services/userService";
 
 export default {
 data() {
   return {
+    userCandidate: null,
     title: "",  
     description: "",
     salary: "",
@@ -247,6 +254,9 @@ mounted() {
   } else {
       console.error("Nenhuma vaga encontrada para o candidato.");
   }
+},
+created() {
+  this.user = userService.getUser();
 },
 /*mounted() {
   this.carregarVagas();
@@ -348,6 +358,7 @@ methods: {
       .then((response) => {
         console.log("Inscrição realizada com sucesso:", response.data);
         alert("Inscrição realizada com sucesso!");
+        this.fecharModalDetalhes();
       })
       .catch((error) => {
         console.error("Erro ao realizar inscrição:", error.response?.data || error);
