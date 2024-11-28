@@ -12,7 +12,7 @@
             <li><router-link to="/candidate/jobs">Visão Geral</router-link></li>
             <li><router-link to="/candidate/jobs/candidateVagas">Minhas Vagas</router-link></li>
             <li><router-link class="currentRouter">Perfil</router-link></li>
-            <li><router-link to="/">Sair</router-link></li>
+            <li><router-link to="/login">Sair</router-link></li>
           </ul>
         </div>
       </aside>

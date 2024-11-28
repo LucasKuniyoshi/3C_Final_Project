@@ -5,13 +5,18 @@
       <div class="user">
         <font-awesome-icon class="icon" icon="user" />
       </div>
-      <h2>Lucas</h2>
-      <p>lucasTeste@gmail.com</p>
+      <div v-if="userRecruiter">
+        <h2>{{ userRecruiter.name }}</h2>
+        <p>{{ userRecruiter.email }}</p>
+      </div>
+      <div v-else>
+        <p>Carregando informações do usuário...</p>
+      </div>
       <ul>
         <li><router-link class="currentRouter" to="">Visão Geral</router-link></li>
         <li><router-link to="/recruiter/dashboard/recruiterVagas">Minhas Vagas</router-link></li>
-        <li><router-link to="recruiter/dashboard/recruiterPerl">Perfil</router-link></li>
-        <li><router-link to="/">Sair</router-link></li>
+        <li><router-link to="/recruiter/dashboard/recruiterPerfil">Perfil</router-link></li>
+        <li><router-link to="/login">Sair</router-link></li>
       </ul>
     </aside>
 
@@ -106,7 +111,7 @@
                 </form>
               </div>
             </div>
-            <h5 class="topicos2">Última Vaga Criada</h5>
+            <!--<h5 class="topicos2">Última Vaga Criada</h5>-->
             <!--<div class="card-content">
               <div v-if="vagas.length > 0" class="card" @click="abrirModalDetalhes(vagas[vagas.length - 1])">
                 <h4>{{ vagas[vagas.length - 1].title }}</h4>
@@ -278,11 +283,13 @@
 
 <script>
 import axios from "axios";
+import { userService } from "../services/userService";
 //import { set } from 'vue';
 
 export default {
   data() {
     return {
+      userRecruiter: null,
       title: "",
       description: "",
       salary: "",
@@ -336,6 +343,9 @@ export default {
       }
 
       console.log("Vagas inicializadas:", this.vagas);
+  },
+  created() {
+    this.userRecruiter = userService.getUser();
   },
   methods: {
     abrirModal() {
