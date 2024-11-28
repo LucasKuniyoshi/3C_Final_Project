@@ -33,57 +33,49 @@
                 <div>
                   <h5 class="topicos2">Vagas Inscritas</h5>
                   <div class="card-content">
-                      <div v-if="vagasInscritas && vagasInscritas.length > 0">
-                          <div
-                              v-for="(vaga, index) in vagasInscritas"
-                              :key="vaga.id"
-                              class="card"
-                              @click="abrirModalDetalhes(vaga)"
-                          >
-                              <h4>{{ vaga.title }}</h4>
-                              <p>{{ vaga.description }}</p>
-                              <p><strong>Localização:</strong> {{ vaga.location }}</p>
-                              <p><strong>Salário:</strong> R$ {{ vaga.salary }}</p>
-                          </div>
-                      </div>
-                      <div v-else>
-                          <p>Você ainda não se inscreveu em nenhuma vaga.</p>
-                      </div>
+                    <div
+                        v-for="(vaga, index) in vagasInscritas"
+                        :key="vaga.id"
+                        class="card"
+                        @click="abrirModalDetalhes(vaga)"
+                    >
+                        <h4>{{ vaga.title }}</h4>
+                        <p>{{ vaga.description }}</p>
+                        <p><strong>Localização:</strong> {{ vaga.location }}</p>
+                        <p><strong>Salário:</strong> R$ {{ vaga.salary }}</p>
+                    </div>
                   </div>
                 </div>
 
 
-                <!-- Modal de Detalhes da Vaga em Minhas Vagas -->
+                <!-- Modal de Detalhes -->
                 <div v-if="modalDetalhesAberto" class="modal-overlay" @click.self="fecharModalDetalhes">
-                    <div class="modal-content">
-                        <h2>Detalhes da Vaga</h2>
-                        <form @submit.prevent="salvarAlteracoes">
-                            <h4>Nome da Vaga</h4>
-                            <input type="text" v-model="vagaAtual.nome" :placeholder="vagaAtual ? vagaAtual.nome : ''" />
+                  <div class="modal-content">
+                    <h2>{{ vagaAtual?.title }}</h2>
+                    <div>
+                      <h4>Descrição</h4>
+                      <p>{{ vagaAtual?.description }}</p>
 
-                            <h4>Descrição</h4>
-                            <textarea v-model="vagaAtual.descricao"></textarea>
+                      <h4>Salário</h4>
+                      <p>R$ {{ vagaAtual?.salary }}</p>
 
-                            <h4>Salário</h4>
-                            <input type="text" v-model="vagaAtual.salario" />
+                      <h4>Localização</h4>
+                      <p>{{ vagaAtual?.location }}</p>
 
-                            <h4>Localização</h4>
-                            <input type="text" v-model="vagaAtual.localizacao" />
+                      <h4>Requisitos</h4>
+                      <p>{{ vagaAtual?.request }}</p>
 
-                            <h4>Requisitos</h4>
-                            <textarea v-model="vagaAtual.requisitos"></textarea>
-                            
-                            <h4>Setor</h4>
-                            <p>{{ vagaAtual.department }}</p>
+                      <h4>Setor</h4>
+                      <p>{{ vagaAtual?.department }}</p>
 
-                            <h4>Regime de Trabalho</h4>
-                            <p>{{ vagaAtual.employment_type }}</p>
+                      <h4>Regime de Trabalho</h4>
+                      <p>{{ vagaAtual?.employment_type }}</p>
 
-                            <button type="submit">Salvar Alterações</button>
-                            <button type="button" @click="fecharModalDetalhes">Cancelar</button>
-                            <button type="button" @click="encerrarVaga">Encerrar Vaga</button> <!-- Botão para encerrar a vaga -->
-                        </form>
+                      <div style="display: flex; justify-content: center">
+                        <button class="cancel-button" @click="fecharModalDetalhes">Fechar</button>
+                      </div>
                     </div>
+                  </div>
                 </div>
 
                 <h5 class="topicos2">Vagas Salvas</h5>
