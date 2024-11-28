@@ -5,8 +5,8 @@
       <div class="user">
         <font-awesome-icon class="icon" icon="user" />
       </div>
-      <h2>Enrique</h2>
-      <p>enriqueTeste@gmail.com</p>
+      <h2>{{userCandidate.name}}</h2>
+      <p>{{userCandidate.email}}</p>
       <div>
         <ul>
           <li><router-link class="currentRouter" to="">Visão Geral</router-link></li>
@@ -216,10 +216,12 @@
 
 <script>
 import axios from "axios";
+import { userService } from "../services/userService";
 
 export default {
 data() {
   return {
+    userCandidate: null,
     title: "",  
     description: "",
     salary: "",
@@ -257,7 +259,7 @@ mounted() {
     this.$router.push({ name: "login" });
   }
   this.carregarVagas();
-  this.carregarVagasInscritas();
+  //this.carregarVagasInscritas();
 
   const vagas = JSON.parse(localStorage.getItem("vagasInscritas"));
   if (vagas) {
@@ -266,6 +268,9 @@ mounted() {
       console.error("Nenhuma vaga encontrada para o candidato.");
   }
 },
+created() {
+    this.userCandidate = userService.getUser();
+  },
 /*mounted() {
   this.carregarVagas();
 },*/
