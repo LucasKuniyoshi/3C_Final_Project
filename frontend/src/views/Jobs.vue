@@ -65,22 +65,17 @@
               <div>
                 <h5 class="topicos2">Vagas Inscritas</h5>
                 <div class="card-content">
-                    <div v-if="vagasInscritas && vagasInscritas.length > 0">
-                        <div
-                            v-for="(vaga, index) in vagasInscritas"
-                            :key="vaga.id"
-                            class="card"
-                            @click="abrirModalDetalhes(vaga)"
-                        >
-                            <h4>{{ vaga.title }}</h4>
-                            <p>{{ vaga.description }}</p>
-                            <p><strong>Localização:</strong> {{ vaga.location }}</p>
-                            <p><strong>Salário:</strong> R$ {{ vaga.salary }}</p>
-                        </div>
-                    </div>
-                    <div v-else>
-                        <p>Você ainda não se inscreveu em nenhuma vaga.</p>
-                    </div>
+                  <div
+                      v-for="(vaga, index) in vagasInscritas"
+                      :key="vaga.id"
+                      class="card"
+                      @click="abrirModalDetalhesInscritas(vaga)"
+                  >
+                      <h4>{{ vaga.title }}</h4>
+                      <p>{{ vaga.description }}</p>
+                      <p><strong>Localização:</strong> {{ vaga.location }}</p>
+                      <p><strong>Salário:</strong> R$ {{ vaga.salary }}</p>
+                  </div>
                 </div>
             </div>
 
@@ -109,9 +104,39 @@
                     <h4>Regime de Trabalho</h4>
                     <p>{{ vagaAtual?.employment_type }}</p>
 
-                    <div>
-                      <button class="inscrever-button" @click="inscreverVaga(vagaAtual)">Inscrever-se</button>
+                    <div style="display: flex; justify-content: space-around;">
                       <button class="cancel-button" @click="fecharModalDetalhes">Fechar</button>
+                      <button class="inscrever-button" @click="inscreverVaga(vagaAtual)">Inscrever-se</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Modal de Detalhes Inscritas -->
+              <div v-if="modalDetalhesInscritasAberto" class="modal-overlay" @click.self="fecharModalDetalhesInscritas">
+                <div class="modal-content">
+                  <h2>{{ vagaAtual?.title }}</h2>
+                  <div>
+                    <h4>Descrição</h4>
+                    <p>{{ vagaAtual?.description }}</p>
+
+                    <h4>Salário</h4>
+                    <p>R$ {{ vagaAtual?.salary }}</p>
+
+                    <h4>Localização</h4>
+                    <p>{{ vagaAtual?.location }}</p>
+
+                    <h4>Requisitos</h4>
+                    <p>{{ vagaAtual?.request }}</p>
+
+                    <h4>Setor</h4>
+                    <p>{{ vagaAtual?.department }}</p>
+
+                    <h4>Regime de Trabalho</h4>
+                    <p>{{ vagaAtual?.employment_type }}</p>
+
+                    <div style="display: flex; justify-content: space-around;">
+                      <button class="cancel-button" @click="fecharModalDetalhesInscritas">Fechar</button>
                     </div>
                   </div>
                 </div>
@@ -253,6 +278,7 @@ data() {
     modalUltimaVagaAberto: false, // Controle do modal de última vaga
     modalAberto: false,
     modalDetalhesAberto: false,
+    modalDetalhesInscritasAberto: false,
     vagaTemp: null, // Dados temporários para edição
     vagas: JSON.parse(localStorage.getItem('vagas')) || [], // Carrega todas as vagas do localStorage
     vagaAtual: null, // Vaga sendo editada atualmente
@@ -310,6 +336,17 @@ methods: {
     this.indexAtual = this.vagas.indexOf(vaga);
     this.vagaAtual = { ...vaga }; // Faz uma cópia para edição
     this.modalDetalhesAberto = true;
+  },
+  abrirModalDetalhesInscritas(vaga) {
+    // Define a vaga selecionada para edição
+    this.indexAtual = this.vagas.indexOf(vaga);
+    this.vagaAtual = { ...vaga }; // Faz uma cópia para edição
+    this.modalDetalhesInscritasAberto = true;
+  },
+  fecharModalDetalhesInscritas() {
+    // Fecha o modal de detalhes sem salvar alterações
+    this.modalDetalhesInscritasAberto = false;
+    this.vagaAtual = null;
   },
   fecharModalDetalhes() {
     // Fecha o modal de detalhes sem salvar alterações
