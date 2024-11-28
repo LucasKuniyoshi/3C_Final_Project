@@ -318,44 +318,41 @@ methods: {
         alert("Erro ao carregar vagas. Tente novamente mais tarde.");
       });
   },
-  methods: {
   inscreverVaga(vaga) {
-      const token = localStorage.getItem("token");
-      const user = JSON.parse(localStorage.getItem("user"));
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user"));
 
-      if (!user || user.user_type !== "candidate") {
-        alert("Somente candidatos podem se inscrever em vagas.");
-        return;
-      }
+    if (!user || user.user_type !== "candidate") {
+      alert("Somente candidatos podem se inscrever em vagas.");
+      return;
+    }
 
-      if (!vaga || !vaga.id) {
-        alert("Erro: Detalhes da vaga não encontrados.");
-        return;
-      }
+    if (!vaga || !vaga.id) {
+      alert("Erro: Detalhes da vaga não encontrados.");
+      return;
+    }
 
-      const inscricao = {
-        user_id: user.id, // ID do candidato
-        job_id: vaga.id, // ID da vaga
-        name: `Inscrição para ${vaga.title}`, // Nome descritivo da inscrição
-        recruiter_name: vaga.recruiter_name || "Recrutador Desconhecido", // Nome do recrutador (ajuste conforme o backend)
-        recruiter_id: vaga.recruiter_id, // ID do recrutador
-      };
+    const inscricao = {
+      user_id: String(user.id), // Converte o ID do candidato para string
+      job_id: String(vaga.id), // Converte o ID da vaga para string
+      name: `Inscrição para ${vaga.title}`, // Nome descritivo da inscrição
+      recruiter_id: String(vaga.recruiter_id), // Converte o ID do recrutador para string
+    };
 
-      axios
-        .post("http://localhost:8000/api/applications", inscricao, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((response) => {
-          console.log("Inscrição realizada com sucesso:", response.data);
-          alert("Inscrição realizada com sucesso!");
-        })
-        .catch((error) => {
-          console.error("Erro ao realizar inscrição:", error.response?.data || error);
-          alert("Erro ao realizar inscrição. Tente novamente.");
-        });
-    },
+    axios
+      .post("http://localhost:8000/api/applications", inscricao, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log("Inscrição realizada com sucesso:", response.data);
+        alert("Inscrição realizada com sucesso!");
+      })
+      .catch((error) => {
+        console.error("Erro ao realizar inscrição:", error.response?.data || error);
+        alert("Erro ao realizar inscrição. Tente novamente.");
+      });
   },
 
   limparVagas() {
