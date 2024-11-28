@@ -30,13 +30,28 @@
           <section class="body">
             <div class="vagas-content">
                 <!-- Seção Minhas Vagas -->
-                <h5 class="topicos">Vagas Inscritas</h5>
-                <div class="card-content">
-                  <div v-for="(vaga, index) in vagas" :key="index" class="card" @click="abrirModalDetalhes(vaga)">
-                    <h3>{{ vaga.nome }}</h3>
-                    <p>{{ vaga.descricao }}</p>
+                <div>
+                  <h5 class="topicos2">Vagas Inscritas</h5>
+                  <div class="card-content">
+                      <div v-if="vagasInscritas && vagasInscritas.length > 0">
+                          <div
+                              v-for="(vaga, index) in vagasInscritas"
+                              :key="vaga.id"
+                              class="card"
+                              @click="abrirModalDetalhes(vaga)"
+                          >
+                              <h4>{{ vaga.title }}</h4>
+                              <p>{{ vaga.description }}</p>
+                              <p><strong>Localização:</strong> {{ vaga.location }}</p>
+                              <p><strong>Salário:</strong> R$ {{ vaga.salary }}</p>
+                          </div>
+                      </div>
+                      <div v-else>
+                          <p>Você ainda não se inscreveu em nenhuma vaga.</p>
+                      </div>
                   </div>
                 </div>
+
 
                 <!-- Modal de Detalhes da Vaga em Minhas Vagas -->
                 <div v-if="modalDetalhesAberto" class="modal-overlay" @click.self="fecharModalDetalhes">
@@ -248,15 +263,17 @@ export default {
       vagas: JSON.parse(localStorage.getItem('vagas')) || [], // Carrega todas as vagas do localStorage
       endVagas: JSON.parse(localStorage.getItem('endVagas')) || [], // Carrega vagas encerradas do localStorage
       vagaAtual: null, // Vaga sendo editada atualmente
+      vagasInscritas: [],
     };
   },
   mounted() {
     const user = JSON.parse(localStorage.getItem("user"));
+    console.log(JSON.parse(localStorage.getItem("vagasInscritas")));
+
     if (!user || user.user_type !== "candidate") {
         this.$router.push({ name: "login" });
     }
-    this.carregarVagas();
-    this.carregarEndVagas();
+    this.carregarVagasInscritas();
   },
   created() {
     this.userCandidate = userService.getUser();
@@ -341,6 +358,11 @@ export default {
       if (vagasSalvas) {
         this.vagas = JSON.parse(vagasSalvas);
       }
+    },
+    carregarVagasInscritas() {
+      const vagasInscritas = JSON.parse(localStorage.getItem("vagasInscritas")) || [];
+      this.vagasInscritas = vagasInscritas;
+      console.log("Vagas inscritas carregadas do localStorage:", this.vagasInscritas);
     },
     abrirModalEncerradas(vaga) {
       this.vagaAtual = { ...vaga };
