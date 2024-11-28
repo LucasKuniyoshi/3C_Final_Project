@@ -204,7 +204,7 @@
 
 <script>
 import axios from "axios";
-import { userService } from "../services/userService";
+import { userService } from "../services/userService"; //guarda os dadosr na service
 
 export default {
 data() {
