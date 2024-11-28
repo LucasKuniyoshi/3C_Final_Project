@@ -17,7 +17,7 @@
           <li><router-link class="currentRouter" to="">Visão Geral</router-link></li>
           <li><router-link to="/candidate/jobs/candidateVagas">Minhas Vagas</router-link></li>
           <li><router-link to="/candidate/jobs/candidatePerfil">Perfil</router-link></li>
-          <li><router-link to="/">Sair</router-link></li>
+          <li><router-link to="/login">Sair</router-link></li>
             <!--COLOCAR UMA AÇÃO PARA SAIR (LIBERAR O LOCALSTORAGE)-->
         </ul>
       </div>

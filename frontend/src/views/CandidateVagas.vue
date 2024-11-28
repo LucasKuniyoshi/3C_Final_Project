@@ -10,9 +10,9 @@
         <div>
           <ul>
             <li><router-link to="/candidate/jobs">Visão Geral</router-link></li>
-            <li><router-link class="currentRouter" to="">Minhas Vagas</router-link></li>
+            <li><router-link class="currentRouter" to="">Vagas Inscritas</router-link></li>
             <li><router-link to="/candidate/jobs/candidatePerfil">Perfil</router-link></li>
-            <li><router-link to="/">Sair</router-link></li>
+            <li><router-link to="/login">Sair</router-link></li>
           </ul>
         </div>
       </aside>
@@ -77,45 +77,6 @@
                     </div>
                   </div>
                 </div>
-
-                <h5 class="topicos2">Vagas Salvas</h5>
-                <div class="card-content">
-                    <div v-for="(vaga, index) in endVagas" :key="index" class="card" @click="abrirModalEncerradas(vaga)">
-                        <h4>{{ vaga.nome }}</h4>
-                        <p>{{ vaga.descricao }}</p>
-                    </div>
-                </div>
-
-                <!-- Modal de Detalhes da Vaga em Vagas Encerradas -->
-                <div v-if="modalDetalhesEncerradasAberto" class="modal-overlay" @click.self="fecharModalEncerradas">
-                <div class="modal-content">
-                    <h2>Detalhes da Vaga Encerrada</h2>
-                    <form @submit.prevent="fecharModalEncerradas">
-                    <h4>Nome da Vaga</h4>
-                    <input type="text" v-model="vagaAtual.nome" />
-
-                    <h4>Descrição</h4>
-                    <textarea v-model="vagaAtual.descricao"></textarea>
-
-                    <h4>Salário</h4>
-                    <input type="text" v-model="vagaAtual.salario" />
-
-                    <h4>Localização</h4>
-                    <input type="text" v-model="vagaAtual.localizacao" />
-
-                    <h4>Setor</h4>
-                    <p>{{ vagaAtual.department }}</p>
-
-                    <h4>Regime de Trabalho</h4>
-                    <p>{{ vagaAtual.employment_type }}</p>
-
-                    <button type="button" @click="recriarVaga">Recriar Vaga</button>
-                    <button type="button" @click="deletarVagaEncerrada">Deletar Vaga</button>
-                    <button type="button" @click="fecharModalEncerradas">Fechar</button>
-                    </form>
-                </div>
-                </div>
-
             </div>
             <div class="activities">
                 <div class="calendar">

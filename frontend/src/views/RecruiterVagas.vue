@@ -5,13 +5,18 @@
         <div class="user">
           <font-awesome-icon class="icon" icon="user" />
         </div>
-        <h2>Lucas</h2>
-        <p>lucasTeste@gmail.com</p>
+        <div v-if="userRecruiter">
+          <h2>{{ userRecruiter.name }}</h2>
+          <p>{{ userRecruiter.email }}</p>
+        </div>
+        <div v-else>
+          <p>Carregando informações do usuário...</p>
+        </div>
         <ul>
           <li><router-link to="/recruiter/dashboard">Visão Geral</router-link></li>
           <li><router-link class="currentRouter" to="">Minhas Vagas</router-link></li>
-          <li><router-link to="recruiter/dashboard/recruiterPerfil">Perfil</router-link></li>
-          <li><router-link to="/">Sair</router-link></li>
+          <li><router-link to="/recruiter/dashboard/recruiterPerfil">Perfil</router-link></li>
+          <li><router-link to="/login">Sair</router-link></li>
         </ul>
       </aside>
   
@@ -19,7 +24,6 @@
         <div class="main-content">
           <header class="header">
             <h1>Minhas Vagas</h1>
-            <button @click="limparVagas">Limpar Todas as Vagas</button>
             <div class="search-bar">
               <font-awesome-icon icon="magnifying-glass" class="searchIcon" />
               <input type="text" placeholder="Pesquisar..." class="search-input" />
@@ -75,8 +79,8 @@
                         </div>
                       </div>
                     <div class="btnDisplay">
-                      <button class="confirm-button" type="submit">Salvar Alterações</button>
-                      <button class="down-button" type="button" @click="encerrarVaga">Encerrar Vaga</button>
+                      <button class="recreate-button" type="submit">Salvar Alterações</button>
+                      <button class="delete-button" type="button" @click="encerrarVaga">Encerrar Vaga</button>
                       <button class="cancel-button" type="button" @click="fecharModalDetalhes">Cancelar</button>
                     </div>
                   </form>
@@ -94,7 +98,7 @@
               <!-- Modal Detalhes Vagas Encerradas -->
               <div v-if="modalDetalhesEncerradasAberto" class="modal-overlay" @click.self="fecharModalEncerradas">
                 <div class="modal-content">
-                  <h2>Detalhes da Vaga Encerrada</h2>
+                  <h2>Vaga Encerrada</h2>
                   <p>Vagas encerradas não podem ser editadas, apenas recriadas ou deletadas.</p>
                   <div class="modal-content-position">
                         <div class="modal-content-left">
@@ -242,10 +246,12 @@
 
 <script>
 import axios from "axios";
+import { userService } from "../services/userService";
 
 export default {
   data() {
     return {
+      userRecruiter: null,
       title: "",  
       description: "",
       salary: "",
@@ -286,6 +292,9 @@ export default {
     }
     this.carregarVagas();
     this.carregarEndVagas();
+  },
+  created() {
+    this.userRecruiter = userService.getUser();
   },
   methods: {
     abrirModal() {
