@@ -67,23 +67,25 @@
               <div>
                 <h5 class="topicos2">Vagas Inscritas</h5>
                 <div class="card-content">
-                  <div v-if="vagasInscritas && vagasInscritas.length > 0">
-                    <div
-                      v-for="(vaga, index) in vagasInscritas"
-                      :key="vaga.id"
-                      class="card"
-                      @click="abrirModalDetalhes(vaga)"
-                    >
-                      <h4>{{ vaga.title }}</h4>
-                      <p>{{ vaga.description }}</p>
+                    <div v-if="vagasInscritas && vagasInscritas.length > 0">
+                        <div
+                            v-for="(vaga, index) in vagasInscritas"
+                            :key="vaga.id"
+                            class="card"
+                            @click="abrirModalDetalhes(vaga)"
+                        >
+                            <h4>{{ vaga.title }}</h4>
+                            <p>{{ vaga.description }}</p>
+                            <p><strong>Localização:</strong> {{ vaga.location }}</p>
+                            <p><strong>Salário:</strong> R$ {{ vaga.salary }}</p>
+                        </div>
                     </div>
-                  </div>
-                  <div v-else>
-                    <p>Você ainda não se inscreveu em nenhuma vaga.</p>
-                  </div>
+                    <div v-else>
+                        <p>Você ainda não se inscreveu em nenhuma vaga.</p>
+                    </div>
                 </div>
+            </div>
 
-              </div>
 
 
               <!-- Modal de Detalhes -->
@@ -374,39 +376,28 @@ methods: {
         },
       })
       .then((response) => {
-        console.log("Inscrição realizada com sucesso:", response.data);
-        alert("Inscrição realizada com sucesso!");
-      })
-      .catch((error) => {
-        console.error("Erro ao realizar inscrição:", error.response?.data || error);
-        alert("Erro ao realizar inscrição. Tente novamente.");
-      });
+            console.log("Inscrição realizada com sucesso:", response.data);
+
+            // Armazena as vagas inscritas no localStorage
+            const vagasInscritas = JSON.parse(localStorage.getItem("vagasInscritas")) || [];
+            vagasInscritas.push(vaga); // Adiciona a nova vaga à lista
+            localStorage.setItem("vagasInscritas", JSON.stringify(vagasInscritas));
+
+            alert("Inscrição realizada com sucesso!");
+            this.carregarVagasInscritas(); // Atualiza a lista exibida
+            this.fecharModalDetalhes();
+        })
+        .catch((error) => {
+            console.error("Erro ao realizar inscrição:", error.response?.data || error);
+            alert("Erro ao realizar inscrição. Tente novamente.");
+        });
   },
   carregarVagasInscritas() {
-    const user = JSON.parse(localStorage.getItem("user"));
-    const token = localStorage.getItem("token");
-
-    if (!user) {
-      alert("Erro: Usuário não encontrado. Faça login novamente.");
-      this.$router.push("/login");
-      return;
-    }
-
-    axios
-      .get(`http://localhost:8000/api/applications/user/${user.id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((response) => {
-        console.log("Vagas inscritas carregadas:", response.data);
-        this.vagasInscritas = response.data.map((application) => application.job);
-      })
-      .catch((error) => {
-        console.error("Erro ao carregar vagas inscritas:", error.response?.data || error);
-        alert("Erro ao carregar vagas inscritas.");
-      });
+    const vagasInscritas = JSON.parse(localStorage.getItem("vagasInscritas")) || [];
+    this.vagasInscritas = vagasInscritas;
+    console.log("Vagas inscritas carregadas do localStorage:", this.vagasInscritas);
   },
+
   carregarVagas() {
     // Lógica existente para carregar as vagas disponíveis
   },
