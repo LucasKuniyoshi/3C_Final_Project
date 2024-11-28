@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Domains\ApplicationDomain\Validators;
 
 use Illuminate\Http\Request;
