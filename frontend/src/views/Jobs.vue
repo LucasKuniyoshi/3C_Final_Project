@@ -256,7 +256,7 @@ mounted() {
   }
 },
 created() {
-  this.user = userService.getUser();
+  this.userCandidate = userService.getUser();
 },
 /*mounted() {
   this.carregarVagas();
