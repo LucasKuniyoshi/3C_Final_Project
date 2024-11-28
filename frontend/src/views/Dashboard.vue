@@ -406,6 +406,8 @@ export default {
                 this.vagas.push(response.data);
                 console.log("Vagas atualizadas:", this.vagas);
 
+                this.limparCamposModal();
+
                 //alert("Vaga criada com sucesso!");
                 this.fecharModal();
             })
@@ -413,6 +415,23 @@ export default {
                 console.error("Erro ao criar vaga:", error.response?.data || error);
                 alert("Erro ao criar vaga. Verifique os dados.");
             });
+    },
+    limparCamposModal() {
+        this.novaVaga = {
+            nome: "",
+            descricao: "",
+            salario: "",
+            localizacao: "",
+            requisitos: "",
+            department: "",
+            employment_type: "",
+        };
+
+        this.isFocusedTitle = false;
+        this.isFocusedDescription = false;
+        this.isFocusedSalary = false;
+        this.isFocusedLocation = false;
+        this.isFocusedRequest = false;
     },
     fecharModalUltimaVaga() {
       // Fecha o modal da última vaga

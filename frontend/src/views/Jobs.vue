@@ -18,7 +18,6 @@
           <li><router-link to="/candidate/jobs/candidateVagas">Minhas Vagas</router-link></li>
           <li><router-link to="/candidate/jobs/candidatePerfil">Perfil</router-link></li>
           <li><router-link to="/login">Sair</router-link></li>
-            <!--COLOCAR UMA AÇÃO PARA SAIR (LIBERAR O LOCALSTORAGE)-->
         </ul>
       </div>
       <!--<div class="menu">
@@ -418,7 +417,6 @@ methods: {
             vagasInscritas.push(vaga); // Adiciona a nova vaga à lista
             localStorage.setItem("vagasInscritas", JSON.stringify(vagasInscritas));
 
-            alert("Inscrição realizada com sucesso!");
             this.carregarVagasInscritas(); // Atualiza a lista exibida
             this.fecharModalDetalhes();
         })
