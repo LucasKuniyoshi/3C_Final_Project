@@ -2,9 +2,10 @@
 
 namespace App\Domains\JobDomain\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Domains\UserDomain\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use App\Domains\CompanyDomain\Models\Company;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Job extends Model
 {
@@ -21,6 +22,11 @@ class Job extends Model
         'department',
         'recruiter_id',
     ];
+
+    public function recruiter()
+    {
+        return $this->belongsTo(User::class, 'recruiter_id');
+    }
 
     public function applications()
     {

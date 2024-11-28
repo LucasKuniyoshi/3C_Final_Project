@@ -29,6 +29,7 @@ Route::get('/jobs', [JobController::class, 'index']);
 Route::get('/jobs/{id}', [JobController::class, 'show']);
 
 Route::middleware(['role:recruiter', 'auth:sanctum'])->group(function () {
+    Route::get('jobs/{jobId}/applications', [ApplicationController::class, 'listApplicantsByJob']);
     Route::post('/jobs', [JobController::class, 'store']);
     Route::put('/jobs/{id}', [JobController::class, 'update'])->where('id', '[0-9]+');
     Route::delete('/jobs/{id}', [JobController::class, 'destroy']);
@@ -48,6 +49,7 @@ Route::prefix('companies')->group(function () {
 });
 
 //Routes of Application
+
 Route::prefix('applications')->group(function () {
     Route::get('/', [ApplicationController::class, 'index']);
     Route::post('/', [ApplicationController::class, 'store']);

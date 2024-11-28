@@ -4,6 +4,8 @@ namespace App\Domains\ApplicationDomain\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Domains\JobDomain\Models\Job;
+use App\Domains\ApplicationDomain\Models\Application;
 use App\Domains\ApplicationDomain\Validators\ApplicationValidator;
 use App\Domains\ApplicationDomain\Services\Contracts\ApplicationServiceInterface;
 
@@ -18,6 +20,18 @@ class ApplicationController extends Controller
         $this->applicationValidator = $applicationValidator;
     }
 
+    public function listApplicantsByJob(Request $request, $id)
+    {
+        $job = Job::where('id', $id)
+                  ->where('recruiter_id', auth()->id())
+                  ->firstOrFail();
+
+        $applications = Application::where('job_id', $job->id)
+                                   ->with('candidate')
+                                   ->get();
+
+        return response()->json($applications);
+    }
     public function index()
     {
         $applications = $this->applicationService->getAllApplications();
@@ -28,7 +42,7 @@ class ApplicationController extends Controller
                 'user_id' => $application->user_id,
                 'job_id' => $application->job_id,
                 'name' => $application->name,
-                'recruiter_id' => $application->recruiter_id, // Retornando recruiter_id
+                'recruiter_id' => $application->recruiter_id,
                 'additional_info' => $application->additional_info,
                 'resume_path' => $application->resume_path,
                 'created_at' => $application->created_at,
@@ -46,7 +60,7 @@ class ApplicationController extends Controller
             'user_id' => $application->user_id,
             'job_id' => $application->job_id,
             'name' => $application->name,
-            'recruiter_id' => $application->recruiter_id, // Retornando recruiter_id
+            'recruiter_id' => $application->recruiter_id,
             'additional_info' => $application->additional_info,
             'resume_path' => $application->resume_path,
             'created_at' => $application->created_at,
