@@ -20,191 +20,26 @@
       <div class="border-main-content">
         <div class="main-content">
           <header class="header">
-            <h1>Meu Perfil</h1>
-            <div class="search-bar">
-              <font-awesome-icon icon="magnifying-glass" class="searchIcon" />
-              <input type="text" placeholder="Pesquisar..." class="search-input" />
-            </div>
+            <h1>Perfil</h1>
           </header>
           
           <section class="body">
             <div class="vagas-content">
-                <!-- Seção Minhas Vagas -->
-                <h5 class="topicos">Vagas Inscritas</h5>
-                <div class="card-content">
-                  <div v-for="(vaga, index) in vagas" :key="index" class="card" @click="abrirModalDetalhes(vaga)">
-                    <h3>{{ vaga.nome }}</h3>
-                    <p>{{ vaga.descricao }}</p>
-                  </div>
+              <div class="profile-card">
+                <div class="profile-card-header">
+                  <img class="profile-avatar" src="../assets/profileLogo.webp" alt="Avatar" />
+                  <h3>{{ userCandidate.name }}</h3>
+                  <p>{{ userCandidate.email }}</p>
                 </div>
-
-                <!-- Modal de Detalhes da Vaga em Minhas Vagas -->
-                <div v-if="modalDetalhesAberto" class="modal-overlay" @click.self="fecharModalDetalhes">
-                    <div class="modal-content">
-                        <h2>Detalhes da Vaga</h2>
-                        <form @submit.prevent="salvarAlteracoes">
-                            <h4>Nome da Vaga</h4>
-                            <input type="text" v-model="vagaAtual.nome" :placeholder="vagaAtual ? vagaAtual.nome : ''" />
-
-                            <h4>Descrição</h4>
-                            <textarea v-model="vagaAtual.descricao"></textarea>
-
-                            <h4>Salário</h4>
-                            <input type="text" v-model="vagaAtual.salario" />
-
-                            <h4>Localização</h4>
-                            <input type="text" v-model="vagaAtual.localizacao" />
-
-                            <h4>Requisitos</h4>
-                            <textarea v-model="vagaAtual.requisitos"></textarea>
-                            
-                            <h4>Setor</h4>
-                            <p>{{ vagaAtual.department }}</p>
-
-                            <h4>Regime de Trabalho</h4>
-                            <p>{{ vagaAtual.employment_type }}</p>
-
-                            <button type="submit">Salvar Alterações</button>
-                            <button type="button" @click="fecharModalDetalhes">Cancelar</button>
-                            <button type="button" @click="encerrarVaga">Encerrar Vaga</button> <!-- Botão para encerrar a vaga -->
-                        </form>
-                    </div>
+                <div class="profile-card-body">
+                  <h4>Informações Adicionais</h4>
+                  <ul>
+                    <li><strong>Tipo de Usuário:</strong> Candidato</li>
+                    <li><strong>Data de Criação:</strong> {{ new Date(userCandidate.created_at).toLocaleDateString() }}</li>
+                  </ul>
                 </div>
+              </div>
 
-                <h5 class="topicos2">Vagas Salvas</h5>
-                <div class="card-content">
-                    <div v-for="(vaga, index) in endVagas" :key="index" class="card" @click="abrirModalEncerradas(vaga)">
-                        <h4>{{ vaga.nome }}</h4>
-                        <p>{{ vaga.descricao }}</p>
-                    </div>
-                </div>
-
-                <!-- Modal de Detalhes da Vaga em Vagas Encerradas -->
-                <div v-if="modalDetalhesEncerradasAberto" class="modal-overlay" @click.self="fecharModalEncerradas">
-                <div class="modal-content">
-                    <h2>Detalhes da Vaga Encerrada</h2>
-                    <form @submit.prevent="fecharModalEncerradas">
-                    <h4>Nome da Vaga</h4>
-                    <input type="text" v-model="vagaAtual.nome" />
-
-                    <h4>Descrição</h4>
-                    <textarea v-model="vagaAtual.descricao"></textarea>
-
-                    <h4>Salário</h4>
-                    <input type="text" v-model="vagaAtual.salario" />
-
-                    <h4>Localização</h4>
-                    <input type="text" v-model="vagaAtual.localizacao" />
-
-                    <h4>Setor</h4>
-                    <p>{{ vagaAtual.department }}</p>
-
-                    <h4>Regime de Trabalho</h4>
-                    <p>{{ vagaAtual.employment_type }}</p>
-
-                    <button type="button" @click="recriarVaga">Recriar Vaga</button>
-                    <button type="button" @click="deletarVagaEncerrada">Deletar Vaga</button>
-                    <button type="button" @click="fecharModalEncerradas">Fechar</button>
-                    </form>
-                </div>
-                </div>
-
-            </div>
-            <div class="activities">
-                <div class="calendar">
-                    <div class="calendar-header">
-                    <button>&#10094;</button>
-                    <h2>Novembro 2024</h2>
-                    <button>&#10095;</button>
-                    </div>
-
-                    <div class="calendar-days">
-                    <div>Dom</div>
-                    <div>Seg</div>
-                    <div>Ter</div>
-                    <div>Qua</div>
-                    <div>Qui</div>
-                    <div>Sex</div>
-                    <div>Sáb</div>
-                    </div>
-
-                    <div class="calendar-dates">
-                    <div>
-                        <div class="day">1</div>
-                        <div class="day">8</div>
-                        <div class="day">15</div>
-                        <div class="day">22</div>
-                        <div class="current-day">29</div>
-                    </div>
-                    <div>
-                        <div class="day">2</div>
-                        <div class="day">9</div>
-                        <div class="day">16</div>
-                        <div class="day">23</div>
-                        <div class="day">30</div>
-                    </div>
-                    <div>
-                        <div class="day">3</div>
-                        <div class="day">10</div>
-                        <div class="day">17</div>
-                        <div class="day">24</div>
-                    </div>
-                    <div>
-                        <div class="day">4</div>
-                        <div class="day">11</div>
-                        <div class="day">18</div>
-                        <div class="day">25</div>
-                    </div>
-                    <div>
-                        <div class="day">5</div>
-                        <div class="day">12</div>
-                        <div class="day">19</div>
-                        <div class="day">26</div>
-                    </div>
-                    <div>
-                        <div class="day">6</div>
-                        <div class="day">13</div>
-                        <div class="day">20</div>
-                        <div class="day">27</div>
-                    </div>
-                    <div>
-                        <div class="day">7</div>
-                        <div class="day">14</div>
-                        <div class="day">21</div>
-                        <div class="day">28</div>
-                    </div>
-                    </div>
-                </div>
-                <div class="insights">
-                    <h5>Total de vagas inscritas</h5>
-                    <div class="insights-position">
-                    <p>11</p>
-                    <div class="arrowUp">
-                        12.85%
-                        <font-awesome-icon icon="arrow-trend-up" />                
-                    </div>
-                    </div>
-                </div>
-                <div class="insights">
-                    <h5>Networking</h5>
-                    <div class="insights-position">
-                    <img src="../assets/CircleGrafic.png" alt="CircleGrafic">
-                    <div class="arrowUp">
-                        +2
-                        <font-awesome-icon icon="comments" />                
-                    </div>
-                    </div>
-                </div>
-                <div class="insights">
-                    <h5>Retornos recebidos</h5>
-                    <div class="insights-position">
-                    <p>7</p>
-                    <div class="doubleArrow">
-                        -0.35%
-                        <font-awesome-icon icon="arrow-right-arrow-left" />                
-                    </div>
-                    </div>
-                </div>
             </div>
           </section>
         </div>
@@ -513,14 +348,55 @@ export default {
   .body{
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center;
   }
 
   .vagas-content{
     /* background-color: lightcoral; */
     max-width: 65%;
-    margin-left: 2%;
+    /*margin-left: 2%;*/
   }
+
+  .profile-card {
+  
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.profile-card-header {
+  margin-bottom: 1.1em;
+}
+
+.profile-avatar {
+  width: 50%;
+  height: 50%;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.profile-card-body h4 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.profile-card-body ul {
+  list-style: none;
+  padding: 0;
+}
+
+.profile-card-body ul li {
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.profile-card-body ul li strong {
+  color: #555;
+}
+
   
   /* Estilo da Área de Conteúdo */
   .content {
