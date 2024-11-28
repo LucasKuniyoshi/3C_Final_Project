@@ -259,7 +259,7 @@ export default {
     this.carregarEndVagas();
   },
   created() {
-    this.user = userService.getUser();
+    this.userCandidate = userService.getUser();
   },
   methods: {
     abrirModal() {

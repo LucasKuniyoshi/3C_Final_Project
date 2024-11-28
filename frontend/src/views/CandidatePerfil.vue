@@ -5,13 +5,13 @@
         <div class="user">
           <font-awesome-icon class="icon" icon="user" />
         </div>
-        <h2>Enrique</h2>
-        <p>enriqueTeste@gmail.com</p>
+        <h2>{{userCandidate.name}}</h2>
+        <p>{{userCandidate.email}}</p>
         <div>
           <ul>
             <li><router-link to="/candidate/jobs">Visão Geral</router-link></li>
-            <li><router-link to="">Minhas Vagas</router-link></li>
-            <li><router-link class="currentRouter" to="/candidate/jobs/candidatePerfil">Perfil</router-link></li>
+            <li><router-link to="/candidate/jobs/candidateVagas">Minhas Vagas</router-link></li>
+            <li><router-link class="currentRouter">Perfil</router-link></li>
             <li><router-link to="/">Sair</router-link></li>
           </ul>
         </div>
@@ -20,7 +20,7 @@
       <div class="border-main-content">
         <div class="main-content">
           <header class="header">
-            <h1>Minhas Vagas</h1>
+            <h1>Meu Perfil</h1>
             <div class="search-bar">
               <font-awesome-icon icon="magnifying-glass" class="searchIcon" />
               <input type="text" placeholder="Pesquisar..." class="search-input" />
@@ -213,9 +213,12 @@
 </template>
 
 <script>
+import { userService } from "../services/userService";
+
 export default {
   data() {
     return {
+      userCandidate: null,
       title: "",  
       description: "",
       salary: "",
@@ -254,6 +257,9 @@ export default {
     }
     this.carregarVagas();
     this.carregarEndVagas();
+  },
+  created() {
+    this.userCandidate = userService.getUser();
   },
   methods: {
     abrirModal() {
