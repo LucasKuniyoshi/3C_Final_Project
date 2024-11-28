@@ -31,14 +31,6 @@ class ApplicationController extends Controller
     {
         $validatedData = $this->applicationValidator->validateApplicationCreation($request);
 
-        $existingApplication = Application::where('user_id', $validatedData['user_id'])
-            ->where('job_id', $validatedData['job_id'])
-            ->first();
-
-        if ($existingApplication) {
-            return response()->json(['message' => 'Você já se inscreveu para esta vaga.'], 400);
-        }
-
         $application = $this->applicationService->createApplication($validatedData);
         $application->load('user', 'job');
 
