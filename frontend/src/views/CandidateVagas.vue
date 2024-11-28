@@ -5,8 +5,8 @@
         <div class="user">
           <font-awesome-icon class="icon" icon="user" />
         </div>
-        <h2>Enrique</h2>
-        <p>enriqueTeste@gmail.com</p>
+        <h2>{{userCandidate.name}}</h2>
+        <p>{{userCandidate.email}}</p>
         <div>
           <ul>
             <li><router-link to="/candidate/jobs">Visão Geral</router-link></li>
@@ -213,9 +213,12 @@
 </template>
 
 <script>
+import { userService } from "../services/userService";
+
 export default {
   data() {
     return {
+      userCandidate: null,
       title: "",  
       description: "",
       salary: "",
@@ -249,13 +252,27 @@ export default {
   },
   mounted() {
     const user = JSON.parse(localStorage.getItem("user"));
+    console.log(user);
+    this.carregarUsuario();
     if (!user || user.user_type !== "candidate") {
         this.$router.push({ name: "login" });
     }
     this.carregarVagas();
     this.carregarEndVagas();
   },
+  created() {
+    this.userCandidate = userService.getUser();
+  },
   methods: {
+    carregarUsuario() {
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (user) {
+        this.userCandidate = user; // Armazena os dados do usuário no estado
+      } else {
+        alert("Erro ao carregar o usuário. Faça login novamente.");
+        this.$router.push("/login");
+      }
+    },
     abrirModal() {
       this.modalAberto = true; // Abre o modal
     },
