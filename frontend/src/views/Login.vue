@@ -12,7 +12,7 @@ export default {
     methods: {
         login() {
             axios
-                .post("http://localhost:8000/api/login", {
+                .post("http://localhost:8001/api/login", {
                     email: this.email,
                     password: this.password,
                 })

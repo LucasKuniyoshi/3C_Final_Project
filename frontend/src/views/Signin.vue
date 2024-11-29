@@ -166,7 +166,7 @@
 
                 // Envia os dados do usuário para a API
                 axios
-                    .post('http://localhost:8000/api/users', this.users)
+                    .post('http://localhost:8001/api/users', this.users)
                     .then(response => {
                         console.log('Usuário criado com sucesso:', response.data);
                         // Redireciona para a tela de login após o registro bem-sucedido

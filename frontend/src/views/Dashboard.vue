@@ -389,7 +389,7 @@ export default {
         };
 
         axios
-            .post("http://localhost:8000/api/jobs", vaga, {
+            .post("http://localhost:8001/api/jobs", vaga, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -476,7 +476,7 @@ export default {
         };
 
         axios
-            .put(`http://localhost:8000/api/jobs/${this.vagaAtual.id}`, vagaAtualizada, {
+            .put(`http://localhost:8001/api/jobs/${this.vagaAtual.id}`, vagaAtualizada, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -506,7 +506,7 @@ export default {
         const token = localStorage.getItem("token");
 
         axios
-            .get("http://localhost:8000/api/jobs", {
+            .get("http://localhost:8001/api/jobs", {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

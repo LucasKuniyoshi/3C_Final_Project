@@ -202,7 +202,7 @@
             },
             criarEmpresaEUsuario() {
                 // Primeiro, cria a empresa
-                axios.post('http://localhost:8000/api/companies', this.companies)
+                axios.post('http://localhost:8001/api/companies', this.companies)
                     .then(response => {
                         console.log('Empresa criada:', response.data);
 
@@ -215,7 +215,7 @@
                         //this.users.company_id = response.data.company.id; // Exemplo, ajuste conforme seu backend
 
                         // Cria o usuário associado à empresa
-                        return axios.post('http://localhost:8000/api/users', this.users);
+                        return axios.post('http://localhost:8001/api/users', this.users);
                     })
                     .then(response => {
                         console.log('Usuário criado:', response.data);

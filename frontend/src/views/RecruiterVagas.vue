@@ -398,7 +398,7 @@ export default {
     }
 
     axios
-      .delete(`http://localhost:8000/api/jobs/${this.vagaAtual.id}`, {
+      .delete(`http://localhost:8001/api/jobs/${this.vagaAtual.id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
