@@ -368,7 +368,7 @@ methods: {
     }
 
     axios
-      .get("http://localhost:8000/api/jobs", {
+      .get("http://localhost:8001/api/jobs", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -404,7 +404,7 @@ methods: {
     };
 
     axios
-      .post("http://localhost:8000/api/applications", inscricao, {
+      .post("http://localhost:8001/api/applications", inscricao, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
